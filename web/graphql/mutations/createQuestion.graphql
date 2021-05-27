@@ -1,0 +1,9 @@
+mutation CreateQuestion($title: String!, $description: String!) {
+  createQuestion(input: { title: $title, description: $description }) {
+    id
+    title 
+    points
+    creatorId
+    description
+  }
+}
