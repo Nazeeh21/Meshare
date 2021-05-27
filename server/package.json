@@ -6,6 +6,7 @@
   "scripts": {
     "gen-env": " npx gen-env-types .env -o src/env.d.ts -e .",
     "start": "node dist/index.js",
+    "build": "tsc",
     "dev": "nodemon dist/index.js",
     "start2": "ts-node src/index.ts",
     "watch": "tsc -w",
