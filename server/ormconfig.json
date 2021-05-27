@@ -1,0 +1,10 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "5616",
+  "database": "get-it-here",
+  "entities": ["dist/entities/*.js"],
+  "migrations": ["dist/migrations/*.js"]
+}
