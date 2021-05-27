@@ -10,8 +10,6 @@ class QuestionInput {
   @Field()
   description: string;
 }
-
-
 @Resolver(Question)
 export class QuestionResolver {
   @Query(() => Question, {nullable: true})
@@ -22,6 +20,6 @@ export class QuestionResolver {
   @Mutation(() => Question)
   async createQuestion(@Arg('input') input: QuestionInput,
   @Ctx() {req}: MyContext): Promise<Question> {
-    return Question.create({...input, creatorId: req.session.userId})
+    return Question.create({...input, creatorId: 1}).save();
   }
 }
