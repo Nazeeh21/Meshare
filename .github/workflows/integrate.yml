@@ -1,0 +1,41 @@
+name: Continuous Integration CI/CD
+
+on:
+  push: 
+    branches:
+      - '*'
+    pull_request:
+      types: [opened, synchronize, reopened, closed]
+      branches:
+        - main
+
+jobs:
+  build_frontend:
+    defaults:
+      run:
+        working-directory: ./web
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Frontend Test
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with: 
+          node-version: 14
+      - run: yarn
+      - run: yarn build
+
+  build_backend:
+    defaults:
+      run:
+        working-directory: ./server
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Backend Test
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with: 
+          node-version: 14
+      - run: yarn
+      - run: yarn build
