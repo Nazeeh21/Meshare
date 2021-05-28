@@ -19,6 +19,7 @@ export class QuestionResolver {
 
   @Mutation(() => Question)
   async createQuestion(@Arg('input') input: QuestionInput,
+  // @ts-ignore
   @Ctx() {req}: MyContext): Promise<Question> {
     return Question.create({...input, creatorId: 1}).save();
   }

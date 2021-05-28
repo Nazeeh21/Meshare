@@ -11,7 +11,8 @@ import { QuestionResolver } from './resolvers/question';
 import { MyContext } from './types';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github';
-
+import jwt from 'jsonwebtoken';
+import { User } from './entities/User';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -22,10 +23,11 @@ const main = async () => {
     database: process.env.DB_NAME,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
+    // dropSchema: true,
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [Question],
+    entities: [Question, User],
   });
 
   await conn.runMigrations();
@@ -74,19 +76,33 @@ const main = async () => {
         callbackURL: 'http://localhost:4000/auth/github/callback',
       },
       async (_: any, __: any, profile: any, cb: any) => {
-       console.log(profile);
-       
+         console.log(profile);
+        let user = await User.findOne({ where: { githubId: profile.id } });
+        // console.log(profile.login);
+        // console.log(profile.id);
+        // console.log(profile.avatar_url);
+        
+        if (user) {
+          user.name = profile.login;
+          await user.save();
+        } else {
+          user = await User.create({
+            name: profile.username,
+            githubId: profile.id,
+            avatarUrl: profile.photos[0].value,
+          }).save();
+        }
 
-        cb(null, { accessToken: '', refreshToken: ''
-          // accessToken: jwt.sign(
-          //   { userId: user.id },
-          //   // @ts-ignore
-          //   process.env.ACCESS_TOKEN_SECRET,
-          //   // 'sdhbjshj',
-          //   {
-          //     expiresIn: '1y',
-          //   }
-          // ),
+        cb(null, {
+          accessToken: jwt.sign(
+            { userId: user.githubId },
+            // @ts-ignore
+            // process.env.ACCESS_TOKEN_SECRET,
+            'sdhbjshj',
+            {
+              expiresIn: '1y',
+            }
+          ),
         });
       }
     )
@@ -97,10 +113,11 @@ const main = async () => {
   app.get(
     '/auth/github/callback',
     passport.authenticate('github', { session: false, failureRedirect: '/' }),
-    (_req: any, res) => {
+    (req: any, res) => {
       // Successful authentication, redirect home.
-      // res.redirect(`http://localhost:54321/auth/${req.user.accessToken}`);
-      res.send('auth was successful')
+      res.redirect(`http://localhost:3000/auth/${req.user.accessToken}`);
+      // res.send('auth was successful')
+      // res.send(req.user);
     }
   );
 

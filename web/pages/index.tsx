@@ -1,16 +1,19 @@
 import { withUrqlClient } from 'next-urql';
 import Head from 'next/head';
+import { Login } from '../Components/Login';
 import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Home = () => {
   return (
     <div className='container'>
       <Head>
-        <title>Create Next App</title>
+        <title>Getit Here</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>Good morning</main>
+      <main>
+        <Login />
+      </main>
 
       <style jsx>{`
         .container {
