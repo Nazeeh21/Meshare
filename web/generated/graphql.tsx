@@ -65,6 +65,19 @@ export type CreateQuestionMutation = (
   ) }
 );
 
+export type QuestionQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type QuestionQuery = (
+  { __typename?: 'Query' }
+  & { question?: Maybe<(
+    { __typename?: 'Question' }
+    & Pick<Question, 'id' | 'title' | 'description'>
+  )> }
+);
+
 
 export const CreateQuestionDocument = gql`
     mutation CreateQuestion($title: String!, $description: String!) {
@@ -80,4 +93,17 @@ export const CreateQuestionDocument = gql`
 
 export function useCreateQuestionMutation() {
   return Urql.useMutation<CreateQuestionMutation, CreateQuestionMutationVariables>(CreateQuestionDocument);
+};
+export const QuestionDocument = gql`
+    query Question($id: Int!) {
+  question(id: $id) {
+    id
+    title
+    description
+  }
+}
+    `;
+
+export function useQuestionQuery(options: Omit<Urql.UseQueryArgs<QuestionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QuestionQuery>({ query: QuestionDocument, ...options });
 };

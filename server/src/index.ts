@@ -3,6 +3,7 @@ import 'dotenv-safe/config';
 import { createConnection } from 'typeorm';
 import { Question } from './entities/Question';
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
@@ -11,8 +12,10 @@ import { QuestionResolver } from './resolvers/question';
 import { MyContext } from './types';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github';
-import jwt from 'jsonwebtoken';
 import { User } from './entities/User';
+import {COOKIE_NAME, __prod__} from './constants'
+import Redis from 'ioredis';
+import connectRedis from 'connect-redis';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -43,6 +46,24 @@ const main = async () => {
       credentials: true,
     })
   );
+
+  const RedisStore = connectRedis(session);
+  const redis = new Redis(process.env.REDIS_URL);
+
+  app.use(session({
+    name: COOKIE_NAME,
+    store: new RedisStore({ client: redis, disableTouch: true }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 365, //1 year
+      httpOnly: true,
+      sameSite: 'lax', // csrf
+      secure: __prod__,
+      // domain: undefined,
+    },
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET,
+    resave: false
+  }))
 
   app.use(passport.initialize());
 
@@ -94,15 +115,7 @@ const main = async () => {
         }
 
         cb(null, {
-          accessToken: jwt.sign(
-            { userId: user.githubId },
-            // @ts-ignore
-            // process.env.ACCESS_TOKEN_SECRET,
-            'sdhbjshj',
-            {
-              expiresIn: '1y',
-            }
-          ),
+          accessToken: user.githubId
         });
       }
     )
@@ -112,10 +125,12 @@ const main = async () => {
 
   app.get(
     '/auth/github/callback',
-    passport.authenticate('github', { session: false, failureRedirect: '/' }),
+    passport.authenticate('github', { session: true, failureRedirect: '/' }),
     (req: any, res) => {
       // Successful authentication, redirect home.
-      res.redirect(`http://localhost:3000/auth/${req.user.accessToken}`);
+      const accessToken = req.user.accessToken
+      req.session.githubId = accessToken;
+      res.redirect(`http://localhost:3000/auth/${accessToken}`);
       // res.send('auth was successful')
       // res.send(req.user);
     }

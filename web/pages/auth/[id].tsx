@@ -1,11 +1,17 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { isServer } from '../../utils/isServer';
 
 const AuthSuccess = () => {
   const router = useRouter()
-  const accessToken = router.query.id;
-  return <div>
-    {accessToken ? 'Auth successful' : 'Auth failed'}
+  useEffect(() => {
+    if(!isServer()) {
+
+      // console.log(window.sessionStorage.getItem())
+    }
+  }, [isServer()])
+return <div>
+  please wait
   </div>;
 };
 
