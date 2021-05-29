@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface LayoutProps {
   leftContent?: React.FC;
@@ -11,8 +11,8 @@ export const Layout: React.FC<LayoutProps> = ({
   children,
 }) => {
   return (
-    <div className='w-full h-full '>
-      <div className='ml-8'>{children}</div>
+    <div className="w-full h-full bg-iconBlue ">
+      <div className="ml-8">{children}</div>
     </div>
   );
 };
