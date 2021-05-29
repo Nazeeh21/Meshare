@@ -26,11 +26,12 @@ export class QuestionResolver {
     @Arg('id', () => Int) id: number,
     @Ctx() { req }: MyContext
   ): Promise<Question | undefined> {
-    // console.log('session: ', req.session);
-    console.log('github Id: ', req.session);
-    
-
-    
+    // console.log('session: ', req.session)
+    const githubId = req.session.githubId;
+    // console.log('github Id: ', req.session);
+    if(!githubId) {
+      throw new Error('not authenticated')
+    }
     return Question.findOne(id);
   }
 
