@@ -18,8 +18,8 @@ const errorExchange: Exchange = ({ forward }) => (ops$) => {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = '';
   if (isServer()) {
-    // console.log('qid from ctx: ', ctx.req.headers.cookie)
-    cookie = ctx.req.headers.cookie;
+    console.log('githubId from ctx: ', ctx.req.headers.cookie.split(' ')[1])
+    cookie = ctx?.req?.headers?.cookie;
   }
   return {
     url: process.env.NEXT_PUBLIC_API_URL as string,

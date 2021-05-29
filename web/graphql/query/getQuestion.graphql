@@ -1,0 +1,7 @@
+query Question($id: Int!) {
+  question(id: $id) {
+    id
+    title
+    description
+  }
+}
