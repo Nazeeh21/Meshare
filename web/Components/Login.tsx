@@ -9,15 +9,15 @@ export const Login: React.FC<LoginProps> = ({}) => {
         backgroundColor: '#4aa96c',
         width: '12vw',
         padding: '0.5rem',
-        textAlign: 'center',
         borderRadius: '0.2rem',
         fontWeight: 'bold',
-        margin: '20px',
       }}
+      className='text-center mt-3'
     >
       <a
         href='http://localhost:4000/auth/github/'
-        style={{ color: 'white', textDecoration: 'none' }}
+        style={{ textDecoration: 'none' }}
+        className='text-white'
       >
         Login using github
       </a>

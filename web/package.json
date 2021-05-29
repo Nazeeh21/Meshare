@@ -9,7 +9,13 @@
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.13",
+    "@chakra-ui/react": "^1.6.2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@urql/exchange-graphcache": "^4.0.0",
+    "formik": "^2.2.7",
+    "framer-motion": "^4",
     "graphql": "^15.5.0",
     "next": "^10.0.0",
     "next-urql": "^3.0.0",
@@ -26,6 +32,9 @@
     "@graphql-codegen/typescript-urql": "^2.0.5",
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.8",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.0",
+    "tailwindcss": "^2.1.2",
     "typescript": "^4.3.2"
   }
 }
