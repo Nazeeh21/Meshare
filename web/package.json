@@ -16,6 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@svgr/webpack": "^5.5.0",
     "@urql/exchange-graphcache": "^4.0.0",
     "formik": "^2.2.7",
     "framer-motion": "^4",
