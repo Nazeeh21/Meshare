@@ -5,15 +5,14 @@ import {
   faQuestionCircle,
   faPenNib,
   faSignOutAlt,
+// @ts-ignore
 } from "@fortawesome/free-solid-svg-icons";
 import { SidebarButton } from "./SidebarButton";
 interface Props {
   image?: string;
 }
 export const Sidebar: React.FC<Props> = ({ image }: Props) => {
-  const [color, setColor] = useState("#BCD2E2");
-  const [active, setActive] = useState(false);
-  const [background, setBackground] = useState("#1389E6");
+  const [active, setActive] = useState<Number>(0);
   return (
     <div className="h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md flex flex-col">
       <div className="h-16 bg-iconBlue w-16 rounded-full mx-auto mt-8 overflow-hidden">
@@ -22,29 +21,26 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       <div>
         <div className="my-24">
           <SidebarButton
-            click={() => setBackground("#1389E6")}
-            background={background}
+            click={() => setActive(0)}
+            isActive={active === 0}
             icon={faGlobe}
-            color={color}
           />
 
           <SidebarButton
-            click={() => {}}
-            background={background}
+            click={() => setActive(1)}
+            isActive={active === 1}
             icon={faQuestionCircle}
-            color={color}
           />
 
           <SidebarButton
-            click={() => {}}
-            background={background}
+            click={() => setActive(2)}
+            isActive={active === 2}
             icon={faPenNib}
-            color={color}
           />
         </div>
       </div>
       <div>
-        <SidebarButton click={() => {}} icon={faSignOutAlt} color={color} />
+        <SidebarButton click={() => {}} icon={faSignOutAlt} color={"#BCD2E2"} />
       </div>
     </div>
   );

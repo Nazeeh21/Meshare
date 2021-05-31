@@ -32,6 +32,7 @@ module.exports = {
       greyST: "#4E6072",
       activityBlue: "#1C3F73",
       iconBlue: "#1389E6",
+      iconGrey: "#BCD2E2",
       background: "#EDF2FA",
       midSection: "#F5FAFE",
 
