@@ -28,8 +28,7 @@ const Home = () => {
       </Head>
 
       <div>
-        <AppLayout />
-        {/* <Login /> */}
+        <Login />
       </div>
     </div>
   );

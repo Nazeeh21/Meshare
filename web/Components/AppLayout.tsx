@@ -8,7 +8,7 @@ export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className='min-h-screen w-full bg-background p-4 flex'>
       <Sidebar />
-      <MidComponent />
+      <MidComponent children={children} />
       <ActivityBar />
       {/* {children} */}
     </div>

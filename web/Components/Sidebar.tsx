@@ -1,5 +1,5 @@
 import { LayoutProps } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faGlobe,
   faQuestionCircle,
@@ -8,15 +8,23 @@ import {
 // @ts-ignore
 } from "@fortawesome/free-solid-svg-icons";
 import { SidebarButton } from "./SidebarButton";
+import { supabase } from "../utils/supabaseClient";
 interface Props {
   image?: string;
 }
 export const Sidebar: React.FC<Props> = ({ image }: Props) => {
   const [active, setActive] = useState<Number>(0);
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchedUser = supabase.auth.user()
+    setUser(fetchedUser)
+  }, [])
+  
   return (
-    <div className="h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md flex flex-col">
+    <div className="h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md hidden md:flex flex-col justify-around">
       <div className="h-16 bg-iconBlue w-16 rounded-full mx-auto mt-8 overflow-hidden">
-        <img src="/miral.jpg" alt="" />
+        <img src={user ? user.user_metadata.avatar_url : '/doraemon.svg'} alt={user ? user.user_metadata.full_name : 'Default avatar'} />
       </div>
       <div>
         <div className="my-24">

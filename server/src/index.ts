@@ -130,7 +130,7 @@ const main = async () => {
       // Successful authentication, redirect home.
       const accessToken = req.user.accessToken
       req.session.githubId = accessToken;
-      res.redirect(`http://localhost:3000/auth/${accessToken}`);
+      res.redirect(`http://localhost:3000/`);
       // res.send('auth was successful')
       // res.send(req.user);
     }
