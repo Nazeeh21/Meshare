@@ -1,8 +1,19 @@
 import React from "react";
+import { useGetUserQuery } from "../generated/graphql";
+import { isServer } from "../utils/isServer";
 
 interface LoginProps {}
 
 export const Login: React.FC<LoginProps> = ({}) => {
+  const [{ data, error }] = useGetUserQuery({
+    pause: isServer(),
+  });
+
+  if(!error && data?.getUser ) {
+    return <div>
+      Signed in as : <span className='font-semibold'>{data.getUser.name}</span>
+    </div>
+  }
   return (
     <div
       style={{
