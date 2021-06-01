@@ -2,7 +2,8 @@ import { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import 'tailwindcss/tailwind.css';
-import { AppLayout } from '../Components/AppLayout';
+import AppLayout from '../Components/AppLayout';
+import { withUrqlClient } from 'next-urql';
 
 const theme = extendTheme({
   styles: {
@@ -22,7 +23,7 @@ const theme = extendTheme({
 function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <AppLayout>
+      <AppLayout {...pageProps}>
         <Component {...pageProps} />
       </AppLayout>
     </ChakraProvider>

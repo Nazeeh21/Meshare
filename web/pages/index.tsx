@@ -1,7 +1,6 @@
 import { withUrqlClient } from 'next-urql';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { AppLayout } from '../Components/AppLayout';
 import { Login } from '../Components/Login';
 import { useQuestionQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';

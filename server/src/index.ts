@@ -1,5 +1,4 @@
 import 'dotenv-safe/config';
-import 'dotenv-safe/config';
 import { createConnection } from 'typeorm';
 import { Question } from './entities/Question';
 import express from 'express';

@@ -1,6 +1,7 @@
 import { User } from '../entities/User';
 import { MyContext } from '../types';
-import { Ctx, Query, Resolver } from 'type-graphql';
+import { Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { COOKIE_NAME } from '../constants';
 
 @Resolver(User)
 export class UserResolver {
@@ -15,5 +16,22 @@ export class UserResolver {
     }
 
     return User.findOne({ where: { githubId } });
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext) {
+    return new Promise((resolve) =>
+      req.session.destroy((err: any) => {
+        if (err) {
+          console.log(err);
+          resolve(false);
+          return;
+        }
+
+        res.clearCookie(COOKIE_NAME);
+        resolve(true);
+        return;
+      })
+    );
   }
 }

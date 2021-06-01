@@ -17,6 +17,7 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createQuestion: Question;
+  logout: Scalars['Boolean'];
 };
 
 
@@ -27,6 +28,7 @@ export type MutationCreateQuestionArgs = {
 export type Query = {
   __typename?: 'Query';
   question?: Maybe<Question>;
+  getUser?: Maybe<User>;
 };
 
 
@@ -51,6 +53,13 @@ export type QuestionInput = {
   description: Scalars['String'];
 };
 
+export type User = {
+  __typename?: 'User';
+  name: Scalars['String'];
+  githubId: Scalars['String'];
+  avatarUrl: Scalars['String'];
+};
+
 export type CreateQuestionMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
@@ -65,6 +74,14 @@ export type CreateQuestionMutation = (
   ) }
 );
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logout'>
+);
+
 export type QuestionQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -75,6 +92,17 @@ export type QuestionQuery = (
   & { question?: Maybe<(
     { __typename?: 'Question' }
     & Pick<Question, 'id' | 'title' | 'description'>
+  )> }
+);
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = (
+  { __typename?: 'Query' }
+  & { getUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'name' | 'githubId' | 'avatarUrl'>
   )> }
 );
 
@@ -94,6 +122,15 @@ export const CreateQuestionDocument = gql`
 export function useCreateQuestionMutation() {
   return Urql.useMutation<CreateQuestionMutation, CreateQuestionMutationVariables>(CreateQuestionDocument);
 };
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+
+export function useLogoutMutation() {
+  return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
+};
 export const QuestionDocument = gql`
     query Question($id: Int!) {
   question(id: $id) {
@@ -106,4 +143,17 @@ export const QuestionDocument = gql`
 
 export function useQuestionQuery(options: Omit<Urql.UseQueryArgs<QuestionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<QuestionQuery>({ query: QuestionDocument, ...options });
+};
+export const GetUserDocument = gql`
+    query GetUser {
+  getUser {
+    name
+    githubId
+    avatarUrl
+  }
+}
+    `;
+
+export function useGetUserQuery(options: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options });
 };
