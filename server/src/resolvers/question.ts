@@ -28,7 +28,7 @@ export class QuestionResolver {
   ): Promise<Question | undefined> {
     // console.log('session: ', req.session)
     const githubId = req.session.githubId;
-    // console.log('github Id: ', req.session);
+    console.log('github Id: ', req.session);
     if(!githubId) {
       throw new Error('not authenticated')
     }

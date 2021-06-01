@@ -16,6 +16,7 @@ import { User } from './entities/User';
 import {COOKIE_NAME, __prod__} from './constants'
 import Redis from 'ioredis';
 import connectRedis from 'connect-redis';
+import { UserResolver } from './resolvers/user';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -69,7 +70,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver],
+      resolvers: [QuestionResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
