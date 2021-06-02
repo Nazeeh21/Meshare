@@ -1,6 +1,7 @@
 import React from "react";
+import { useRouter } from "next/router";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SidebarButton } from "./SidebarButton";
 import {
   faGlobe,
   faQuestionCircle,
@@ -9,13 +10,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Bottombar = () => {
+  const router = useRouter();
+  const userData = useSelector((state: RootStateOrAny) => state.main.userData);
   return (
-    <div className=" h-16 absolute bottom-0 flex justify-around items-center sm:hidden bg-white rounded-t-lg shadow-2xl opacity-30 w-screen">
+    <div
+      onClick={() => router.push(`https://www.github.com/${userData.name}`)}
+      className=" h-16 absolute bottom-0 flex justify-around items-center sm:hidden bg-white rounded-t-lg shadow-2xl opacity-30 w-screen"
+    >
       <img
-        onClick={() => console.log("clicked")}
         className="h-10 w-10 bg-iconBlue rounded-full overflow-hidden"
-        src="/doraemon.svg"
-        alt=""
+        src={userData ? userData.avatarUrl : "/doraemon.svg"}
+        alt={userData ? userData.name : "Default avatar"}
       />
 
       <FontAwesomeIcon

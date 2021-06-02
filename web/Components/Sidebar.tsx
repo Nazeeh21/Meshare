@@ -21,18 +21,19 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
   const [active, setActive] = useState<Number>(0);
   const [_, logout] = useLogoutMutation();
 
-  const userData = useSelector((state: RootStateOrAny) => state.main.userData)
+  const userData = useSelector((state: RootStateOrAny) => state.main.userData);
   useEffect(() => {
-    console.log('userData: ', userData);
-  }, [userData])
-  
+    console.log("userData: ", userData);
+  }, [userData]);
+
   return (
     <div className="h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md hidden md:flex flex-col justify-around">
-      <div className="h-16 bg-iconBlue w-16 rounded-full mx-auto mt-8 overflow-hidden">
+      <div
+        onClick={() => router.push(`https://www.github.com/${userData.name}`)}
+        className="h-16 bg-iconBlue w-16 rounded-full mx-auto mt-8 overflow-hidden"
+      >
         <img
-          src={
-            userData ? userData.avatarUrl : "/doraemon.svg"
-          }
+          src={userData ? userData.avatarUrl : "/doraemon.svg"}
           alt={userData ? userData.name : "Default avatar"}
         />
       </div>

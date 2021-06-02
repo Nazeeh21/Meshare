@@ -183,6 +183,7 @@ module.exports = {
         '"Courier New"',
         "monospace",
       ],
+      poppins: ["Poppins"],
     },
     fontSize: {
       subheading: "26pt",
