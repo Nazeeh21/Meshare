@@ -1,32 +1,32 @@
-payload: action: "started", type: watchEvent
+* payload: action: "started", type: watchEvent
 
-payload:  type: "PublicEvent"
+* payload:  type: "PublicEvent"
 
-payload: {action: "started"}, type: "WatchEvent"
+* payload: {action: "started"}, type: "WatchEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asdfasdf", pusher_type: "user"}, type: "CreateEvent
+* payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asdfasdf", pusher_type: "user"}, type: "CreateEvent
 
-payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asdfasdf", pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asdfasdf", pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "master", description: "Learning git", pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "master", description: "Learning git", pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asd", pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "master", description: "asd", pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "master", description: "Covers All The Feature Selection Techniques ", pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "master", description: "Covers All The Feature Selection Techniques ", pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "main", description: "To test git", pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "main", description: "To test git", pusher_type: "user"}, type: "CreateEvent"
 
-payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
+* payload: {ref: null, ref_type: "repository", master_branch: "main", description: null, pusher_type: "user"}, type: "CreateEvent"
 
-payload: action: "started", type: "WatchEvent"
+* payload: action: "started", type: "WatchEvent"
 
-payload: forkee: {id: 371320303, node_id: "MDEwOlJlcG9zaXRvcnkzNzEzMjAzMDM=", name: "stacked", full_name: "rutvik11062000/stacked", private: false, …}, type: "ForkEvent"
+* payload: forkee: {id: 371320303, node_id: "MDEwOlJlcG9zaXRvcnkzNzEzMjAzMDM=", name: "stacked", full_name: "rutvik11062000/stacked", private: false, …}, type: "ForkEvent"
 
-payload: action: "added" member: {login: "rutvik11062000", id: 47498552, node_id: "MDQ6VXNlcjQ3NDk4NTUy", avatar_url: "https://avatars.githubusercontent.com/u/47498552?v=4", gravatar_id: "", …}, type: "MemberEvent"
+* payload: action: "added" member: {login: "rutvik11062000", id: 47498552, node_id: "MDQ6VXNlcjQ3NDk4NTUy", avatar_url: "https://avatars.githubusercontent.com/u/47498552?v=4", gravatar_id: "", …}, type: "MemberEvent"
 

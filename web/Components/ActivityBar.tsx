@@ -2,6 +2,7 @@ import axios from 'axios';
 import { LayoutProps } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import { GithubActivity } from './GithubActivity';
 
 export const ActivityBar: React.FC<LayoutProps> = ({}) => {
   const userData = useSelector((state: RootStateOrAny) => state.main.userData);
@@ -9,7 +10,7 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     (state: RootStateOrAny) => state.main.isLoggedIn
   );
 
-  const [userActivity, setUserActivity] = useState();
+  const [userActivity, setUserActivity] = useState(null);
 
   let body = null;
 
@@ -17,7 +18,10 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     if (isLoggedIn && userData) {
       axios
         .get(`https://api.github.com/users/${userData.name}/received_events`)
-        .then((res) => console.log(res.data))
+        .then((res) => {
+          setUserActivity(res.data);
+          console.log(res.data);
+        })
         .catch((e) => console.log(e));
     }
   }, [isLoggedIn, userData]);
@@ -45,8 +49,14 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     );
   }
 
+  if (userData && isLoggedIn && userActivity) {
+    body =
+      userActivity !== undefined &&
+      userActivity &&
+      userActivity!.map((activity) => <GithubActivity activity={activity} />);
+  }
   return (
-    <div className='h-sidebarH w-3/12 lg:w-4/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue'>
+    <div className='h-sidebarH w-3/12 lg:w-4/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-auto'>
       {body}
     </div>
   );
