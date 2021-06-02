@@ -156,7 +156,7 @@ export const GithubActivity = ({ activity }) => {
   return (
     <div className='mt-6 text-white mr-4 ml-4 flex items-center'>
       <div>
-        <div className='h-12 bg-iconBlue w-12 mr-4 rounded-full overflow-hidden'>
+        <div className='h-12 bg-iconBlue w-12 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-4 md:mr-2 lg:mr-4 rounded-full overflow-hidden'>
           <img
             onClick={() => {
               router.push(`https://www.github.com/${activity.actor.display_login}`);
