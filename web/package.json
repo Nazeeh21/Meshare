@@ -9,12 +9,29 @@
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.13",
+    "@chakra-ui/react": "^1.6.2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@supabase/supabase-js": "^1.12.0",
+    "@supabase/ui": "^0.26.6",
+    "@svgr/webpack": "^5.5.0",
     "@urql/exchange-graphcache": "^4.0.0",
+    "formik": "^2.2.7",
+    "framer-motion": "^4",
     "graphql": "^15.5.0",
     "next": "^10.0.0",
+    "next-redux-wrapper": "^6.0.2",
     "next-urql": "^3.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
     "urql": "^2.0.1",
     "wonka": "^4.0.15"
   },
@@ -26,6 +43,9 @@
     "@graphql-codegen/typescript-urql": "^2.0.5",
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.8",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.0",
+    "tailwindcss": "^2.1.2",
     "typescript": "^4.3.2"
   }
 }

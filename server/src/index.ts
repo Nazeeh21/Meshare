@@ -1,5 +1,4 @@
 import 'dotenv-safe/config';
-import 'dotenv-safe/config';
 import { createConnection } from 'typeorm';
 import { Question } from './entities/Question';
 import express from 'express';
@@ -13,9 +12,10 @@ import { MyContext } from './types';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github';
 import { User } from './entities/User';
-import {COOKIE_NAME, __prod__} from './constants'
+import { COOKIE_NAME, __prod__ } from './constants';
 import Redis from 'ioredis';
 import connectRedis from 'connect-redis';
+import { UserResolver } from './resolvers/user';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -50,26 +50,28 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
 
-  app.use(session({
-    name: COOKIE_NAME,
-    store: new RedisStore({ client: redis, disableTouch: true }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 365, //1 year
-      httpOnly: true,
-      sameSite: 'lax', // csrf
-      secure: __prod__,
-      // domain: undefined,
-    },
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET,
-    resave: false
-  }))
+  app.use(
+    session({
+      name: COOKIE_NAME,
+      store: new RedisStore({ client: redis, disableTouch: true }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365, //1 year
+        httpOnly: true,
+        sameSite: 'lax', // csrf
+        secure: __prod__,
+        // domain: undefined,
+      },
+      saveUninitialized: false,
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+    })
+  );
 
   app.use(passport.initialize());
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver],
+      resolvers: [QuestionResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
@@ -97,14 +99,15 @@ const main = async () => {
         callbackURL: 'http://localhost:4000/auth/github/callback',
       },
       async (_: any, __: any, profile: any, cb: any) => {
-         console.log(profile);
+        console.log(profile);
         let user = await User.findOne({ where: { githubId: profile.id } });
         // console.log(profile.login);
         // console.log(profile.id);
         // console.log(profile.avatar_url);
-        
+
         if (user) {
-          user.name = profile.login;
+          user.name = profile.username;
+          user.avatarUrl = profile.avatar_url;
           await user.save();
         } else {
           user = await User.create({
@@ -115,7 +118,7 @@ const main = async () => {
         }
 
         cb(null, {
-          accessToken: user.githubId
+          accessToken: user.githubId,
         });
       }
     )
@@ -128,9 +131,9 @@ const main = async () => {
     passport.authenticate('github', { session: true, failureRedirect: '/' }),
     (req: any, res) => {
       // Successful authentication, redirect home.
-      const accessToken = req.user.accessToken
+      const accessToken = req.user.accessToken;
       req.session.githubId = accessToken;
-      res.redirect(`http://localhost:3000/auth/${accessToken}`);
+      res.redirect(`http://localhost:3000/`);
       // res.send('auth was successful')
       // res.send(req.user);
     }
