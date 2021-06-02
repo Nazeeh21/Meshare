@@ -1,8 +1,18 @@
-import { FETCH_USERS } from "../types";
+import { useGetUserQuery } from '../../generated/graphql';
+import { isServer } from '../../utils/isServer';
+import { FETCH_USERS } from '../actionTypes/types';
 
-export const getUsers = () => async (dispatch) => {
-  dispatch({
-    type: FETCH_USERS,
-    payload: {},
-  });
+export const getUsers = (data, error) => {
+  return async (dispatch) => {
+    if (data?.getUser && !error) {
+      dispatch({
+        type: FETCH_USERS,
+        userData: data.getUser,
+      });
+    }
+
+    if (error) {
+      console.log('error while fetching user data: ', error);
+    }
+  };
 };

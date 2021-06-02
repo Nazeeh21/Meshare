@@ -1,12 +1,14 @@
-import { FETCH_USERS } from "../types";
+import { FETCH_USERS } from '../actionTypes/types';
+
 const initState: object = {
-  users: [],
+  userdata: null,
+  isLoggedIn: false,
 };
 
 const main = (state = initState, action) => {
   switch (action.type) {
     case FETCH_USERS:
-      return { ...state, users: action.payload.popular };
+      return { ...state, userData: action.userData, isLoggedIn: true };
     default:
       return {
         ...state,

@@ -4,7 +4,6 @@ import { extendTheme } from "@chakra-ui/react";
 import "tailwindcss/tailwind.css";
 import { wrapper } from "../redux/store";
 import AppLayout from "../Components/AppLayout";
-import { withUrqlClient } from "next-urql";
 
 const theme = extendTheme({
   styles: {
