@@ -20,6 +20,7 @@
     "@supabase/ui": "^0.26.6",
     "@svgr/webpack": "^5.5.0",
     "@urql/exchange-graphcache": "^4.0.0",
+    "axios": "^0.21.1",
     "formik": "^2.2.7",
     "framer-motion": "^4",
     "graphql": "^15.5.0",
