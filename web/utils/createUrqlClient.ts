@@ -18,7 +18,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) => {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = '';
   if (isServer()) {
-    console.log('githubId from ctx: ', ctx.req.headers.cookie.split(' ')[1])
+    // console.log('githubId from ctx: ', ctx.req.headers.cookie.split(' ')[1])
     cookie = ctx?.req?.headers?.cookie;
   }
   return {
