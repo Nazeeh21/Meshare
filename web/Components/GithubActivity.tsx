@@ -19,7 +19,7 @@ export const GithubActivity = ({ activity }) => {
               >
                 {activity.actor.display_login}
               </div>{' '}
-              has starred{' '}
+              starred{' '}
               <span
                 className='cursor-pointer font-bold'
                 onClick={() => {
@@ -77,7 +77,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.display_login}
             </div>{' '}
-            has forked{' '}
+            forked{' '}
             <span
               className='cursor-pointer font-bold'
               onClick={() => {
@@ -109,7 +109,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.payload.member.login}
             </div>{' '}
-            has been added to{' '}
+            has been added to an organization{' '}
             <span
               className='cursor-pointer font-bold'
               onClick={() => {
@@ -202,7 +202,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.login}
             </div>{' '}
-            has pushed to{' '}
+            pushed to{' '}
             <span
               className='cursor-pointer font-bold'
               onClick={() => {
