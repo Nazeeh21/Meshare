@@ -15,7 +15,7 @@ export const Bottombar = () => {
   return (
     <div
       onClick={() => router.push(`https://www.github.com/${userData.name}`)}
-      className=" h-16 absolute bottom-0 flex justify-around items-center sm:hidden bg-white rounded-t-lg shadow-2xl opacity-30 w-screen"
+      className=" h-16 absolute bottom-0 flex justify-around items-center md:hidden bg-white rounded-t-lg shadow-2xl opacity-30 w-screen"
     >
       <img
         className="h-10 w-10 bg-iconBlue rounded-full overflow-hidden"

@@ -4,6 +4,11 @@ import { extendTheme } from "@chakra-ui/react";
 import "tailwindcss/tailwind.css";
 import { wrapper } from "../redux/store";
 import AppLayout from "../Components/AppLayout";
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addLocale(en)
 
 const theme = extendTheme({
   styles: {
