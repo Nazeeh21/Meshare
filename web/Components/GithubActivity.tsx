@@ -224,12 +224,12 @@ export const GithubActivity = ({ activity }) => {
           <img
             onClick={() => {
               router.push(
-                `https://www.github.com/${activity.actor.display_login}`
+                `https://www.github.com/${activity.type === "MemberEvent" ? activity.payload.member.login : activity.actor.display_login}`
               );
             }}
             className='cursor-pointer'
-            src={activity.actor.avatar_url}
-            alt={activity.actor.display_login}
+            src={activity.type === "MemberEvent" ? activity.payload.member.avatar_url : activity.actor.avatar_url}
+            alt={activity.type === "MemberEvent" ? activity.payload.member.login : activity.actor.display_login}
           />
         </div>
       </div>
