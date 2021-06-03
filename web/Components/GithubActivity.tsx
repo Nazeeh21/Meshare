@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import ReactTimeAgo from 'react-time-ago';
 
 export const GithubActivity = ({ activity }) => {
   const router = useRouter();
@@ -233,7 +234,12 @@ export const GithubActivity = ({ activity }) => {
           />
         </div>
       </div>
-      <div>{body}</div>
+      <div>
+        {body}
+        <div>
+          <ReactTimeAgo date={activity.created_at} locale="en-US" />
+        </div>
+        </div>
     </div>
   );
 };

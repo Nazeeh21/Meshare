@@ -53,7 +53,7 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     body =
       userActivity !== undefined &&
       userActivity &&
-      userActivity!.map((activity) => <GithubActivity activity={activity} />);
+      userActivity!.map((activity, index) => <GithubActivity key={index} activity={activity} />);
   }
   return (
     <div className='h-sidebarH pb-8 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-auto'>
