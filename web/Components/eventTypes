@@ -30,3 +30,33 @@
 
 * payload: action: "added" member: {login: "rutvik11062000", id: 47498552, node_id: "MDQ6VXNlcjQ3NDk4NTUy", avatar_url: "https://avatars.githubusercontent.com/u/47498552?v=4", gravatar_id: "", …}, type: "MemberEvent"
 
+payload:
+before: "a006a51b4661a357ecaf7797b70a5b95f9bb6c32"
+commits: [{…}]
+distinct_size: 1
+head: "9bde4a63a6e77beee49fa6de2ac0561172257942"
+push_id: 7223884358
+ref: "refs/heads/main"
+size: 1
+__proto__: Object
+public: true
+repo: {id: 371719847, name: "miralsuthar/fashioo-assesment", url: "https://api.github.com/repos/miralsuthar/fashioo-assesment"}
+type: "PushEvent"
+
+payload:
+action: "added"
+member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
+__proto__: Object
+public: true
+repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
+type: "MemberEvent"
+
+payload:
+action: "added"
+member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
+__proto__: Object
+public: true
+repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
+type: "MemberEvent"
+
+
