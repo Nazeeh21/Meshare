@@ -1,27 +1,27 @@
-import { useRouter } from "next/router";
-import React from "react";
+import { useRouter } from 'next/router';
+import React from 'react';
 
 export const GithubActivity = ({ activity }) => {
   const router = useRouter();
   let body = null;
   switch (activity.type) {
-    case "WatchEvent": {
+    case 'WatchEvent': {
       switch (activity.payload.action) {
-        case "started": {
+        case 'started': {
           // starred
           body = (
             <div>
               <div
-                className="cursor-pointer inline-block font-bold"
+                className='cursor-pointer inline-block font-bold'
                 onClick={() => {
                   router.push(`https://github.com/${activity.actor.login}`);
                 }}
               >
                 {activity.actor.display_login}
-              </div>{" "}
-              has starred{" "}
+              </div>{' '}
+              has starred{' '}
               <span
-                className="cursor-pointer font-bold"
+                className='cursor-pointer font-bold'
                 onClick={() => {
                   router.push(`https://github.com/${activity.repo.name}`);
                 }}
@@ -36,22 +36,22 @@ export const GithubActivity = ({ activity }) => {
       break;
     }
 
-    case "CreateEvent": {
-      if (activity.payload.pusher_type === "user") {
+    case 'CreateEvent': {
+      if (activity.payload.pusher_type === 'user') {
         // user has pushed to a repository
         body = (
           <div>
             <div
-              className="cursor-pointer inline-block font-bold"
+              className='cursor-pointer inline-block font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
-            has pushed to{" "}
+            </div>{' '}
+            created a repository{' '}
             <span
-              className="cursor-pointer font-bold"
+              className='cursor-pointer font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
@@ -64,22 +64,22 @@ export const GithubActivity = ({ activity }) => {
       break;
     }
 
-    case "ForkEvent": {
+    case 'ForkEvent': {
       if (activity.payload.forkee) {
         // user  has forked a repo
         body = (
           <div>
             <div
-              className="cursor-pointer inline-block font-bold"
+              className='cursor-pointer inline-block font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
-            has forked{" "}
+            </div>{' '}
+            has forked{' '}
             <span
-              className="cursor-pointer font-bold"
+              className='cursor-pointer font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
@@ -92,26 +92,28 @@ export const GithubActivity = ({ activity }) => {
       break;
     }
 
-    case "MemberEvent": {
-      if (activity.payload.action === "added" && activity.org !== undefined) {
+    case 'MemberEvent': {
+      if (activity.payload.action === 'added' && activity.org !== undefined) {
         // user has been added to an organization
-        const orgi = activity.org;
-        console.log("orgi:", orgi);
+        // const orgi = activity.org;
+        // console.log("orgi:", orgi);
         body = (
           <div>
             <div
-              className="cursor-pointer inline-block font-bold"
+              className='cursor-pointer inline-block font-bold'
               onClick={() => {
-                router.push(`https://github.com/${activity.actor.login}`);
+                router.push(
+                  `https://github.com/${activity.payload.member.login}`
+                );
               }}
             >
-              {activity.actor.display_login}
-            </div>{" "}
-            has been added to{" "}
+              {activity.payload.member.login}
+            </div>{' '}
+            has been added to{' '}
             <span
-              className="cursor-pointer font-bold"
+              className='cursor-pointer font-bold'
               onClick={() => {
-                router.push(`https://github.com/${activity.repo.name}`);
+                router.push(`https://github.com/${activity.org.login}`);
               }}
             >
               {activity.org.login}
@@ -119,30 +121,31 @@ export const GithubActivity = ({ activity }) => {
           </div>
         );
       } else if (
-        activity.payload.action === "added" &&
-        activity.org === undefined
+        activity.payload.action === 'added' &&
+        activity.org === undefined &&
+        activity.repo !== undefined &&
+        activity.payload.member !== null
       ) {
         body = (
           <div>
             <div
-              className="cursor-pointer inline-block font-bold"
+              className='cursor-pointer inline-block font-bold'
               onClick={() => {
                 router.push(
-                  `https://github.com/${activity.payload.actor.login}`
+                  `https://github.com/${activity.payload.member.login}`
                 );
               }}
             >
-              {/* ERROR: {activity.payload.actor.login} */}
-            </div>{" "}
-            has been added to{" "}
+              {activity.payload.member.login}
+            </div>{' '}
+            has been added to repository{' '}
             <span
-              className="cursor-pointer font-bold"
+              className='cursor-pointer font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
-              {/* TODO: handel public event */}
-              {/*ERROR:  {activity.repo.name} */}
+              {activity.repo.name}
             </span>
           </div>
         );
@@ -150,9 +153,9 @@ export const GithubActivity = ({ activity }) => {
       break;
     }
 
-    case "PublicEvent": {
+    case 'PublicEvent': {
       console.log(
-        "activity.payload of PublicEvent: ",
+        'activity.payload of PublicEvent: ',
         Object.keys(activity.payload).length === 0
       );
 
@@ -161,16 +164,47 @@ export const GithubActivity = ({ activity }) => {
         body = (
           <div>
             <div
-              className="cursor-pointer inline-block font-bold"
+              className='cursor-pointer inline-block font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
-            made{" "}
+            </div>{' '}
+            made{' '}
             <span
-              className="cursor-pointer font-bold"
+              className='cursor-pointer font-bold'
+              onClick={() => {
+                router.push(`https://github.com/${activity.repo.name}`);
+              }}
+            >
+              {activity.repo.name}
+            </span>
+          </div>
+        );
+      }
+      break;
+    }
+
+    case 'PushEvent': {
+      if (
+        activity.payload.commits.length !== 0 &&
+        activity.push_id !== null &&
+        activity.push_id !== undefined
+      ) {
+        body = (
+          <div>
+            <div
+              className='cursor-pointer inline-block font-bold'
+              onClick={() => {
+                router.push(`https://github.com/${activity.actor.login}`);
+              }}
+            >
+              {activity.actor.login}
+            </div>{' '}
+            has pushed to{' '}
+            <span
+              className='cursor-pointer font-bold'
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
@@ -184,16 +218,16 @@ export const GithubActivity = ({ activity }) => {
     }
   }
   return (
-    <div className="mt-6 text-white mr-4 ml-4 flex items-center">
+    <div className='mt-6 text-white mr-4 ml-4 flex items-center'>
       <div>
-        <div className="h-12 bg-iconBlue w-12 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-4 md:mr-2 lg:mr-4 rounded-full overflow-hidden">
+        <div className='h-12 bg-iconBlue w-12 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-4 md:mr-2 lg:mr-4 rounded-full overflow-hidden'>
           <img
             onClick={() => {
               router.push(
                 `https://www.github.com/${activity.actor.display_login}`
               );
             }}
-            className="cursor-pointer"
+            className='cursor-pointer'
             src={activity.actor.avatar_url}
             alt={activity.actor.display_login}
           />
