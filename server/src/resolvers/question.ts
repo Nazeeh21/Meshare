@@ -3,18 +3,21 @@ import {
   Arg,
   Ctx,
   Field,
+  FieldResolver,
   InputType,
   Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from 'type-graphql';
 import { MyContext } from '../types';
 import { getConnection } from 'typeorm';
 import { isAuth } from '../middleware/isAuth';
 import { Upvote } from '../entities/Upvote';
+import { User } from '../entities/User';
 
 @InputType()
 class QuestionInput {
@@ -42,6 +45,28 @@ class PaginatedQuestions {
 
 @Resolver(Question)
 export class QuestionResolver {
+  @FieldResolver(() => User)
+  creator(@Root() question: Question, @Ctx() { userLoader }: MyContext) {
+    return userLoader.load(question.githubId);
+  }
+
+  @FieldResolver(() => Int)
+  async voteStatus(
+    @Root() question: Question,
+    @Ctx() { upvoteLoader, req }: MyContext
+  ) {
+    if (!req.session.githubId) {
+      return null;
+    }
+
+    const upvote = await upvoteLoader.load({
+      questionId: question.id,
+      githubId: req.session.githubId,
+    });
+
+    return upvote ? upvote.value : null;
+  }
+
   @Mutation(() => Question)
   @UseMiddleware(isAuth)
   async createQuestion(

@@ -20,5 +20,5 @@ export class Upvote extends BaseEntity {
   @ManyToOne(() => Question, question => question.upvotes, {
     onDelete: 'CASCADE'
   })
-  question: Question
+  question: Question;
 }

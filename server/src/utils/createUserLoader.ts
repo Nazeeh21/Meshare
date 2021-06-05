@@ -4,6 +4,8 @@ import { User } from '../entities/User';
 export const createUserLoader = () =>
   new DataLoader<string, User>(async (githubIds) => {
     const users = await User.findByIds(githubIds as string[]);
+    console.log('users from createUserLoader: ', users);
+    
     const githubIdToUser: Record<string, User> = {};
 
     users.forEach((u) => {

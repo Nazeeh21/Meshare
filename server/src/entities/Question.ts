@@ -44,7 +44,7 @@ export class Question extends BaseEntity {
 
   @Field()
   @Column()
-  githubId: number;
+  githubId: string;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.questions)
