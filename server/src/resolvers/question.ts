@@ -14,6 +14,7 @@ import {
 import { MyContext } from '../types';
 import { getConnection } from 'typeorm';
 import { isAuth } from '../middleware/isAuth';
+import { Upvote } from '../entities/Upvote';
 
 @InputType()
 class QuestionInput {
@@ -41,7 +42,6 @@ class PaginatedQuestions {
 
 @Resolver(Question)
 export class QuestionResolver {
-  
   @Mutation(() => Question)
   @UseMiddleware(isAuth)
   async createQuestion(
@@ -49,6 +49,80 @@ export class QuestionResolver {
     @Ctx() { req }: MyContext
   ): Promise<Question> {
     return Question.create({ ...input, githubId: req.session.githubId }).save();
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async vote(
+    @Arg('questionId', () => Int) questionId: number,
+    @Arg('value', () => Int) value: number,
+    @Ctx() { req }: MyContext
+  ) {
+    const isUpvote = value !== -1;
+
+    const realValue = isUpvote ? 1 : -1;
+
+    const { githubId } = req.session;
+
+    const upvote = await Upvote.findOne({ where: { questionId, githubId } });
+
+    if (upvote && upvote.value === realValue) {
+      // the user has has upvoted on the question before and they want to undo their vote
+      await Upvote.delete({ githubId, questionId });
+
+      await getConnection().transaction(async (tm) => {
+        await tm.query(
+          `
+          update question
+          set points = points - $1
+          where id = $2
+          `,
+          [upvote.value, questionId]
+        );
+      });
+    } else if (upvote && upvote.value !== realValue) {
+      // the user has voted on the question before and they are changing their vote
+      await getConnection().transaction(async (tm) => {
+        await tm.query(
+          `
+          update upvote
+          set value = $1
+          where "questionId" = $2 and "githubId" = $3
+          `,
+          [realValue, questionId, githubId]
+        );
+
+        await tm.query(
+          `
+          update question
+          set points = points + $1
+          where id = $2
+          `,
+          [2 * realValue, questionId]
+        );
+      });
+    } else if (!upvote) {
+      // has never voted before
+      await getConnection().transaction(async (tm) => {
+        await tm.query(
+          `
+          insert into upvote ("githubId", "questionId", value)
+          values ($1, $2, $3)
+          `,
+          [githubId, questionId, realValue]
+        );
+
+        await tm.query(
+          `
+          update question 
+          set points = points + $1
+          where id = $2
+          `,
+          [realValue, questionId]
+        );
+      });
+    }
+    return true;
   }
 
   @Query(() => PaginatedQuestions)
