@@ -16,6 +16,8 @@ import { COOKIE_NAME, __prod__ } from './constants';
 import Redis from 'ioredis';
 import connectRedis from 'connect-redis';
 import { UserResolver } from './resolvers/user';
+import { Comment } from './entities/Comment';
+import { Upvote } from './entities/Upvote';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -30,12 +32,10 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [Question, User],
+    entities: [Question, User, Comment, Upvote],
   });
 
   await conn.runMigrations();
-
-  // await Post.delete({})
 
   const app = express();
 

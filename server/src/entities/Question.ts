@@ -4,9 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  // UpdateDateColumn,
 } from 'typeorm';
+import { Upvote } from './Upvote';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -23,6 +27,14 @@ export class Question extends BaseEntity {
   @Column()
   description!: string;
 
+  @Field(() => [String])
+  @Column("text", {nullable: true})
+  tags!: string[];
+
+  @Field(() => [String])
+  @Column("text", {nullable: true})
+  imageUrls: string[] | null;
+
   @Field()
   @Column({ type: 'int', default: 0 })
   points!: number;
@@ -32,17 +44,19 @@ export class Question extends BaseEntity {
 
   @Field()
   @Column()
-  creatorId: number;
+  githubId: number;
 
-  // @Field(() => User)
-  // @ManyToOne(() => User, (user) => user.posts)
-  // creator: User;
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.questions)
+  creator: User;
 
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
 
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
+  // TODO: To add upvotes field
+  @OneToMany(() => Upvote, (upvote) => upvote.question)
+  upvotes: Upvote[];
+
+
 }

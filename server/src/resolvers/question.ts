@@ -41,6 +41,6 @@ export class QuestionResolver {
     // @ts-ignore
     @Ctx() { req }: MyContext
   ): Promise<Question> {
-    return Question.create({ ...input, creatorId: 1 }).save();
+    return Question.create({ ...input, githubId: 1 }).save();
   }
 }
