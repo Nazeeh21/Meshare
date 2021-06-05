@@ -28,11 +28,11 @@ export class Question extends BaseEntity {
   description!: string;
 
   @Field(() => [String])
-  @Column("text", {nullable: true})
+  @Column("text", {nullable: true, array: true})
   tags!: string[];
 
   @Field(() => [String])
-  @Column("text", {nullable: true})
+  @Column("text", {nullable: true, array: true})
   imageUrls: string[] | null;
 
   @Field()

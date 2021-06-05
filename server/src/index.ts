@@ -18,6 +18,8 @@ import connectRedis from 'connect-redis';
 import { UserResolver } from './resolvers/user';
 import { Comment } from './entities/Comment';
 import { Upvote } from './entities/Upvote';
+import { createUserLoader } from './utils/createUserLoader';
+import { createUpvoteLoader } from './utils/createUpvoteLoader';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -77,6 +79,8 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({
       req,
       res,
+      userLoader: createUserLoader(),
+      upvoteLoader: createUpvoteLoader()
     }),
   });
 
