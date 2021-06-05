@@ -41,6 +41,16 @@ class PaginatedQuestions {
 
 @Resolver(Question)
 export class QuestionResolver {
+  
+  @Mutation(() => Question)
+  @UseMiddleware(isAuth)
+  async createQuestion(
+    @Arg('input') input: QuestionInput,
+    @Ctx() { req }: MyContext
+  ): Promise<Question> {
+    return Question.create({ ...input, githubId: req.session.githubId }).save();
+  }
+
   @Query(() => PaginatedQuestions)
   async questions(
     @Arg('limit', () => Int) limit: number,
@@ -85,14 +95,5 @@ export class QuestionResolver {
       throw new Error('not authenticated');
     }
     return Question.findOne(id);
-  }
-
-  @Mutation(() => Question)
-  @UseMiddleware(isAuth)
-  async createQuestion(
-    @Arg('input') input: QuestionInput,
-    @Ctx() { req }: MyContext
-  ): Promise<Question> {
-    return Question.create({ ...input, githubId: req.session.githubId }).save();
   }
 }
