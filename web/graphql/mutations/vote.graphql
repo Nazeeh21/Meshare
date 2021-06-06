@@ -1,0 +1,3 @@
+mutation Vote($value: Int!, $questionId: Int!) {
+  vote(value: $value, questionId: $questionId)
+}

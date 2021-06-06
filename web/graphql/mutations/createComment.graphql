@@ -1,0 +1,12 @@
+mutation CreateComment($text: String!, $questionId: Int!) {
+  createComment(input: { text: $text }, questionId: $questionId) {
+    id
+    text
+    githubId
+    questionId
+    createdAt
+    creator {
+      name
+    }
+  }
+}
