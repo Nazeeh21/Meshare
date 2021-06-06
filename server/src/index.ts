@@ -20,6 +20,7 @@ import { Comment } from './entities/Comment';
 import { Upvote } from './entities/Upvote';
 import { createUserLoader } from './utils/createUserLoader';
 import { createUpvoteLoader } from './utils/createUpvoteLoader';
+import { CommentResolver } from './resolvers/comment';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -73,7 +74,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver, UserResolver],
+      resolvers: [QuestionResolver, UserResolver, CommentResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({

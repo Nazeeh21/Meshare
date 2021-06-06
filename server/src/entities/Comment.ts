@@ -22,15 +22,15 @@ export class Comment extends BaseEntity {
 
   @Field()
   @Column()
-  githubId: number;
+  githubId: string;
+
+  @Field()
+  @Column()
+  questionId: number;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.comments)
   creator: User;
-
-  @Field()
-  @Column('text', { nullable: true })
-  avatarUrl: String;
 
   @Field(() => String)
   @CreateDateColumn()
