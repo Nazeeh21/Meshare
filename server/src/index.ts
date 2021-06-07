@@ -16,6 +16,11 @@ import { COOKIE_NAME, __prod__ } from './constants';
 import Redis from 'ioredis';
 import connectRedis from 'connect-redis';
 import { UserResolver } from './resolvers/user';
+import { Comment } from './entities/Comment';
+import { Upvote } from './entities/Upvote';
+import { createUserLoader } from './utils/createUserLoader';
+import { createUpvoteLoader } from './utils/createUpvoteLoader';
+import { CommentResolver } from './resolvers/comment';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -30,12 +35,10 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [Question, User],
+    entities: [Question, User, Comment, Upvote],
   });
 
   await conn.runMigrations();
-
-  // await Post.delete({})
 
   const app = express();
 
@@ -71,12 +74,14 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver, UserResolver],
+      resolvers: [QuestionResolver, UserResolver, CommentResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
       req,
       res,
+      userLoader: createUserLoader(),
+      upvoteLoader: createUpvoteLoader()
     }),
   });
 

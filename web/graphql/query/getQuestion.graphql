@@ -3,5 +3,14 @@ query Question($id: Int!) {
     id
     title
     description
+    tags
+    imageUrls
+    githubId
+    voteStatus
+    points
+    creator {
+      name
+      avatarUrl
+    }
   }
 }

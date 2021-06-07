@@ -1,9 +1,25 @@
-mutation CreateQuestion($title: String!, $description: String!) {
-  createQuestion(input: { title: $title, description: $description }) {
+mutation CreateQuestion(
+  $title: String!
+  $description: String!
+  $tags: [String!]!
+  $imageUrls: [String!]!
+) {
+  createQuestion(
+    input: {
+      title: $title
+      description: $description
+      tags: $tags
+      imageUrls: $imageUrls
+    }
+  ) {
     id
-    title 
-    points
-    creatorId
+    title
     description
+    tags
+    imageUrls
+    voteStatus
+    creator {
+      name
+    }
   }
 }

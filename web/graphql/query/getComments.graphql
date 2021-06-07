@@ -1,0 +1,14 @@
+query Comments($questionId: Int!, $limit: Int!, $cursor: String){
+  comments(questionId: $questionId, cursor: $cursor, limit: $limit) {
+   hasMore
+   comments {
+    id
+    text
+    githubId
+    creator {
+      avatarUrl
+      name
+    }
+  }
+  }
+}
