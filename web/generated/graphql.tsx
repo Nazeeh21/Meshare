@@ -233,6 +233,28 @@ export type QuestionQuery = (
   )> }
 );
 
+export type QuestionsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type QuestionsQuery = (
+  { __typename?: 'Query' }
+  & { questions: (
+    { __typename?: 'PaginatedQuestions' }
+    & Pick<PaginatedQuestions, 'hasMore'>
+    & { questions: Array<(
+      { __typename?: 'Question' }
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'avatarUrl' | 'name'>
+      ) }
+    )> }
+  ) }
+);
+
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -352,6 +374,30 @@ export const QuestionDocument = gql`
 
 export function useQuestionQuery(options: Omit<Urql.UseQueryArgs<QuestionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<QuestionQuery>({ query: QuestionDocument, ...options });
+};
+export const QuestionsDocument = gql`
+    query Questions($limit: Int!, $cursor: String) {
+  questions(cursor: $cursor, limit: $limit) {
+    hasMore
+    questions {
+      id
+      title
+      description
+      imageUrls
+      tags
+      voteStatus
+      githubId
+      creator {
+        avatarUrl
+        name
+      }
+    }
+  }
+}
+    `;
+
+export function useQuestionsQuery(options: Omit<Urql.UseQueryArgs<QuestionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<QuestionsQuery>({ query: QuestionsDocument, ...options });
 };
 export const GetUserDocument = gql`
     query GetUser {

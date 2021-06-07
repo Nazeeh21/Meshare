@@ -169,8 +169,8 @@ export class QuestionResolver {
       `
       select q.*
       from question q
-      ${cursor ? `where p."createdAt" < $2` : ''}
-      order by p."createdAt" DESC
+      ${cursor ? `where q."createdAt" < $2` : ''}
+      order by q."createdAt" DESC
       limit $1
       `,
       replacements
