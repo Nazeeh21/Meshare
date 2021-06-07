@@ -30,33 +30,60 @@
 
 * payload: action: "added" member: {login: "rutvik11062000", id: 47498552, node_id: "MDQ6VXNlcjQ3NDk4NTUy", avatar_url: "https://avatars.githubusercontent.com/u/47498552?v=4", gravatar_id: "", …}, type: "MemberEvent"
 
-payload:
-before: "a006a51b4661a357ecaf7797b70a5b95f9bb6c32"
-commits: [{…}]
-distinct_size: 1
-head: "9bde4a63a6e77beee49fa6de2ac0561172257942"
-push_id: 7223884358
-ref: "refs/heads/main"
-size: 1
-__proto__: Object
-public: true
-repo: {id: 371719847, name: "miralsuthar/fashioo-assesment", url: "https://api.github.com/repos/miralsuthar/fashioo-assesment"}
-type: "PushEvent"
+* payload:
+  before: "a006a51b4661a357ecaf7797b70a5b95f9bb6c32"
+  commits: [{…}]
+  distinct_size: 1
+  head: "9bde4a63a6e77beee49fa6de2ac0561172257942"
+  push_id: 7223884358
+  ref: "refs/heads/main"
+  size: 1
+  __proto__: Object
+  public: true
+  repo: {id: 371719847, name: "miralsuthar/fashioo-assesment", url: "https://api.github.com/repos/miralsuthar/fashioo-assesment"}
+  type: "PushEvent"
 
-payload:
-action: "added"
-member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
-__proto__: Object
-public: true
-repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
-type: "MemberEvent"
+* payload:
+  action: "added"
+  member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
+  __proto__: Object
+  public: true
+  repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
+  type: "MemberEvent"
 
-payload:
-action: "added"
-member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
-__proto__: Object
-public: true
-repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
-type: "MemberEvent"
+* payload:
+  action: "added"
+  member: {login: "Nazeeh21", id: 56908732, node_id: "MDQ6VXNlcjU2OTA4NzMy", avatar_url: "https://avatars.githubusercontent.com/u/56908732?v=4", gravatar_id: "", …}
+  __proto__: Object
+  public: true
+  repo: {id: 371991911, name: "Dhaiwat10/react-prep", url: "https://api.github.com/repos/Dhaiwat10/react-prep"}
+  type: "MemberEvent"
 
+* payload:
+  action: "published"
+  release:
+    assets: []
+    assets_url: "https://api.github.com/repos/vercel/next.js/releases/44097768/assets"
+    author: {login: "timneutkens", id: 6324199, node_id: "MDQ6VXNlcjYzMjQxOTk=", avatar_url: "https://avatars.githubusercontent.com/u/6324199?v=4", gravatar_id: "", …}
+    body: "### Core Changes\r\n\r\n- Bump \"engines\" to node >= 12.0.0: #25761\r\n- Support for static image imports: #24993\r\n\r\n### Documentation Changes\r\n\r\n- doc: update TS version for --incremental: #25736\r\n\r\n### Example Changes\r\n\r\n- Update tsconfig of example to be consistent with default output of next.js: #25581\r\n\r\n### Credits \r\n\r\nHuge thanks to @hiramhuang, @styfle, @daku10, and @atcastle for helping!\r\n"
+    created_at: "2021-06-04T10:13:58Z"
+    draft: false
+    html_url: "https://github.com/vercel/next.js/releases/tag/v10.2.4-canary.4"
+    id: 44097768
+    is_short_description_html_truncated: true
+    name: ""
+    node_id: "MDc6UmVsZWFzZTQ0MDk3NzY4"
+    prerelease: true
+    published_at: "2021-06-04T10:14:19Z"
+    short_description_html: "<h3>Core Changes</h3>\n<ul>\n<li>Bump \"engines\" to node &gt;= 12.0.0: #25761</li>\n<li>Support for static image imports: #24993</li>\n</ul>\n<h3>Documentation Changes</h3>\n<ul>\n<li>doc: update TS version for --incremental: #25736</li>\n</ul>\n<h3>Example Changes</h3>\n<ul>\n<li>Update tsc…</li>\n</ul>"
+    tag_name: "v10.2.4-canary.4"
+    tarball_url: "https://api.github.com/repos/vercel/next.js/tarball/v10.2.4-canary.4"
+    target_commitish: "dfc5907f10b88b722aa0511c06bc24bdaa33f7ad"
+    upload_url: "https://uploads.github.com/repos/vercel/next.js/releases/44097768/assets{?name,label}"
+    url: "https://api.github.com/repos/vercel/next.js/releases/44097768"
+  zipball_url: "https://api.github.com/repos/vercel/next.js/zipball/v10.2.4-canary.4"
+
+  public: true
+  repo: {id: 70107786, name: "vercel/next.js", url: "https://api.github.com/repos/vercel/next.js"}
+  type: "ReleaseEvent"
 

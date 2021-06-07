@@ -217,6 +217,36 @@ export const GithubActivity = ({ activity }) => {
       }
       break;
     }
+
+    case "ReleaseEvent": {
+      if(activity.payload.action === "published" && activity.payload.repo !== null && activity.payload.release !== null) {
+        body = (
+          <div>
+            <div
+              className="cursor-pointer inline-block font-bold"
+              onClick={() => {
+                router.push(`https://github.com/${activity.actor.display_login}`);
+              }}
+            >
+              {activity.actor.display_login}
+            </div>{" "}
+            released {" "}
+            <span
+              className="cursor-pointer font-bold"
+              onClick={() => {
+                router.push(activity.payload.release.html_url);
+              }}
+            >
+              {activity.payload.release.tag_name}
+            </span> of
+            <span onClick={() => {
+                router.push(`https://github.com/${activity.repo.name}`);
+              }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span>
+          </div>
+        );
+      }
+      break;
+    }
   }
   return (
     <div className="mt-6 text-white mr-4 ml-4 flex items-center">

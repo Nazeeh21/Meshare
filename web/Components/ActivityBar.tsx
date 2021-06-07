@@ -58,6 +58,31 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
   return (
     <div className='h-sidebarH pb-8 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-auto'>
       {body}
+      <style jsx>{`
+      ::-webkit-scrollbar {
+        width: 0.6rem;
+        height: 4rem;
+      }
+      
+      /* Track */
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 0.3rem #dbe6fd; 
+        border-radius: 0.5rem;
+      }
+       
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #dbe6fd; 
+        border-radius: 0.5rem;
+      }
+      
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #fff; 
+        width: 0.8rem;
+      }
+
+      `}</style>
     </div>
   );
 };
