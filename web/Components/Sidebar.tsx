@@ -27,14 +27,14 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
   }, [userData]);
 
   useEffect(() => {
-    const path = router.pathname
+    const path = router.pathname;
 
-    if(path == '/create-question') {
-      setActive(2)
-    } else if(path == '/my-questions') {
-      setActive(1)
+    if (path == '/create-question') {
+      setActive(2);
+    } else if (path == '/my-questions') {
+      setActive(1);
     }
-  }, [router.pathname])
+  }, [router.pathname]);
 
   return (
     <div className='h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md hidden md:flex flex-col justify-around'>
@@ -53,7 +53,10 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       <div>
         <div className='my-24'>
           <SidebarButton
-            click={() => setActive(0)}
+            click={() => {
+              setActive(0);
+              router.push('/');
+            }}
             isActive={active === 0}
             icon={faGlobe}
             size={'2x'}

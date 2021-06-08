@@ -5,7 +5,6 @@ import Question from "../Components/Question";
 
 import { useQuestionsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { isServer } from "../utils/isServer";
 
 const Home = () => {
   const [variables, setVariables] = useState({
@@ -38,7 +37,7 @@ const Home = () => {
       </Head>
 
 {/* {console.log(typeof data.questions.questions[0])} */}
-      {data.questions && data.questions.questions.map(question => <Question question={question} />)}
+      {data && data?.questions?.questions.map(question => <Question question={question} />)}
     </div>
   );
 };
