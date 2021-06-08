@@ -1,14 +1,15 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
+import "react-tagsinput/react-tagsinput.css";
 import "tailwindcss/tailwind.css";
 import { wrapper } from "../redux/store";
 import AppLayout from "../Components/AppLayout";
-import TimeAgo from 'javascript-time-ago'
+import TimeAgo from "javascript-time-ago";
 
-import en from 'javascript-time-ago/locale/en'
+import en from "javascript-time-ago/locale/en";
 
-TimeAgo.addLocale(en)
+TimeAgo.addLocale(en);
 
 const theme = extendTheme({
   styles: {

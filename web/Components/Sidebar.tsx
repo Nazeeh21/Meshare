@@ -26,6 +26,16 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
     console.log('userData: ', userData);
   }, [userData]);
 
+  useEffect(() => {
+    const path = router.pathname;
+
+    if (path == '/create-question') {
+      setActive(2);
+    } else if (path == '/my-questions') {
+      setActive(1);
+    }
+  }, [router.pathname]);
+
   return (
     <div className='h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md hidden md:flex flex-col justify-around'>
       <div className='h-16 bg-iconBlue w-16 rounded-full mx-auto mt-8 overflow-hidden'>
@@ -43,7 +53,10 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       <div>
         <div className='my-24'>
           <SidebarButton
-            click={() => setActive(0)}
+            click={() => {
+              setActive(0);
+              router.push('/');
+            }}
             isActive={active === 0}
             icon={faGlobe}
             size={'2x'}
@@ -57,7 +70,10 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
           />
 
           <SidebarButton
-            click={() => setActive(2)}
+            click={() => {
+              setActive(2);
+              router.push('/create-question');
+            }}
             isActive={active === 2}
             icon={faPenNib}
             size={'2x'}

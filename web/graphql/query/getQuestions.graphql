@@ -1,0 +1,18 @@
+query Questions($limit: Int!, $cursor: String) {
+  questions(cursor: $cursor, limit: $limit) {
+    hasMore
+    questions {
+      id
+      title
+      description
+      imageUrls
+      tags
+      voteStatus
+      githubId
+      creator {
+        avatarUrl
+        name
+      }
+    }
+  }
+}

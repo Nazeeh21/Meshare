@@ -1,23 +1,34 @@
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Question from "../Components/Question";
 
-import { useQuestionQuery } from "../generated/graphql";
+import { useQuestionsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { isServer } from "../utils/isServer";
 
 const Home = () => {
-  const [{ data, error }] = useQuestionQuery({
-    pause: isServer(),
-    variables: {
-      id: 1,
-    },
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as null | string
+  })
+  const [{ data, error, fetching }] = useQuestionsQuery({
+    variables,
   });
 
   useEffect(() => {
     console.log(data);
     console.log(error);
   }, [data, error]);
+
+  if (!data && !fetching) {
+    return (
+      <div>
+        You got no questions, query failed for some reason
+        <div>{error?.message}</div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Head>
@@ -25,7 +36,8 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div></div>
+{/* {console.log(typeof data.questions.questions[0])} */}
+      {data && data?.questions?.questions.map(question => <Question question={question} />)}
     </div>
   );
 };

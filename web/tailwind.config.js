@@ -35,6 +35,7 @@ module.exports = {
       iconGrey: "#BCD2E2",
       background: "#EDF2FA",
       midSection: "#F5FAFE",
+      submitButton: "#42CFCF",
 
       black: "#000",
       white: "#fff",
