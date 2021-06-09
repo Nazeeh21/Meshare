@@ -18,7 +18,7 @@ import { getConnection } from 'typeorm';
 import { isAuth } from '../middleware/isAuth';
 import { Upvote } from '../entities/Upvote';
 import { User } from '../entities/User';
-import {Comment} from '../entities/Comment';
+import { Comment } from '../entities/Comment';
 
 @InputType()
 class QuestionInput {
@@ -51,9 +51,12 @@ export class QuestionResolver {
     return userLoader.load(question.githubId);
   }
 
-  @FieldResolver(() => Comment,{ nullable: true})
-  acceptedAnswer(@Root() question: Question, @Ctx() { commentLoader }: MyContext) {
-    if(!question.answerId) {
+  @FieldResolver(() => Comment, { nullable: true })
+  acceptedAnswer(
+    @Root() question: Question,
+    @Ctx() { commentLoader }: MyContext
+  ) {
+    if (!question.answerId) {
       return null;
     }
     return commentLoader.load(question.answerId);
@@ -86,31 +89,38 @@ export class QuestionResolver {
   }
 
   @Mutation(() => Boolean)
-  @UseMiddleware(isAuth) 
+  @UseMiddleware(isAuth)
   async acceptAnswer(
     @Arg('questionId', () => Int) questionId: number,
     @Arg('answerId', () => Int) answerId: number,
-    @Ctx() {req}: MyContext
+    @Ctx() { req }: MyContext
   ) {
-    try{await getConnection().createQueryBuilder()
-    .update(Question)
-    .set({answerId})
-    .where('id = :id and "githubId" = :githubId', {
-      id: questionId,
-      githubId: req.session.githubId
-    }).returning('*').execute()
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(Question)
+        .set({ answerId })
+        .where('id = :id and "githubId" = :githubId', {
+          id: questionId,
+          githubId: req.session.githubId,
+        })
+        .returning('*')
+        .execute();
 
-    await getConnection().createQueryBuilder()
-    .update(Comment)
-    .set({isAccepted : true})
-    .where('id = :id and "githubId" = :githubId', {
-      id: answerId,
-      githubId: req.session.githubId
-    }).returning('*').execute()}
-    catch (e) { 
-      throw new Error(e)
+      await getConnection()
+        .createQueryBuilder()
+        .update(Comment)
+        .set({ isAccepted: true })
+        .where('id = :id and "githubId" = :githubId', {
+          id: answerId,
+          githubId: req.session.githubId,
+        })
+        .returning('*')
+        .execute();
+    } catch (e) {
+      throw new Error(e);
     }
-    return true
+    return true;
   }
 
   @Mutation(() => Boolean)
