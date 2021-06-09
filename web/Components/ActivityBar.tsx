@@ -49,6 +49,10 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     );
   }
 
+  if(userData && isLoggedIn && !userActivity ) {
+    body = <div className='text-white font-semibold text-center mt-4 text-lg'>Loading ...</div>
+  }
+
   if (userData && isLoggedIn && userActivity) {
     body =
       userActivity !== undefined &&

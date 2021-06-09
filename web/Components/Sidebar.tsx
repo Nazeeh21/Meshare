@@ -33,8 +33,12 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       setActive(2);
     } else if (path == '/my-questions') {
       setActive(1);
+    } else if (path == '/') {
+      setActive(0);
+    } else {
+      setActive(-1);
     }
-  }, [router.pathname]);
+  }, [router]);
 
   return (
     <div className='h-sidebarH lg:w-32 md:w-32 bg-white w-1/12 rounded-l-md hidden md:flex flex-col justify-around'>

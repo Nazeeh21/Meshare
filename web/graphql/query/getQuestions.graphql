@@ -9,6 +9,7 @@ query Questions($limit: Int!, $cursor: String) {
       tags
       voteStatus
       githubId
+      createdAt
       creator {
         avatarUrl
         name
