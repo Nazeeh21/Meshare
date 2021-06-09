@@ -5,6 +5,7 @@ mutation CreateComment($text: String!, $questionId: Int!) {
     githubId
     questionId
     createdAt
+    isAccepted
     creator {
       name
     }

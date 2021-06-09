@@ -64,7 +64,7 @@ export class CommentResolver {
       where 
       ${cursor ? `c."createdAt" < $2 and` : ''}
       "questionId" = ${questionId}
-      order by c."createdAt" DESC
+      order by c."createdAt" ASC
       limit $1
       `, replacements
     )

@@ -5,6 +5,14 @@ query Comments($questionId: Int!, $limit: Int!, $cursor: String){
     id
     text
     githubId
+    questionId
+    isAccepted
+    acceptedByQuestion {
+      id
+      title
+      description
+    }
+    createdAt
     creator {
       avatarUrl
       name
