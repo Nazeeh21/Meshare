@@ -1,12 +1,15 @@
 import { withUrqlClient } from 'next-urql';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Question from '../Components/Question';
 
 import { useQuestionsQuery } from '../generated/graphql';
+import { setAcceptedAnswer } from '../redux/actions/questionAction';
 import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
@@ -14,6 +17,10 @@ const Home = () => {
   const [{ data, error, fetching }] = useQuestionsQuery({
     variables,
   });
+
+  useEffect(() => {
+    dispatch(setAcceptedAnswer(null))
+  }, [])
 
   useEffect(() => {
     console.log(data);
