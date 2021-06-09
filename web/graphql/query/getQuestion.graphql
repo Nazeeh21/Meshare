@@ -8,6 +8,14 @@ query Question($id: Int!) {
     githubId
     voteStatus
     points
+    answerId
+    createdAt
+    acceptedAnswer {
+      id
+      text
+      isAccepted
+      githubId
+    }
     creator {
       name
       avatarUrl

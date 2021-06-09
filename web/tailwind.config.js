@@ -29,7 +29,7 @@ module.exports = {
       background: '#EDF2FA',
       midSection: '#F5FAFE',
       submitButton: '#42CFCF',
-
+      acceptedAnswer: '#7EFFD1',
       black: '#000',
       white: '#fff',
       accentedWhite: '#F8F8F8',

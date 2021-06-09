@@ -20,6 +20,8 @@ export type Comment = {
   text: Scalars['String'];
   githubId: Scalars['String'];
   questionId: Scalars['Float'];
+  isAccepted: Scalars['Boolean'];
+  acceptedByQuestion?: Maybe<Question>;
   creator: User;
   createdAt: Scalars['String'];
 };
@@ -31,6 +33,7 @@ export type CommentInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createQuestion: Question;
+  acceptAnswer: Scalars['Boolean'];
   vote: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   createComment: Comment;
@@ -40,6 +43,12 @@ export type Mutation = {
 
 export type MutationCreateQuestionArgs = {
   input: QuestionInput;
+};
+
+
+export type MutationAcceptAnswerArgs = {
+  answerId: Scalars['Int'];
+  questionId: Scalars['Int'];
 };
 
 
@@ -104,6 +113,8 @@ export type Question = {
   description: Scalars['String'];
   tags: Array<Scalars['String']>;
   imageUrls: Array<Scalars['String']>;
+  answerId?: Maybe<Scalars['Int']>;
+  acceptedAnswer?: Maybe<Comment>;
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
   githubId: Scalars['String'];
@@ -126,6 +137,17 @@ export type User = {
   createdAt: Scalars['String'];
 };
 
+export type AcceptAnswerMutationVariables = Exact<{
+  answerId: Scalars['Int'];
+  questionId: Scalars['Int'];
+}>;
+
+
+export type AcceptAnswerMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'acceptAnswer'>
+);
+
 export type CreateCommentMutationVariables = Exact<{
   text: Scalars['String'];
   questionId: Scalars['Int'];
@@ -136,7 +158,7 @@ export type CreateCommentMutation = (
   { __typename?: 'Mutation' }
   & { createComment: (
     { __typename?: 'Comment' }
-    & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'createdAt'>
+    & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'createdAt' | 'isAccepted'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'name'>
@@ -207,8 +229,11 @@ export type CommentsQuery = (
     & Pick<PaginatedComments, 'hasMore'>
     & { comments: Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'text' | 'githubId'>
-      & { creator: (
+      & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
+      & { acceptedByQuestion?: Maybe<(
+        { __typename?: 'Question' }
+        & Pick<Question, 'id' | 'title' | 'description'>
+      )>, creator: (
         { __typename?: 'User' }
         & Pick<User, 'avatarUrl' | 'name'>
       ) }
@@ -225,8 +250,11 @@ export type QuestionQuery = (
   { __typename?: 'Query' }
   & { question?: Maybe<(
     { __typename?: 'Question' }
-    & Pick<Question, 'id' | 'title' | 'description' | 'tags' | 'imageUrls' | 'githubId' | 'voteStatus' | 'points'>
-    & { creator: (
+    & Pick<Question, 'id' | 'title' | 'description' | 'tags' | 'imageUrls' | 'githubId' | 'voteStatus' | 'points' | 'answerId' | 'createdAt'>
+    & { acceptedAnswer?: Maybe<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'id' | 'text' | 'isAccepted' | 'githubId'>
+    )>, creator: (
       { __typename?: 'User' }
       & Pick<User, 'name' | 'avatarUrl'>
     ) }
@@ -267,6 +295,15 @@ export type GetUserQuery = (
 );
 
 
+export const AcceptAnswerDocument = gql`
+    mutation AcceptAnswer($answerId: Int!, $questionId: Int!) {
+  acceptAnswer(answerId: $answerId, questionId: $questionId)
+}
+    `;
+
+export function useAcceptAnswerMutation() {
+  return Urql.useMutation<AcceptAnswerMutation, AcceptAnswerMutationVariables>(AcceptAnswerDocument);
+};
 export const CreateCommentDocument = gql`
     mutation CreateComment($text: String!, $questionId: Int!) {
   createComment(input: {text: $text}, questionId: $questionId) {
@@ -275,6 +312,7 @@ export const CreateCommentDocument = gql`
     githubId
     questionId
     createdAt
+    isAccepted
     creator {
       name
     }
@@ -341,6 +379,14 @@ export const CommentsDocument = gql`
       id
       text
       githubId
+      questionId
+      isAccepted
+      acceptedByQuestion {
+        id
+        title
+        description
+      }
+      createdAt
       creator {
         avatarUrl
         name
@@ -364,6 +410,14 @@ export const QuestionDocument = gql`
     githubId
     voteStatus
     points
+    answerId
+    createdAt
+    acceptedAnswer {
+      id
+      text
+      isAccepted
+      githubId
+    }
     creator {
       name
       avatarUrl

@@ -1,0 +1,3 @@
+mutation AcceptAnswer($answerId: Int!, $questionId: Int!) {
+  acceptAnswer(answerId: $answerId, questionId: $questionId)
+}
