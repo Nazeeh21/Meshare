@@ -8,7 +8,7 @@ export const SearchBarHolder = ({ children }) => {
       <div className="flex">
         <input
           type="text"
-          className="bg-greyS w-full h-16 rounded-tl-md outline-none text-lg font-sans px-2 px-1"
+          className="bg-greyS w-full h-16 rounded-tl-md outline-none text-lg font-sans px-2"
           placeholder="Search"
         />
         <FontAwesomeIcon
