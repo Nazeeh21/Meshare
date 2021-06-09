@@ -1,5 +1,3 @@
-import { useGetUserQuery } from '../../generated/graphql';
-import { isServer } from '../../utils/isServer';
 import { FETCH_USERS } from '../actionTypes/types';
 
 export const getUsers = (data, error) => {
