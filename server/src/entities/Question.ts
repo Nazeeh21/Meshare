@@ -6,11 +6,13 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   // UpdateDateColumn,
 } from 'typeorm';
 import { Upvote } from './Upvote';
 import { User } from './User';
+import {Comment} from './Comment'
 
 @ObjectType()
 @Entity()
@@ -34,6 +36,14 @@ export class Question extends BaseEntity {
   @Field(() => [String])
   @Column("text", {nullable: true, array: true})
   imageUrls: string[] | null;
+
+  @Field(() => Int, {nullable: true})
+  @Column({ type: 'int', default: null})
+  answerId!: number | null;
+
+  @Field(() => Comment, { nullable: true})
+  @OneToOne(() => Comment, (comment) => comment.acceptedByQuestion)
+  acceptedAnswer: Comment | null;
 
   @Field()
   @Column({ type: 'int', default: 0 })

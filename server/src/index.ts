@@ -21,6 +21,7 @@ import { Upvote } from './entities/Upvote';
 import { createUserLoader } from './utils/createUserLoader';
 import { createUpvoteLoader } from './utils/createUpvoteLoader';
 import { CommentResolver } from './resolvers/comment';
+import { createCommentLoader } from './utils/createCommentLoader';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -81,7 +82,8 @@ const main = async () => {
       req,
       res,
       userLoader: createUserLoader(),
-      upvoteLoader: createUpvoteLoader()
+      upvoteLoader: createUpvoteLoader(),
+      commentLoader: createCommentLoader(),
     }),
   });
 

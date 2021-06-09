@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Question } from './Question';
 import { User } from './User';
 
 @ObjectType()
@@ -27,6 +29,14 @@ export class Comment extends BaseEntity {
   @Field()
   @Column()
   questionId: number;
+
+  @Field()
+  @Column({type: 'boolean', default: false})
+  isAccepted: boolean;
+
+  @Field(() => Question, { nullable: true })
+  @OneToOne(() => Question, (question) => question.acceptedAnswer)
+  acceptedByQuestion: Question | null;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.comments)
