@@ -45,7 +45,7 @@ export const CreateQuestion = () => {
   return (
     <div>
       <div className="h-screen">
-        <div className="w-full min-h-24 mb-5 bg-iconGrey rounded-md">
+        <div className="w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md">
           <textarea
             className="w-full h-16 rounded-md text-black bg-iconGrey outline-none pt-2 px-2"
             placeholder="write your question here.."
