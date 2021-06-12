@@ -13,15 +13,43 @@ const UploadComponent: React.FC = ({}) => {
   }, [files]);
 
   const onUploadClick = async () => {
-    // const { data, error } = await supabase.storage
+    // supabase.storage
     //   .from("avatars")
     //   .upload(files.name, files);
+    const UploadedImageData = await Promise.all(
+      files.map(async (file) => {
+        const { data, error } = await supabase.storage
+          .from('avatars')
+          .upload(file.name, file);
+        if (error) {
+          console.log('error in uploading image: ', error);
+
+          // throw new Error(error as any);
+        }
+        if (data) {
+          console.log('image uploaded successfully: ', data);
+        }
+        return data;
+      })
+    );
+
+    console.log('UploadedImageData: ', UploadedImageData)
+    // const uploadImage = await Promise.all(
+    //   files.map(file => {
+    //     return supabase.storage.from('avatars').upload(file.name, file)
+    //   })
+    // )
+
+    // console.log('uploadImage: ', uploadImage)
+
+    // uploadImage.map(({data, error}) => {
     // if (error) {
-    //   console.log(error);
+    //   console.log('error in uploading image: ', error);
     // }
     // if (data) {
-    //   console.log(data);
+    //   console.log('image uploaded successfully: ', data);
     // }
+    // })
   };
 
   return (
@@ -91,6 +119,7 @@ const UploadComponent: React.FC = ({}) => {
             // </div>
           ))}
       </div>
+      <button onClick={onUploadClick}>Upload</button>
     </div>
   );
 };
