@@ -51,7 +51,7 @@ const Home = () => {
     const downloadImage = async () => {
       const { data, error } = await supabase.storage
         .from('avatars')
-        .download('clean.jpg');
+        .download('logo_transparent_background.png');
 
       if (error) {
         console.log('error: ', error);
