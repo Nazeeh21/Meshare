@@ -40,11 +40,11 @@ const DetailedQuestion = () => {
     <div className='overflow-y-auto'>
       {data?.question && <Question question={data.question} />}
       {data?.question?.imageUrls?.length !== 0 &&
-        data?.question?.imageUrls?.map((image) => (
+        <div className='ml-12 flex justify-around'>{data?.question?.imageUrls?.map((image) => (
           <div className=' inline-block mr-4 border-activityBlue border-2'>
             <GetAvatar path={image} styles='w-auto h-48' />
           </div>
-        ))}
+        ))}</div>}
       <div className='mt-6'>
         <Comments pageProps />
       </div>

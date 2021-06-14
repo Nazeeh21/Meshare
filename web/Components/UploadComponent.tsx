@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../utils/supabaseClient';
 
-const UploadComponent: React.FC = ({}) => {
-  const [files, setFiles] = useState([]);
+interface UploadComponentProps {
+  files: any[];
+  setFiles: React.Dispatch<React.SetStateAction<any[]>>;
+  uploadClick: () => Promise<void>;
+}
+
+const UploadComponent: React.FC<UploadComponentProps> = ({
+  files,
+  setFiles,
+  uploadClick,
+}) => {
   useEffect(() => {
     if (files) {
       files.map((file) => {
@@ -11,48 +19,6 @@ const UploadComponent: React.FC = ({}) => {
       });
     }
   }, [files]);
-
-  const onUploadClick = async () => {
-    // supabase.storage
-    //   .from("avatars")
-    //   .upload(files.name, files);
-    const UploadedImageData = await Promise.all(
-      files.map(async (file) => {
-        const { data, error } = await supabase.storage
-          .from('avatars')
-          .upload(file.name, file);
-        if (error) {
-          console.log('error in uploading image: ', error);
-
-          // throw new Error(error as any);
-        }
-        if (data) {
-          console.log('image uploaded successfully: ', data);
-          console.log('Logging image_path: ', data.Key.substring(8));
-          
-        }
-        return data;
-      })
-    );
-
-    console.log('UploadedImageData: ', UploadedImageData)
-    // const uploadImage = await Promise.all(
-    //   files.map(file => {
-    //     return supabase.storage.from('avatars').upload(file.name, file)
-    //   })
-    // )
-
-    // console.log('uploadImage: ', uploadImage)
-
-    // uploadImage.map(({data, error}) => {
-    // if (error) {
-    //   console.log('error in uploading image: ', error);
-    // }
-    // if (data) {
-    //   console.log('image uploaded successfully: ', data);
-    // }
-    // })
-  };
 
   return (
     <div className='mb-0'>
@@ -101,27 +67,15 @@ const UploadComponent: React.FC = ({}) => {
                 </div>
               </div>
             </div>
-
-            // <div className='relative ml-2 mb-2'>
-            //   <img
-            //     className='w-20 h-auto'
-            //     src={URL.createObjectURL(file)}
-            //     alt=''
-            //   />
-            // <div
-            //   onClick={() => {
-            //     const newFiles = [...files];
-            //     newFiles.splice(index);
-            //     setFiles(newFiles);
-            //   }}
-            //   className='text-white flex items-center w-6 h-auto cursor-pointer rounded-full -ml-1 -mt-1 top-0 left-0 outline-none bg-activityBlue border-greyS border-2'
-            // >
-            //   <div className='m-auto'>x</div>
-            // </div>
-            // </div>
           ))}
       </div>
-      <button onClick={onUploadClick}>Upload</button>
+      <button
+        disabled={files.length === 0}
+        className={`${files.length === 0 && 'cursor-not-allowed'}`}
+        onClick={uploadClick}
+      >
+        Upload
+      </button>
     </div>
   );
 };
