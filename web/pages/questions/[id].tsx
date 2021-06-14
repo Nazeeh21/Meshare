@@ -5,6 +5,7 @@ import Comments from '../../Components/Comments';
 import Question from '../../Components/Question';
 import { setAcceptedAnswer } from '../../redux/actions/questionAction';
 import { createUrqlClient } from '../../utils/createUrqlClient';
+import { GetAvatar } from '../../utils/getAvatar';
 import { useGetQuestionFromUrl } from '../../utils/useGetQuestionFromUrl';
 
 const DetailedQuestion = () => {
@@ -40,9 +41,13 @@ const DetailedQuestion = () => {
       {data?.question && <Question question={data.question} />}
       {data?.question?.imageUrls?.length !== 0 &&
         data?.question?.imageUrls?.map((image) => (
-          <img className='w-40 h-40 inline-block' src={image} alt='image' />
+          <div className=' inline-block mr-4 border-activityBlue border-2'>
+            <GetAvatar path={image} styles='w-auto h-48' />
+          </div>
         ))}
-      <div className='mt-6'><Comments pageProps /></div>
+      <div className='mt-6'>
+        <Comments pageProps />
+      </div>
     </div>
   );
 };

@@ -28,6 +28,8 @@ const UploadComponent: React.FC = ({}) => {
         }
         if (data) {
           console.log('image uploaded successfully: ', data);
+          console.log('Logging image_path: ', data.Key.substring(8));
+          
         }
         return data;
       })
