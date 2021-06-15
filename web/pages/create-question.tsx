@@ -1,11 +1,11 @@
 import React from 'react'
-import {CreateQuestion as QuestionCreate} from '../Components/CreateQuestion';
+import CreateQuestion  from '../Components/CreateQuestion';
 
-const CreateQuestion = () => {
+const createQuestion = () => {
     return <div>
-      <QuestionCreate />
+      <CreateQuestion pageProps />
     </div>
       ;
 }
 
-export default CreateQuestion;
+export default createQuestion;
