@@ -1,41 +1,66 @@
 import { withUrqlClient } from 'next-urql';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
 import Autosuggest from 'react-autosuggest';
 import TagsInput from 'react-tagsinput';
 import { useCreateQuestionMutation } from '../generated/graphql';
+import { DEFAULT_AVATARS_BUCKET } from '../lib/constants';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { supabase } from '../utils/supabaseClient';
 import UploadComponent from './UploadComponent';
 
 const CreateQuestion = () => {
+  const router = useRouter();
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const suggestions = [{ name: 'react' }, { name: 'react-native' }];
   const [title, setTitle] = useState<null | string>(null);
   const [description, setDescription] = useState<null | string>(null);
 
-  const [, createQuestion] = useCreateQuestionMutation()
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const onUploadClick = async () => {
+  const [, createQuestion] = useCreateQuestionMutation();
+
+  const onSubmitClick = async () => {
+    setSubmitting(true);
+
+    const uploadedImagePaths = await uploadImages();
+    const { error } = await createQuestion({
+      title,
+      description,
+      imageUrls: uploadedImagePaths,
+      tags,
+    });
+
+    if (!error) {
+      setSubmitting(false)
+      router.push('/');
+    }
+    setSubmitting(false);
+  };
+
+  const uploadImages = async () => {
+    if (files.length === 0) {
+      return [];
+    }
     const UploadedImageData = await Promise.all(
       files.map(async (file) => {
         const { data, error } = await supabase.storage
-          .from('avatars')
+          .from(DEFAULT_AVATARS_BUCKET)
           .upload(file.name, file);
         if (error) {
           console.log('error in uploading image: ', error);
-
-          // throw new Error(error as any);
-        }
+          throw error;}
         if (data) {
           console.log('image uploaded successfully: ', data);
           console.log('Logging image_path: ', data.Key.substring(8));
+          return data.Key.substring(8);
         }
-        return data;
       })
     );
 
     console.log('UploadedImageData: ', UploadedImageData);
+    return UploadedImageData;
   };
 
   const onChange = (tag) => {
@@ -95,7 +120,7 @@ const CreateQuestion = () => {
           <UploadComponent
             files={files}
             setFiles={setFiles}
-            uploadClick={onUploadClick}
+            // uploadClick={onUploadClick}
           />
         </div>
         <TagsInput
@@ -112,10 +137,18 @@ const CreateQuestion = () => {
         />
 
         <button
-          onClick={() => {}}
-          className='mt-6 bg-submitButton py-2 px-3 rounded-md outline-none text-lg font-bold text-white'
+          onClick={onSubmitClick}
+          className={`mt-6 bg-submitButton py-2 px-3 ${
+            submitting ? 'cursor-not-allowed' : 'cursor-pointer'
+          } rounded-md outline-none text-lg font-bold text-white`}
         >
-          SUBMIT
+          {submitting ? (
+            <div>
+              <i className='fa fa-spinner fa-spin -ml-3 mr-2'></i>Submitting ...
+            </div>
+          ) : (
+            <div>SUBMIT</div>
+          )}
         </button>
       </div>
     </div>

@@ -67,7 +67,9 @@ const Home = () => {
     <div>
       <Head>
         <title>Getit Here</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <link rel='icon' href='/favicon.ico' />
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
       </Head>
 
       {/* {console.log(typeof data.questions.questions[0])} */}

@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 interface UploadComponentProps {
   files: any[];
   setFiles: React.Dispatch<React.SetStateAction<any[]>>;
-  uploadClick: () => Promise<void>;
 }
 
 const UploadComponent: React.FC<UploadComponentProps> = ({
   files,
   setFiles,
-  uploadClick,
 }) => {
   useEffect(() => {
     if (files) {
@@ -69,13 +67,13 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
             </div>
           ))}
       </div>
-      <button
+      {/* <button
         disabled={files.length === 0}
         className={`${files.length === 0 && 'cursor-not-allowed'}`}
         onClick={uploadClick}
       >
         Upload
-      </button>
+      </button> */}
     </div>
   );
 };
