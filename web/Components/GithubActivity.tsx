@@ -247,6 +247,35 @@ export const GithubActivity = ({ activity }) => {
       }
       break;
     }
+    case "CommitCommentEvent": {
+      if(activity.payload.comment.node_id && activity.repo.name !== null && activity.payload.comment.body !== null) {
+        body = (
+          <div>
+            <div
+              className="cursor-pointer inline-block font-bold"
+              onClick={() => {
+                router.push(`https://github.com/${activity.actor.display_login}`);
+              }}
+            >
+              {activity.actor.login}
+            </div>{" "}
+            commented on{" "}
+            <span
+              className="cursor-pointer font-bold"
+              onClick={() => {
+                router.push(activity.payload.comment.html_url);
+              }}
+            >
+              {activity.repo.name}
+            </span> 
+            {/* <span onClick={() => {
+                router.push(`https://github.com/${activity.repo.name}`);
+              }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span> */}
+          </div>
+        );
+      }
+      break;
+    }
   }
   return (
     <div className="mt-6 text-white mr-4 ml-4 flex items-center">
