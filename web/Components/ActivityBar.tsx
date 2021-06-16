@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { LayoutProps } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
-import { GithubActivity } from './GithubActivity';
+import axios from "axios";
+import { LayoutProps } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { RootStateOrAny, useSelector } from "react-redux";
+import { GithubActivity } from "./GithubActivity";
 
 export const ActivityBar: React.FC<LayoutProps> = ({}) => {
   const userData = useSelector((state: RootStateOrAny) => state.main.userData);
@@ -30,18 +30,18 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     body = (
       <div
         style={{
-          backgroundColor: '#4aa96c',
-          width: '12vw',
-          padding: '0.5rem',
-          borderRadius: '0.2rem',
-          fontWeight: 'bold',
+          backgroundColor: "#4aa96c",
+          width: "12vw",
+          padding: "0.5rem",
+          borderRadius: "0.2rem",
+          fontWeight: "bold",
         }}
-        className='text-center mt-6 m-auto'
+        className="text-center mt-6 m-auto"
       >
         <a
-          href='http://localhost:4000/auth/github/'
-          style={{ textDecoration: 'none' }}
-          className='text-white'
+          href="http://localhost:4000/auth/github/"
+          style={{ textDecoration: "none" }}
+          className="text-white"
         >
           Login using github
         </a>
@@ -49,8 +49,12 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
     );
   }
 
-  if(userData && isLoggedIn && !userActivity ) {
-    body = <div className='text-white font-semibold text-center mt-4 text-lg'>Loading ...</div>
+  if (userData && isLoggedIn && !userActivity) {
+    body = (
+      <div className="text-white font-semibold text-center mt-4 text-lg">
+        Loading ...
+      </div>
+    );
   }
 
   if (userData && isLoggedIn && userActivity) {
@@ -62,7 +66,7 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
       ));
   }
   return (
-    <div className='h-sidebarH pb-8 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-auto overflow-x-hidden'>
+    <div className="h-sidebarH pb-8 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-auto overflow-x-hidden">
       {body}
       <style jsx>{`
         ::-webkit-scrollbar {
@@ -72,13 +76,13 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
 
         /* Track */
         ::-webkit-scrollbar-track {
-          box-shadow: inset 0 0 0.3rem #dbe6fd;
-          border-radius: 0.5rem;
+          display: none;
         }
 
         /* Handle */
         ::-webkit-scrollbar-thumb {
-          background: #dbe6fd;
+          background: #132b4f;
+          border: 1px solid #637b9f;
           border-radius: 0.5rem;
         }
 
