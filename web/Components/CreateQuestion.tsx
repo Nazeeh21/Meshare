@@ -7,9 +7,11 @@ import { useCreateQuestionMutation } from '../generated/graphql';
 import { DEFAULT_AVATARS_BUCKET } from '../lib/constants';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { supabase } from '../utils/supabaseClient';
+import { useIsAuth } from '../utils/useIsAuth';
 import UploadComponent from './UploadComponent';
 
 const CreateQuestion = () => {
+  useIsAuth()
   const router = useRouter();
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);

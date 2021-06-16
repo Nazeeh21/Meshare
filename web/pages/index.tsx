@@ -37,31 +37,31 @@ const Home = () => {
     );
   }
 
-  useEffect(() => {
-    // const { publicURL, error } = supabase.storage
-    //   .from('avatars')
-    //   .getPublicUrl('avatars/test_image.jpg');
+  // useEffect(() => {
+  //   // const { publicURL, error } = supabase.storage
+  //   //   .from('avatars')
+  //   //   .getPublicUrl('avatars/test_image.jpg');
 
-    // if (publicURL) {
-    //   console.log(publicURL);
-    // } else {
-    //   console.log(error);
-    // }
+  //   // if (publicURL) {
+  //   //   console.log(publicURL);
+  //   // } else {
+  //   //   console.log(error);
+  //   // }
 
-    const downloadImage = async () => {
-      const { data, error } = await supabase.storage
-        .from('avatars')
-        .download('logo_transparent_background.png');
+  //   const downloadImage = async () => {
+  //     const { data, error } = await supabase.storage
+  //       .from('avatars')
+  //       .download('logo_transparent_background.png');
 
-      if (error) {
-        console.log('error: ', error);
-      } else {
-        console.log('downloaded Image data: ', data);
-      }
-    };
+  //     if (error) {
+  //       console.log('error: ', error);
+  //     } else {
+  //       console.log('downloaded Image data: ', data);
+  //     }
+  //   };
 
-    downloadImage();
-  }, []);
+  //   downloadImage();
+  // }, []);
 
   return (
     <div>
