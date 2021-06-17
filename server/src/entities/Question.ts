@@ -13,6 +13,7 @@ import {
 import { Upvote } from './Upvote';
 import { User } from './User';
 import {Comment} from './Comment'
+import { Bookmark } from './Bookmark';
 
 @ObjectType()
 @Entity()
@@ -68,5 +69,8 @@ export class Question extends BaseEntity {
   @OneToMany(() => Upvote, (upvote) => upvote.question)
   upvotes: Upvote[];
 
-
+  // Bookmark fields
+  @Field(() => Bookmark, {nullable: true})
+  @OneToMany(() => Bookmark, bookmark => bookmark.question)
+  bookmarks: Bookmark;
 }
