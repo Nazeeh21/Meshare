@@ -35,17 +35,20 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
             <div>{question.description}</div>
           )}
           <div className="absolute right-0 bottom-0 flex justify-center items-center p-2">
-            <Icon className="mr-3" height={30} icon={arrowUpThick} />
+            {/* <Icon className="mr-3" height={30} icon={arrowUpThick} /> */}
+            <img className="mr-2" src="upvoteEmpty.svg" alt="upvote" />
             <h1>{/* {the amount of likes} */}</h1>
-            <Icon
+            {/* <Icon
               className="ml-3"
               height={30}
               icon={arrowUpThick}
               vFlip={true}
-            />
+            /> */}
+            <img className="ml-2" src="downvoteEmpty.svg" alt="downvote" />
           </div>
           <div className="absolute right-0 top-0 p-3">
-            <Icon icon={bookmarkIcon} height={25} />
+            {/* <Icon icon={bookmarkIcon} height={25} /> */}
+            <img className="h-6" src="bookmark.svg" alt="bookmark" />
           </div>
         </div>
         {question?.tags &&
