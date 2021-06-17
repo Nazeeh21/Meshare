@@ -24,6 +24,7 @@ import { CommentResolver } from "./resolvers/comment";
 import { createCommentLoader } from "./utils/createCommentLoader";
 import { Bookmark } from "./entities/Bookmark";
 import { BookmarkResolver } from "./resolvers/bookmark";
+import { createQuestionLoader } from "./utils/createQuestionLoader";
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -86,6 +87,7 @@ const main = async () => {
       userLoader: createUserLoader(),
       upvoteLoader: createUpvoteLoader(),
       commentLoader: createCommentLoader(),
+      questionLoader: createQuestionLoader()
     }),
   });
 

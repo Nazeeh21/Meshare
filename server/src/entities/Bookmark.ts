@@ -11,7 +11,9 @@ export class Bookmark extends BaseEntity {
   id!: number; // string is also supported
 
   @Field(() => Question)
-  @ManyToOne(() => Question, question => question.bookmarks)
+  @ManyToOne(() => Question, question => question.bookmarks, {
+    onDelete: 'CASCADE'
+  })
   question: Question;
 
   @Field()
