@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -7,9 +7,9 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Question } from './Question';
-import { User } from './User';
+} from "typeorm";
+import { Question } from "./Question";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
@@ -31,7 +31,7 @@ export class Comment extends BaseEntity {
   questionId: number;
 
   @Field()
-  @Column({type: 'boolean', default: false})
+  @Column({ type: "boolean", default: false })
   isAccepted: boolean;
 
   @Field(() => Question, { nullable: true })

@@ -6,11 +6,13 @@ query Questions($limit: Int!, $cursor: String) {
       title
       description
       imageUrls
+      points
       tags
       voteStatus
       githubId
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }

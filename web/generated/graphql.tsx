@@ -235,7 +235,7 @@ export type CommentsQuery = (
         & Pick<Question, 'id' | 'title' | 'description'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'avatarUrl' | 'name'>
+        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -256,7 +256,7 @@ export type QuestionQuery = (
       & Pick<Comment, 'id' | 'text' | 'isAccepted' | 'githubId'>
     )>, creator: (
       { __typename?: 'User' }
-      & Pick<User, 'name' | 'avatarUrl'>
+      & Pick<User, 'githubId' | 'name' | 'avatarUrl'>
     ) }
   )> }
 );
@@ -274,10 +274,10 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'points' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
-        & Pick<User, 'avatarUrl' | 'name'>
+        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -388,6 +388,7 @@ export const CommentsDocument = gql`
       }
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }
@@ -419,6 +420,7 @@ export const QuestionDocument = gql`
       githubId
     }
     creator {
+      githubId
       name
       avatarUrl
     }
@@ -438,11 +440,13 @@ export const QuestionsDocument = gql`
       title
       description
       imageUrls
+      points
       tags
       voteStatus
       githubId
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }
