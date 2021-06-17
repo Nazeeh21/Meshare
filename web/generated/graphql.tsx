@@ -274,7 +274,7 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'points' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
         & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
@@ -440,6 +440,7 @@ export const QuestionsDocument = gql`
       title
       description
       imageUrls
+      points
       tags
       voteStatus
       githubId

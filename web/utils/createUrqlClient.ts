@@ -1,8 +1,9 @@
 import { dedupExchange, Exchange, fetchExchange } from '@urql/core';
 import { Cache, cacheExchange, Resolver } from '@urql/exchange-graphcache';
 import Router from 'next/router';
-import { stringifyVariables } from 'urql';
+import { gql, stringifyVariables } from 'urql';
 import { pipe, tap } from 'wonka';
+import { VoteMutationVariables } from '../generated/graphql';
 import { isServer } from './isServer';
 
 const errorExchange: Exchange =
@@ -173,6 +174,50 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
             },
             createQuestion: (_result, _args, cache, _info) => {
               invalidateAllQuestions(cache);
+            },
+            vote: (_result, _args, cache, _info) => {
+              const { questionId, value } = _args as VoteMutationVariables;
+
+              const data = cache.readFragment(
+                gql`
+                  fragment _ on Question {
+                    id
+                    points
+                    voteStatus
+                  }
+                `,
+                { id: questionId }
+              ); //Data or null
+
+              // console.log('data: ', data);
+
+              if (data) {
+                let newPoints = data.points;
+                let newVoteStatus = data.voteStatus;
+
+                if (data.voteStatus === value) {
+                  newPoints = newPoints - value;
+                  newVoteStatus = null;
+                } else if (data.voteStatus !== value) {
+                  newPoints = newPoints + (!data.voteStatus ? 1 : 2) * value;
+                  newVoteStatus = value;
+                }
+
+                cache.writeFragment(
+                  gql`
+                    fragment _ on Question {
+                      id
+                      points
+                      voteStatus
+                    }
+                  `,
+                  {
+                    id: questionId,
+                    points: newPoints,
+                    voteStatus: newVoteStatus,
+                  }
+                );
+              }
             },
           },
         },
