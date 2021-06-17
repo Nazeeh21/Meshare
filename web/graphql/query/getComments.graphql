@@ -14,6 +14,7 @@ query Comments($questionId: Int!, $limit: Int!, $cursor: String){
     }
     createdAt
     creator {
+      githubId
       avatarUrl
       name
     }
