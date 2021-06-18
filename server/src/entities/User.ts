@@ -1,22 +1,29 @@
-import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Comment } from "./Comment";
-import { Question } from "./Question";
-import { Upvote } from "./Upvote";
+import { Field, ObjectType } from 'type-graphql';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
+import { Comment } from './Comment';
+import { Question } from './Question';
+import { Upvote } from './Upvote';
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
   @Field()
-  @Column("text", { nullable: true})
+  @Column('text', { nullable: true })
   name: String;
 
   @Field()
-  @PrimaryColumn("text", {unique: true})
+  @PrimaryColumn('text', { unique: true })
   githubId: String;
 
   @Field()
-  @Column("text", { nullable: true})
+  @Column('text', { nullable: true })
   avatarUrl: String;
 
   @OneToMany(() => Question, (question) => question.creator)
@@ -31,6 +38,6 @@ export class User extends BaseEntity {
   upvotes: Upvote[];
 
   @Field(() => String)
-  @CreateDateColumn({type: 'date'})
+  @CreateDateColumn({ type: 'date' })
   createdAt: Date;
 }

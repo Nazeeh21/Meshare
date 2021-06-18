@@ -7,7 +7,6 @@ import Question from '../Components/Question';
 import { useQuestionsQuery } from '../generated/graphql';
 import { setAcceptedAnswer } from '../redux/actions/questionAction';
 import { createUrqlClient } from '../utils/createUrqlClient';
-import { supabase } from '../utils/supabaseClient';
 
 const Home = () => {
   const dispatch = useDispatch();

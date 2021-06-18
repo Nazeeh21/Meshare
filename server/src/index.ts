@@ -22,6 +22,10 @@ import { createUserLoader } from "./utils/createUserLoader";
 import { createUpvoteLoader } from "./utils/createUpvoteLoader";
 import { CommentResolver } from "./resolvers/comment";
 import { createCommentLoader } from "./utils/createCommentLoader";
+import { Bookmark } from "./entities/Bookmark";
+import { BookmarkResolver } from "./resolvers/bookmark";
+import { createQuestionLoader } from "./utils/createQuestionLoader";
+import { createBookmarkLoader } from "./utils/createBookmarkLoader";
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
@@ -36,7 +40,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Question, User, Comment, Upvote],
+    entities: [Question, User, Comment, Upvote, Bookmark],
   });
 
   await conn.runMigrations();
@@ -75,7 +79,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver, UserResolver, CommentResolver],
+      resolvers: [QuestionResolver, UserResolver, CommentResolver, BookmarkResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
@@ -84,6 +88,8 @@ const main = async () => {
       userLoader: createUserLoader(),
       upvoteLoader: createUpvoteLoader(),
       commentLoader: createCommentLoader(),
+      questionLoader: createQuestionLoader(),
+      bookmarkLoader: createBookmarkLoader()
     }),
   });
 

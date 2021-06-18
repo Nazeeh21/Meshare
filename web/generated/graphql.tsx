@@ -14,6 +14,19 @@ export type Scalars = {
   Float: number;
 };
 
+export type Bookmark = {
+  __typename?: 'Bookmark';
+  question: Question;
+  questionId: Scalars['Float'];
+  githubId: Scalars['String'];
+  createdAt: Scalars['String'];
+  creator: User;
+};
+
+export type BookmarkInput = {
+  questionId: Scalars['Float'];
+};
+
 export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
@@ -38,6 +51,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   createComment: Comment;
   deleteComment: Scalars['Boolean'];
+  createBookmark: Scalars['Boolean'];
 };
 
 
@@ -68,6 +82,17 @@ export type MutationDeleteCommentArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationCreateBookmarkArgs = {
+  input: BookmarkInput;
+};
+
+export type PaginatedBookmarks = {
+  __typename?: 'PaginatedBookmarks';
+  bookmarks: Array<Bookmark>;
+  hasMore: Scalars['Boolean'];
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   comments: Array<Comment>;
@@ -86,6 +111,7 @@ export type Query = {
   question?: Maybe<Question>;
   getUser?: Maybe<User>;
   comments: PaginatedComments;
+  bookmarks: PaginatedBookmarks;
 };
 
 
@@ -106,6 +132,12 @@ export type QueryCommentsArgs = {
   questionId: Scalars['Int'];
 };
 
+
+export type QueryBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
 export type Question = {
   __typename?: 'Question';
   id: Scalars['Float'];
@@ -117,9 +149,11 @@ export type Question = {
   acceptedAnswer?: Maybe<Comment>;
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  bookmarkStatus?: Maybe<Scalars['Boolean']>;
   githubId: Scalars['String'];
   creator: User;
   createdAt: Scalars['String'];
+  bookmarks?: Maybe<Bookmark>;
 };
 
 export type QuestionInput = {
@@ -146,6 +180,16 @@ export type AcceptAnswerMutationVariables = Exact<{
 export type AcceptAnswerMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'acceptAnswer'>
+);
+
+export type CreateBookmarkMutationVariables = Exact<{
+  questionId: Scalars['Float'];
+}>;
+
+
+export type CreateBookmarkMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createBookmark'>
 );
 
 export type CreateCommentMutationVariables = Exact<{
@@ -215,6 +259,32 @@ export type VoteMutation = (
   & Pick<Mutation, 'vote'>
 );
 
+export type BookmarksQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BookmarksQuery = (
+  { __typename?: 'Query' }
+  & { bookmarks: (
+    { __typename?: 'PaginatedBookmarks' }
+    & Pick<PaginatedBookmarks, 'hasMore'>
+    & { bookmarks: Array<(
+      { __typename?: 'Bookmark' }
+      & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
+      & { question: (
+        { __typename?: 'Question' }
+        & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
+        & { creator: (
+          { __typename?: 'User' }
+          & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
+        ) }
+      ) }
+    )> }
+  ) }
+);
+
 export type CommentsQueryVariables = Exact<{
   questionId: Scalars['Int'];
   limit: Scalars['Int'];
@@ -274,10 +344,10 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'points' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -303,6 +373,15 @@ export const AcceptAnswerDocument = gql`
 
 export function useAcceptAnswerMutation() {
   return Urql.useMutation<AcceptAnswerMutation, AcceptAnswerMutationVariables>(AcceptAnswerDocument);
+};
+export const CreateBookmarkDocument = gql`
+    mutation CreateBookmark($questionId: Float!) {
+  createBookmark(input: {questionId: $questionId})
+}
+    `;
+
+export function useCreateBookmarkMutation() {
+  return Urql.useMutation<CreateBookmarkMutation, CreateBookmarkMutationVariables>(CreateBookmarkDocument);
 };
 export const CreateCommentDocument = gql`
     mutation CreateComment($text: String!, $questionId: Int!) {
@@ -370,6 +449,39 @@ export const VoteDocument = gql`
 
 export function useVoteMutation() {
   return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
+};
+export const BookmarksDocument = gql`
+    query Bookmarks($limit: Int!, $cursor: String) {
+  bookmarks(cursor: $cursor, limit: $limit) {
+    hasMore
+    bookmarks {
+      githubId
+      questionId
+      question {
+        id
+        title
+        description
+        imageUrls
+        tags
+        points
+        bookmarkStatus
+        voteStatus
+        githubId
+        createdAt
+        creator {
+          avatarUrl
+          name
+          githubId
+        }
+      }
+      createdAt
+    }
+  }
+}
+    `;
+
+export function useBookmarksQuery(options: Omit<Urql.UseQueryArgs<BookmarksQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BookmarksQuery>({ query: BookmarksDocument, ...options });
 };
 export const CommentsDocument = gql`
     query Comments($questionId: Int!, $limit: Int!, $cursor: String) {
@@ -440,13 +552,13 @@ export const QuestionsDocument = gql`
       title
       description
       imageUrls
-      points
       tags
+      points
+      bookmarkStatus
       voteStatus
       githubId
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }

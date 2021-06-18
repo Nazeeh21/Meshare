@@ -79,6 +79,23 @@ export class QuestionResolver {
     return upvote ? upvote.value : null;
   }
 
+  @FieldResolver(() => Boolean)
+  async bookmarkStatus(
+    @Root() question: Question,
+    @Ctx() { bookmarkLoader, req }: MyContext
+  ) {
+    if (!req.session.githubId) {
+      return null;
+    }
+
+    const bookmark = await bookmarkLoader.load({
+      questionId: question.id,
+      githubId: req.session.githubId,
+    });
+
+    return bookmark ? true : false;
+  }
+
   @Mutation(() => Question)
   @UseMiddleware(isAuth)
   async createQuestion(

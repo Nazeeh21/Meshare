@@ -13,6 +13,7 @@ import {
 import { Upvote } from './Upvote';
 import { User } from './User';
 import {Comment} from './Comment'
+import { Bookmark } from './Bookmark';
 
 @ObjectType()
 @Entity()
@@ -52,6 +53,9 @@ export class Question extends BaseEntity {
   @Field(() => Int, { nullable: true })
   voteStatus: number | null; // 1 or -1 or null
 
+  @Field(() => Boolean, { defaultValue: false })
+  bookmarkStatus: boolean;
+
   @Field()
   @Column()
   githubId: string;
@@ -68,5 +72,8 @@ export class Question extends BaseEntity {
   @OneToMany(() => Upvote, (upvote) => upvote.question)
   upvotes: Upvote[];
 
-
+  // Bookmark fields
+  @Field(() => Bookmark, {nullable: true})
+  @OneToMany(() => Bookmark, bookmark => bookmark.question)
+  bookmarks: Bookmark;
 }

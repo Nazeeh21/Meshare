@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { useVoteMutation } from "../generated/graphql";
+import { useCreateBookmarkMutation, useVoteMutation } from "../generated/graphql";
 import { Tag } from "./Tags";
 
 interface QuestionProps {
@@ -10,6 +10,13 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ question }) => {
   const router = useRouter();
   const [, vote] = useVoteMutation();
+  const [,createBookmark] = useCreateBookmarkMutation();
+
+  const bookmarkClicked = async () => {
+    await createBookmark({
+      questionId: question.id
+    })
+  }
 
   const upVoteClicked = async () => {
     await vote({
@@ -74,7 +81,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           </div>
           <div className="absolute right-0 top-0 p-3">
             {/* <Icon icon={bookmarkIcon} height={25} /> */}
-            <img className="h-6" src="/bookmark.svg" alt="bookmark" />
+            <img onClick={bookmarkClicked} className="h-6 cursor-pointer" src={question.bookmarkStatus ? '/bookmarkSelected.svg' :"/bookmark.svg"} alt="bookmark" />
           </div>
         </div>
         {question?.tags &&
