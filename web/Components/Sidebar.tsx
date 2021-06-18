@@ -36,7 +36,7 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       setActive(1);
     } else if (path == "/") {
       setActive(0);
-    } else if (path == "/bookmarked-question") {
+    } else if (path == "/bookmarked-questions") {
       setActive(3);
     } else {
       setActive(-1);
@@ -88,7 +88,7 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
           <SidebarButton
             click={() => {
               setActive(3);
-              router.push("/bookmarked-question");
+              router.push("/bookmarked-questions");
             }}
             isActive={active === 3}
             icon={faAddressBook}

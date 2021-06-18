@@ -1,0 +1,26 @@
+query Bookmarks {
+  bookmarks {
+    id
+    question {
+      id
+      title
+      description
+      imageUrls
+      tags
+      voteStatus
+      githubId
+      createdAt
+      creator {
+        avatarUrl
+        name
+        githubId
+      }
+    }
+    githubId
+    creator {
+      name
+      githubId
+    }
+    createdAt
+  }
+}

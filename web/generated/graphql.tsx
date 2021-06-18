@@ -14,6 +14,20 @@ export type Scalars = {
   Float: number;
 };
 
+export type Bookmark = {
+  __typename?: 'Bookmark';
+  id: Scalars['Float'];
+  question: Question;
+  questionId: Scalars['Float'];
+  githubId: Scalars['String'];
+  creator: User;
+  createdAt: Scalars['String'];
+};
+
+export type BookmarkInput = {
+  questionId: Scalars['Float'];
+};
+
 export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
@@ -38,6 +52,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   createComment: Comment;
   deleteComment: Scalars['Boolean'];
+  createBookmark: Scalars['Boolean'];
 };
 
 
@@ -68,6 +83,11 @@ export type MutationDeleteCommentArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationCreateBookmarkArgs = {
+  input: BookmarkInput;
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   comments: Array<Comment>;
@@ -86,6 +106,7 @@ export type Query = {
   question?: Maybe<Question>;
   getUser?: Maybe<User>;
   comments: PaginatedComments;
+  bookmarks: Array<Bookmark>;
 };
 
 
@@ -120,6 +141,7 @@ export type Question = {
   githubId: Scalars['String'];
   creator: User;
   createdAt: Scalars['String'];
+  bookmarks?: Maybe<Bookmark>;
 };
 
 export type QuestionInput = {
@@ -146,6 +168,16 @@ export type AcceptAnswerMutationVariables = Exact<{
 export type AcceptAnswerMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'acceptAnswer'>
+);
+
+export type CreateBookmarkMutationVariables = Exact<{
+  questionId: Scalars['Float'];
+}>;
+
+
+export type CreateBookmarkMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createBookmark'>
 );
 
 export type CreateCommentMutationVariables = Exact<{
@@ -213,6 +245,28 @@ export type VoteMutationVariables = Exact<{
 export type VoteMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'vote'>
+);
+
+export type BookmarksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BookmarksQuery = (
+  { __typename?: 'Query' }
+  & { bookmarks: Array<(
+    { __typename?: 'Bookmark' }
+    & Pick<Bookmark, 'id' | 'githubId' | 'createdAt'>
+    & { question: (
+      { __typename?: 'Question' }
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
+      ) }
+    ), creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'name' | 'githubId'>
+    ) }
+  )> }
 );
 
 export type CommentsQueryVariables = Exact<{
@@ -304,6 +358,15 @@ export const AcceptAnswerDocument = gql`
 export function useAcceptAnswerMutation() {
   return Urql.useMutation<AcceptAnswerMutation, AcceptAnswerMutationVariables>(AcceptAnswerDocument);
 };
+export const CreateBookmarkDocument = gql`
+    mutation CreateBookmark($questionId: Float!) {
+  createBookmark(input: {questionId: $questionId})
+}
+    `;
+
+export function useCreateBookmarkMutation() {
+  return Urql.useMutation<CreateBookmarkMutation, CreateBookmarkMutationVariables>(CreateBookmarkDocument);
+};
 export const CreateCommentDocument = gql`
     mutation CreateComment($text: String!, $questionId: Int!) {
   createComment(input: {text: $text}, questionId: $questionId) {
@@ -370,6 +433,38 @@ export const VoteDocument = gql`
 
 export function useVoteMutation() {
   return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
+};
+export const BookmarksDocument = gql`
+    query Bookmarks {
+  bookmarks {
+    id
+    question {
+      id
+      title
+      description
+      imageUrls
+      tags
+      voteStatus
+      githubId
+      createdAt
+      creator {
+        avatarUrl
+        name
+        githubId
+      }
+    }
+    githubId
+    creator {
+      name
+      githubId
+    }
+    createdAt
+  }
+}
+    `;
+
+export function useBookmarksQuery(options: Omit<Urql.UseQueryArgs<BookmarksQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BookmarksQuery>({ query: BookmarksDocument, ...options });
 };
 export const CommentsDocument = gql`
     query Comments($questionId: Int!, $limit: Int!, $cursor: String) {

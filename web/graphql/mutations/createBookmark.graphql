@@ -1,0 +1,3 @@
+mutation CreateBookmark($questionId: Float!) {
+  createBookmark(input: { questionId: $questionId })
+}
