@@ -257,7 +257,7 @@ export type BookmarksQuery = (
     & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
     & { question: (
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
         & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
@@ -442,6 +442,8 @@ export const BookmarksDocument = gql`
       description
       imageUrls
       tags
+      points
+      bookmarkStatus
       voteStatus
       githubId
       createdAt

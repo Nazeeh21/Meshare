@@ -8,6 +8,8 @@ query Bookmarks {
       description
       imageUrls
       tags
+      points
+      bookmarkStatus
       voteStatus
       githubId
       createdAt
@@ -18,5 +20,6 @@ query Bookmarks {
       }
     }
     createdAt
+    
   }
 }

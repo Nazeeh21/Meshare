@@ -3,7 +3,7 @@ import { Cache, cacheExchange, Resolver } from '@urql/exchange-graphcache';
 import Router from 'next/router';
 import { gql, stringifyVariables } from 'urql';
 import { pipe, tap } from 'wonka';
-import { VoteMutationVariables } from '../generated/graphql';
+import { CreateBookmarkMutationVariables, VoteMutationVariables } from '../generated/graphql';
 import { isServer } from './isServer';
 
 const errorExchange: Exchange =
@@ -185,7 +185,32 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
               invalidateAllQuestions(cache);
             },
             createBookmark: (_result, _args, cache, _info) => {
-              invalidateAllBookmarks(cache);
+              const {questionId} = _args as CreateBookmarkMutationVariables
+
+              const data = cache.readFragment(
+                gql`
+                fragment _ on Question {
+                  id
+                  bookmarkStatus
+                }
+                `,
+                {id: questionId}
+              )
+
+              if(data) {
+                const newBookMarkStatus = !data.bookmarkStatus
+
+                cache.writeFragment(
+                  gql`
+                  fragment _ on Question {
+                    id
+                    bookmarkStatus
+                  }
+                  `,
+                  {id: questionId, bookmarkStatus: newBookMarkStatus}
+                )
+              }
+              // invalidateAllBookmarks(cache);
             },
             vote: (_result, _args, cache, _info) => {
               const { questionId, value } = _args as VoteMutationVariables;
