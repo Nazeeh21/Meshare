@@ -53,6 +53,9 @@ export class Question extends BaseEntity {
   @Field(() => Int, { nullable: true })
   voteStatus: number | null; // 1 or -1 or null
 
+  @Field(() => Boolean, { defaultValue: false })
+  bookmarkStatus: boolean;
+
   @Field()
   @Column()
   githubId: string;

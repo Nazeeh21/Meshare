@@ -1,6 +1,7 @@
 query Bookmarks {
   bookmarks {
-    id
+    githubId
+    questionId
     question {
       id
       title
@@ -15,11 +16,6 @@ query Bookmarks {
         name
         githubId
       }
-    }
-    githubId
-    creator {
-      name
-      githubId
     }
     createdAt
   }

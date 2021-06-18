@@ -74,7 +74,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           </div>
           <div className="absolute right-0 top-0 p-3">
             {/* <Icon icon={bookmarkIcon} height={25} /> */}
-            <img className="h-6" src="/bookmark.svg" alt="bookmark" />
+            <img className="h-6 cursor-pointer" src={question.bookmarkStatus ? '/bookmarkSelected.svg' :"/bookmark.svg"} alt="bookmark" />
           </div>
         </div>
         {question?.tags &&

@@ -16,12 +16,11 @@ export type Scalars = {
 
 export type Bookmark = {
   __typename?: 'Bookmark';
-  id: Scalars['Float'];
   question: Question;
   questionId: Scalars['Float'];
   githubId: Scalars['String'];
-  creator: User;
   createdAt: Scalars['String'];
+  creator: User;
 };
 
 export type BookmarkInput = {
@@ -138,6 +137,7 @@ export type Question = {
   acceptedAnswer?: Maybe<Comment>;
   points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  bookmarkStatus?: Maybe<Scalars['Boolean']>;
   githubId: Scalars['String'];
   creator: User;
   createdAt: Scalars['String'];
@@ -254,7 +254,7 @@ export type BookmarksQuery = (
   { __typename?: 'Query' }
   & { bookmarks: Array<(
     { __typename?: 'Bookmark' }
-    & Pick<Bookmark, 'id' | 'githubId' | 'createdAt'>
+    & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
     & { question: (
       { __typename?: 'Question' }
       & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
@@ -262,9 +262,6 @@ export type BookmarksQuery = (
         { __typename?: 'User' }
         & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
       ) }
-    ), creator: (
-      { __typename?: 'User' }
-      & Pick<User, 'name' | 'githubId'>
     ) }
   )> }
 );
@@ -328,10 +325,10 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'points' | 'tags' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -437,7 +434,8 @@ export function useVoteMutation() {
 export const BookmarksDocument = gql`
     query Bookmarks {
   bookmarks {
-    id
+    githubId
+    questionId
     question {
       id
       title
@@ -452,11 +450,6 @@ export const BookmarksDocument = gql`
         name
         githubId
       }
-    }
-    githubId
-    creator {
-      name
-      githubId
     }
     createdAt
   }
@@ -535,13 +528,13 @@ export const QuestionsDocument = gql`
       title
       description
       imageUrls
-      points
       tags
+      points
+      bookmarkStatus
       voteStatus
       githubId
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }

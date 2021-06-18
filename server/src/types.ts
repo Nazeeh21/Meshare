@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { createBookmarkLoader } from "./utils/createBookmarkLoader";
 import { createCommentLoader } from "./utils/createCommentLoader";
 import { createQuestionLoader } from "./utils/createQuestionLoader";
 import { createUpvoteLoader } from "./utils/createUpvoteLoader";
@@ -12,5 +13,6 @@ export type MyContext = {
   upvoteLoader: ReturnType<typeof createUpvoteLoader>;
   commentLoader: ReturnType<typeof createCommentLoader>;
   questionLoader: ReturnType<typeof createQuestionLoader>;
+  bookmarkLoader: ReturnType<typeof createBookmarkLoader>;
   // @ts-ignore-end
 }

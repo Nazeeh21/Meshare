@@ -7,7 +7,6 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { Bookmark } from './Bookmark';
 import { Comment } from './Comment';
 import { Question } from './Question';
 import { Upvote } from './Upvote';
@@ -41,8 +40,4 @@ export class User extends BaseEntity {
   @Field(() => String)
   @CreateDateColumn({ type: 'date' })
   createdAt: Date;
-
-  // Bookmark fields
-  @OneToMany(() => Bookmark, (bookmark) => bookmark.creator)
-  bookmarks: Bookmark[];
 }
