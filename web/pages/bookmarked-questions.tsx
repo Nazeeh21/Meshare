@@ -26,7 +26,7 @@ const bookmarkedQuestions: React.FC<{}> = ({}) => {
     );
   }
   return <div>
-    {data?.bookmarks.map(bookmark => <Question key={bookmark.id} question={bookmark.question} />)}
+    {data?.bookmarks.map((bookmark, index) => <Question key={index} question={bookmark.question} />)}
   </div>;
 };
 
