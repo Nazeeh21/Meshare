@@ -1,25 +1,27 @@
-query Bookmarks {
-  bookmarks {
-    githubId
-    questionId
-    question {
-      id
-      title
-      description
-      imageUrls
-      tags
-      points
-      bookmarkStatus
-      voteStatus
+query Bookmarks($limit: Int!, $cursor: String) {
+  bookmarks(cursor: $cursor, limit: $limit) {
+    hasMore
+    bookmarks {
       githubId
-      createdAt
-      creator {
-        avatarUrl
-        name
+      questionId
+      question {
+        id
+        title
+        description
+        imageUrls
+        tags
+        points
+        bookmarkStatus
+        voteStatus
         githubId
+        createdAt
+        creator {
+          avatarUrl
+          name
+          githubId
+        }
       }
+      createdAt
     }
-    createdAt
-    
   }
 }

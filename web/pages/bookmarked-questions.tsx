@@ -1,5 +1,6 @@
 import { withUrqlClient } from 'next-urql';
 import React from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import Question from '../Components/Question';
 import { useBookmarksQuery } from '../generated/graphql';
@@ -8,10 +9,15 @@ import { isServer } from '../utils/isServer';
 import { useIsAuth } from '../utils/useIsAuth';
 
 const bookmarkedQuestions: React.FC<{}> = ({}) => {
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as null | string
+  })
   useIsAuth();
-  const [{ data, error, fetching }] = useBookmarksQuery({
+  const [{data, error, fetching}] = useBookmarksQuery({
     pause: isServer(),
-  });
+    variables
+  })
 
   useEffect(() => {
     console.log('data: ', data);
@@ -26,7 +32,7 @@ const bookmarkedQuestions: React.FC<{}> = ({}) => {
     );
   }
   return <div>
-    {data?.bookmarks.map((bookmark, index) => <Question key={index} question={bookmark.question} />)}
+    {data?.bookmarks.bookmarks.map((bookmark, index) => <Question key={index} question={bookmark.question} />)}
   </div>;
 };
 

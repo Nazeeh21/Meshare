@@ -3,7 +3,10 @@ import { Cache, cacheExchange, Resolver } from '@urql/exchange-graphcache';
 import Router from 'next/router';
 import { gql, stringifyVariables } from 'urql';
 import { pipe, tap } from 'wonka';
-import { CreateBookmarkMutationVariables, VoteMutationVariables } from '../generated/graphql';
+import {
+  CreateBookmarkMutationVariables,
+  VoteMutationVariables,
+} from '../generated/graphql';
 import { isServer } from './isServer';
 
 const errorExchange: Exchange =
@@ -119,6 +122,51 @@ const cursorPaginationforComments = (): Resolver => {
   };
 };
 
+const cursorPaginationforBookmarks = (): Resolver => {
+  return (_parent, fieldArgs, cache, info) => {
+    const { parentKey: entityKey, fieldName } = info;
+
+    const allFields = cache.inspectFields(entityKey);
+
+    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
+
+    const size = fieldInfos.length;
+    if (size === 0) {
+      return undefined;
+    }
+
+    const filedKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
+
+    const isItInTheCache = cache.resolve(
+      cache.resolve(entityKey, filedKey) as string,
+      'bookmarks'
+    );
+
+    info.partial = !isItInTheCache;
+
+    const results: string[] = [];
+
+    let hasMore = true;
+
+    fieldInfos.forEach((fieldInfo) => {
+      const key = cache.resolve(entityKey, fieldInfo.fieldKey) as string;
+      const data = cache.resolve(key, 'bookmarks') as string[];
+      const _hasMore = cache.resolve(key, 'hasMore');
+
+      if (!_hasMore) {
+        hasMore = _hasMore as boolean;
+      }
+
+      results.push(...data);
+    });
+    return {
+      __typename: 'PaginatedBookmarks',
+      hasMore,
+      bookmarks: results,
+    };
+  };
+};
+
 const invalidateAllBookmarks = (cache: Cache) => {
   const allFields = cache.inspectFields('Query');
   const fieldInfos = allFields.filter((info) => info.fieldName === 'bookmarks');
@@ -169,11 +217,13 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
         keys: {
           PaginatedQuestions: () => null,
           PaginatedComments: () => null,
+          PaginatedBookmarks: () => null,
         },
         resolvers: {
           Query: {
             questions: cursorPagination(),
             comments: cursorPaginationforComments(),
+            bookmarks: cursorPaginationforBookmarks(),
           },
         },
         updates: {
@@ -185,32 +235,33 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
               invalidateAllQuestions(cache);
             },
             createBookmark: (_result, _args, cache, _info) => {
-              const {questionId} = _args as CreateBookmarkMutationVariables
+              // const { questionId } = _args as CreateBookmarkMutationVariables;
 
-              const data = cache.readFragment(
-                gql`
-                fragment _ on Question {
-                  id
-                  bookmarkStatus
-                }
-                `,
-                {id: questionId}
-              )
+              // const data = cache.readFragment(
+              //   gql`
+              //     fragment _ on Question {
+              //       id
+              //       bookmarkStatus
+              //     }
+              //   `,
+              //   { id: questionId }
+              // );
 
-              if(data) {
-                const newBookMarkStatus = !data.bookmarkStatus
+              // if (data) {
+              //   const newBookMarkStatus = !data.bookmarkStatus;
 
-                cache.writeFragment(
-                  gql`
-                  fragment _ on Question {
-                    id
-                    bookmarkStatus
-                  }
-                  `,
-                  {id: questionId, bookmarkStatus: newBookMarkStatus}
-                )
-              }
-              // invalidateAllBookmarks(cache);
+              //   cache.writeFragment(
+              //     gql`
+              //       fragment _ on Question {
+              //         id
+              //         bookmarkStatus
+              //       }
+              //     `,
+              //     { id: questionId, bookmarkStatus: newBookMarkStatus }
+              //   );
+              // }
+              invalidateAllQuestions(cache);
+              invalidateAllBookmarks(cache);
             },
             vote: (_result, _args, cache, _info) => {
               const { questionId, value } = _args as VoteMutationVariables;

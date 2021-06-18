@@ -87,6 +87,12 @@ export type MutationCreateBookmarkArgs = {
   input: BookmarkInput;
 };
 
+export type PaginatedBookmarks = {
+  __typename?: 'PaginatedBookmarks';
+  bookmarks: Array<Bookmark>;
+  hasMore: Scalars['Boolean'];
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   comments: Array<Comment>;
@@ -105,7 +111,7 @@ export type Query = {
   question?: Maybe<Question>;
   getUser?: Maybe<User>;
   comments: PaginatedComments;
-  bookmarks: Array<Bookmark>;
+  bookmarks: PaginatedBookmarks;
 };
 
 
@@ -124,6 +130,12 @@ export type QueryCommentsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
   questionId: Scalars['Int'];
+};
+
+
+export type QueryBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 export type Question = {
@@ -247,23 +259,30 @@ export type VoteMutation = (
   & Pick<Mutation, 'vote'>
 );
 
-export type BookmarksQueryVariables = Exact<{ [key: string]: never; }>;
+export type BookmarksQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
 export type BookmarksQuery = (
   { __typename?: 'Query' }
-  & { bookmarks: Array<(
-    { __typename?: 'Bookmark' }
-    & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
-    & { question: (
-      { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
+  & { bookmarks: (
+    { __typename?: 'PaginatedBookmarks' }
+    & Pick<PaginatedBookmarks, 'hasMore'>
+    & { bookmarks: Array<(
+      { __typename?: 'Bookmark' }
+      & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
+      & { question: (
+        { __typename?: 'Question' }
+        & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
+        & { creator: (
+          { __typename?: 'User' }
+          & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
+        ) }
       ) }
-    ) }
-  )> }
+    )> }
+  ) }
 );
 
 export type CommentsQueryVariables = Exact<{
@@ -432,28 +451,31 @@ export function useVoteMutation() {
   return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
 };
 export const BookmarksDocument = gql`
-    query Bookmarks {
-  bookmarks {
-    githubId
-    questionId
-    question {
-      id
-      title
-      description
-      imageUrls
-      tags
-      points
-      bookmarkStatus
-      voteStatus
+    query Bookmarks($limit: Int!, $cursor: String) {
+  bookmarks(cursor: $cursor, limit: $limit) {
+    hasMore
+    bookmarks {
       githubId
-      createdAt
-      creator {
-        avatarUrl
-        name
+      questionId
+      question {
+        id
+        title
+        description
+        imageUrls
+        tags
+        points
+        bookmarkStatus
+        voteStatus
         githubId
+        createdAt
+        creator {
+          avatarUrl
+          name
+          githubId
+        }
       }
+      createdAt
     }
-    createdAt
   }
 }
     `;

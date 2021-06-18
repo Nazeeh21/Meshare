@@ -5,7 +5,9 @@ import {
   Field,
   FieldResolver,
   InputType,
+  Int,
   Mutation,
+  ObjectType,
   Query,
   Resolver,
   Root,
@@ -21,6 +23,15 @@ import { Question } from '../entities/Question';
 class BookmarkInput {
   @Field()
   questionId: number;
+}
+
+@ObjectType()
+class PaginatedBookmarks {
+  @Field(() => [Bookmark])
+  bookmarks: Bookmark[];
+
+  @Field()
+  hasMore: Boolean;
 }
 
 @Resolver(Bookmark)
@@ -55,18 +66,37 @@ export class BookmarkResolver {
     return true;
   }
 
-  @Query(() => [Bookmark])
+  @Query(() => PaginatedBookmarks)
   @UseMiddleware(isAuth)
-  async bookmarks(@Ctx() { req }: MyContext): Promise<[Bookmark]> {
+  async bookmarks(
+    @Arg('limit', () => Int) limit: number,
+    @Arg('cursor', () => String, { nullable: true }) cursor: string | null,
+    @Ctx() { req }: MyContext
+  ): Promise<PaginatedBookmarks> {
+    const realLimit = Math.min(50, limit);
+
+    const realLimitPlusOne = realLimit + 1;
+
+    const replacements: any[] = [realLimitPlusOne];
+
+    if (cursor) {
+      replacements.push(new Date(+cursor));
+    }
     const bookmarks = await getConnection().query(
       `
       select b.*
       from bookmark b
-      where 
+      where
+      ${cursor ? ` q."createdAt" < $2 and` : ''}
       "githubId" = '${req.session.githubId}'
       order by b."createdAt" ASC
-      `
+      limit $1
+      `,
+      replacements
     );
-    return bookmarks;
+    return {
+      bookmarks: bookmarks.slice(0, realLimit),
+      hasMore: bookmarks.length === realLimitPlusOne,
+    };
   }
 }
