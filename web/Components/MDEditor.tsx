@@ -7,11 +7,11 @@ const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
   ssr: false,
 });
 
-export default () => {
+const Markdwon = () => {
   return (
     <div className='w-full h-full'>
       <MdEditor
-      readOnly={false}
+        readOnly={false}
         config={{
           view: {
             menu: true,
@@ -27,9 +27,9 @@ export default () => {
           // imageUrl: 'https://octodex.github.com/images/minion.png',
           syncScrollMode: ['leftFollowRight', 'rightFollowLeft'],
         }}
-        onChange={({html, text}, event) => {
+        onChange={({ html, text }, event) => {
           console.log('text: ', text);
-          console.log('html: ', html)
+          console.log('html: ', html);
         }}
         style={{ height: '100%' }}
         renderHTML={(text: string) => <ReactMarkdown>{text}</ReactMarkdown>}
@@ -37,3 +37,5 @@ export default () => {
     </div>
   );
 };
+
+export default Markdwon;
