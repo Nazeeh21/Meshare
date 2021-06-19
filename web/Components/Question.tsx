@@ -44,7 +44,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
       />
       <div className="w-full rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
         <div className="flex justify-space items-center mb-4">
-          {router.pathname === "/" ? (
+          {router.pathname !== "/questions/[id]" ? (
             <div
               className="cursor-pointer"
               onClick={() => router.push(`/questions/${question.id}`)}

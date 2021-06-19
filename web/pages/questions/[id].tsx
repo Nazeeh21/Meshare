@@ -2,6 +2,7 @@ import { withUrqlClient } from 'next-urql';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Comments from '../../Components/Comments';
+import MarkDown from '../../Components/MDEditor';
 import Question from '../../Components/Question';
 import { setAcceptedAnswer } from '../../redux/actions/questionAction';
 import { createUrqlClient } from '../../utils/createUrqlClient';
@@ -48,6 +49,7 @@ const DetailedQuestion = () => {
       <div className='mt-6'>
         <Comments pageProps />
       </div>
+      <div className='w-10/12 m-auto h-64'><MarkDown /></div>
     </div>
   );
 };
