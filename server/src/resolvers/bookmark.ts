@@ -89,7 +89,7 @@ export class BookmarkResolver {
       where
       ${cursor ? ` q."createdAt" < $2 and` : ''}
       "githubId" = '${req.session.githubId}'
-      order by b."createdAt" ASC
+      order by b."createdAt" DESC
       limit $1
       `,
       replacements
