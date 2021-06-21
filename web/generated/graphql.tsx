@@ -31,6 +31,7 @@ export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
   text: Scalars['String'];
+  html: Scalars['String'];
   githubId: Scalars['String'];
   questionId: Scalars['Float'];
   isAccepted: Scalars['Boolean'];
@@ -41,6 +42,7 @@ export type Comment = {
 
 export type CommentInput = {
   text: Scalars['String'];
+  html: Scalars['String'];
 };
 
 export type Mutation = {
@@ -194,6 +196,7 @@ export type CreateBookmarkMutation = (
 
 export type CreateCommentMutationVariables = Exact<{
   text: Scalars['String'];
+  html: Scalars['String'];
   questionId: Scalars['Int'];
 }>;
 
@@ -299,13 +302,13 @@ export type CommentsQuery = (
     & Pick<PaginatedComments, 'hasMore'>
     & { comments: Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
+      & Pick<Comment, 'id' | 'text' | 'html' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
       & { acceptedByQuestion?: Maybe<(
         { __typename?: 'Question' }
         & Pick<Question, 'id' | 'title' | 'description'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -384,8 +387,8 @@ export function useCreateBookmarkMutation() {
   return Urql.useMutation<CreateBookmarkMutation, CreateBookmarkMutationVariables>(CreateBookmarkDocument);
 };
 export const CreateCommentDocument = gql`
-    mutation CreateComment($text: String!, $questionId: Int!) {
-  createComment(input: {text: $text}, questionId: $questionId) {
+    mutation CreateComment($text: String!, $html: String!, $questionId: Int!) {
+  createComment(input: {text: $text, html: $html}, questionId: $questionId) {
     id
     text
     githubId
@@ -490,6 +493,7 @@ export const CommentsDocument = gql`
     comments {
       id
       text
+      html
       githubId
       questionId
       isAccepted
@@ -500,7 +504,6 @@ export const CommentsDocument = gql`
       }
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }

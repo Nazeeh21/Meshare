@@ -23,6 +23,9 @@ import { Question } from '../entities/Question';
 class CommentInput {
   @Field()
   text: string;
+
+  @Field()
+  html: string;
 }
 
 @ObjectType()
