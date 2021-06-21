@@ -81,11 +81,13 @@ const DetailedQuestion = () => {
       <div className='mt-6 overflow-y-auto'>
         <Comments pageProps />
       </div>
-      <div className='w-full lg:w-11/12 xl:w-10/12 mt-4 mb-4 m-auto min-h-64  overflow-y-auto'>
+      <div className='w-full lg:w-11/12 xl:w-10/12 mt-4 mb-4 m-auto '>
+        <div className='w-full h-64 overflow-y-auto'>
         <MarkDown comment={comment} setComment={setComment} />
+        </div>
         <button
           onClick={addCommentHandler}
-          className='border-none bg-iconBlue text-blue font-semibold text-lg mt-4 rounded-md p-2 pl-3 pr-3'
+          className='border-none bg-iconBlue text-blue font-semibold text-lg mt-4 mb-12 sm:mb-12 rounded-md p-2 pl-3 pr-3'
         >
           Add answer
         </button>

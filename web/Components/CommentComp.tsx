@@ -40,7 +40,8 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
               : 'text-white bg-iconBlue'
           } rounded-tl-none p-2 mb-4 pl-3`}
         >
-          <div>
+          <div className='overflow-x-auto'>
+            {/* {comment.text} */}
             <ReactMarkdown>
               {comment.text}
             </ReactMarkdown>
