@@ -1,5 +1,6 @@
 import { withUrqlClient } from 'next-urql';
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Comments from '../../Components/Comments';
 import MarkDown from '../../Components/MDEditor';
@@ -12,6 +13,17 @@ import { useGetQuestionFromUrl } from '../../utils/useGetQuestionFromUrl';
 const DetailedQuestion = () => {
   const dispatch = useDispatch();
   const [{ data, error, fetching }] = useGetQuestionFromUrl();
+  const [comment, setComment] = useState<{
+    text: String;
+    html: String;
+  }>({
+    text: '',
+    html: '',
+  });
+
+  useEffect(() => {
+    console.log('comment state: ', comment);
+  }, [comment]);
 
   if (fetching) {
     return (
@@ -38,18 +50,23 @@ const DetailedQuestion = () => {
   }
 
   return (
-    <div className='overflow-y-auto'>
+    <div className='overflow-y-auto h-full'>
       {data?.question && <Question question={data.question} />}
-      {data?.question?.imageUrls?.length !== 0 &&
-        <div className='ml-12 flex justify-around'>{data?.question?.imageUrls?.map((image) => (
-          <div className=' inline-block mr-4 border-activityBlue border-2'>
-            <GetAvatar path={image} styles='w-auto h-48' />
-          </div>
-        ))}</div>}
+      {data?.question?.imageUrls?.length !== 0 && (
+        <div className='ml-12 flex justify-around'>
+          {data?.question?.imageUrls?.map((image) => (
+            <div className=' inline-block mr-4 border-activityBlue border-2'>
+              <GetAvatar path={image} styles='w-auto h-48' />
+            </div>
+          ))}
+        </div>
+      )}
       <div className='mt-6'>
         <Comments pageProps />
       </div>
-      <div className='w-10/12 m-auto h-64'><MarkDown /></div>
+      <div className='w-10/12 mt-4 m-auto h-64'>
+        <MarkDown comment={comment} setComment={setComment} />
+      </div>
     </div>
   );
 };

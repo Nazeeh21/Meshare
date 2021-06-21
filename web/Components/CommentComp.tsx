@@ -16,7 +16,11 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
   return (
     <div
       className={`w-full mb-2 
-      ${acceptedAnswer.id === comment.id ? 'float-left' : 'float-right'}
+      ${
+        acceptedAnswer && acceptedAnswer?.id === comment.id
+          ? 'float-left'
+          : 'float-right'
+      }
       `}
     >
       <div className='flex'>
@@ -30,7 +34,7 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
         />
         <div
           className={`rounded-md ${
-            acceptedAnswer.id === comment.id
+            acceptedAnswer && acceptedAnswer?.id === comment.id
               ? 'bg-acceptedAnswer text-black mr-0'
               : 'text-white bg-iconBlue'
           } rounded-tl-none p-2 mb-4 pl-3`}
