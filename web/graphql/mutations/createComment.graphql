@@ -1,5 +1,5 @@
-mutation CreateComment($text: String!, $questionId: Int!) {
-  createComment(input: { text: $text }, questionId: $questionId) {
+mutation CreateComment($text: String!, $html: String!, $questionId: Int!) {
+  createComment(input: { text: $text, html: $html }, questionId: $questionId) {
     id
     text
     githubId

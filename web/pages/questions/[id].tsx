@@ -5,21 +5,38 @@ import { useDispatch } from 'react-redux';
 import Comments from '../../Components/Comments';
 import MarkDown from '../../Components/MDEditor';
 import Question from '../../Components/Question';
+import { useCreateCommentMutation } from '../../generated/graphql';
 import { setAcceptedAnswer } from '../../redux/actions/questionAction';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import { GetAvatar } from '../../utils/getAvatar';
+import { useGetIntId } from '../../utils/useGetIntId';
 import { useGetQuestionFromUrl } from '../../utils/useGetQuestionFromUrl';
 
 const DetailedQuestion = () => {
+  const questionId = useGetIntId();
   const dispatch = useDispatch();
   const [{ data, error, fetching }] = useGetQuestionFromUrl();
   const [comment, setComment] = useState<{
-    text: String;
-    html: String;
+    text: string;
+    html: string;
   }>({
     text: '',
     html: '',
   });
+
+  const [, createComment] = useCreateCommentMutation();
+
+  const addCommentHandler = async () => {
+    console.log('creating comment');
+    const { error } = await createComment({ ...comment, questionId });
+
+    if (!error) {
+      console.log('comment created successfully');
+      setComment({ html: '', text: '' });
+    } else {
+      console.log('error while creating comment: ', error);
+    }
+  };
 
   useEffect(() => {
     console.log('comment state: ', comment);
@@ -61,11 +78,17 @@ const DetailedQuestion = () => {
           ))}
         </div>
       )}
-      <div className='mt-6'>
+      <div className='mt-6 overflow-y-auto'>
         <Comments pageProps />
       </div>
-      <div className='w-10/12 mt-4 m-auto h-64'>
+      <div className='w-full lg:w-11/12 xl:w-10/12 mt-4 mb-4 m-auto min-h-64  overflow-y-auto'>
         <MarkDown comment={comment} setComment={setComment} />
+        <button
+          onClick={addCommentHandler}
+          className='border-none bg-iconBlue text-blue font-semibold text-lg mt-4 rounded-md p-2 pl-3 pr-3'
+        >
+          Add answer
+        </button>
       </div>
     </div>
   );
