@@ -83,7 +83,7 @@ const DetailedQuestion = () => {
       </div>
       <div className='w-full lg:w-11/12 xl:w-10/12 mt-4 mb-4 m-auto '>
         <div className='w-full h-64 overflow-y-auto'>
-        <MarkDown value={comment} setValue={setComment} />
+          <MarkDown value={comment} setValue={setComment} />
         </div>
         <button
           onClick={addCommentHandler}
@@ -92,6 +92,31 @@ const DetailedQuestion = () => {
           Add answer
         </button>
       </div>
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          width: 0.6rem;
+          height: 4rem;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          display: none;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #132b4f;
+          border: 1px solid #637b9f;
+          border-radius: 0.5rem;
+          margin-left: 0.2rem;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #fff;
+          width: 0.8rem;
+        }
+      `}</style>
     </div>
   );
 };

@@ -42,9 +42,7 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
         >
           <div className='overflow-x-auto'>
             {/* {comment.text} */}
-            <ReactMarkdown>
-              {comment.text}
-            </ReactMarkdown>
+            <ReactMarkdown>{comment.text}</ReactMarkdown>
           </div>
           <div className='mt-4'>
             Posted by:{' '}
@@ -58,8 +56,31 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
         </div>
       </div>
       <style jsx>{`
+        ::-webkit-scrollbar {
+          height: 0.6rem;
+          width: 4rem;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          display: none;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #1389E6;
+          border: 1px solid #1C3F73;
+          border-radius: 0.5rem;
+          margin-left: 0.2rem;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #fff;
+          width: 0.8rem;
+        }
         pre {
-          background: #000 !important;
+          background: #000!important;
         }
       `}</style>
     </div>
