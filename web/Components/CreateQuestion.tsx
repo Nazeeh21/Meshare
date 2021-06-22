@@ -1,28 +1,31 @@
-import { withUrqlClient } from 'next-urql';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState, useRef } from 'react';
-import Autosuggest from 'react-autosuggest';
-import TagsInput from 'react-tagsinput';
-import { useCreateQuestionMutation } from '../generated/graphql';
-import { DEFAULT_AVATARS_BUCKET } from '../lib/constants';
-import { createUrqlClient } from '../utils/createUrqlClient';
-import { supabase } from '../utils/supabaseClient';
-import { useIsAuth } from '../utils/useIsAuth';
-import UploadComponent from './UploadComponent';
-import MarkDown from './MDEditor';
+import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/router";
+import React, { useEffect, useState, useRef } from "react";
+import Autosuggest from "react-autosuggest";
+import TagsInput from "react-tagsinput";
+import { useCreateQuestionMutation } from "../generated/graphql";
+import { DEFAULT_AVATARS_BUCKET } from "../lib/constants";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { supabase } from "../utils/supabaseClient";
+import { useIsAuth } from "../utils/useIsAuth";
+import UploadComponent from "./UploadComponent";
+import MarkDown from "./MDEditor";
+import Compressor from "compressorjs";
 
 const CreateQuestion = () => {
   useIsAuth();
   const router = useRouter();
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
-  const suggestions = [{ name: 'react' }, { name: 'react-native' }];
+  const suggestions = [{ name: "react" }, { name: "react-native" }];
   const [question, setQuestion] = useState<{ text: string; html: string }>({
-    text: '',
-    html: '',
+    text: "",
+    html: "",
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [compressedFile, setCompressedFile] = useState(null);
+  const [isCompressed, setIsCompressed] = useState(false);
 
   const [, createQuestion] = useCreateQuestionMutation();
 
@@ -37,8 +40,8 @@ const CreateQuestion = () => {
     });
 
     if (!error) {
-      setSubmitting(false)
-      router.push('/');
+      setSubmitting(false);
+      router.push("/");
     }
     setSubmitting(false);
   };
@@ -49,22 +52,32 @@ const CreateQuestion = () => {
     }
     const UploadedImageData = await Promise.all(
       files.map(async (file) => {
-        const { data, error } = await supabase.storage
-          .from(DEFAULT_AVATARS_BUCKET)
-          .upload(file.name, file);
-        if (error) {
-          console.log('error in uploading image: ', error);
-          throw error;
-        }
-        if (data) {
-          console.log('image uploaded successfully: ', data);
-          console.log('Logging image_path: ', data.Key.substring(8));
-          return data.Key.substring(8);
+        new Compressor(file, {
+          quality: 0.6,
+          success: (compressedResult) => {
+            setCompressedFile(compressedResult);
+            setIsCompressed(true);
+          },
+        });
+        if (isCompressed) {
+          const { data, error } = await supabase.storage
+            .from(DEFAULT_AVATARS_BUCKET)
+            .upload(file.name, compressedFile);
+          if (error) {
+            console.log("error in uploading image: ", error);
+            throw error;
+          }
+          if (data) {
+            console.log("image uploaded successfully: ", data);
+            console.log("Logging image_path: ", data.Key.substring(8));
+            return data.Key.substring(8);
+          }
+          setIsCompressed(false);
         }
       })
     );
 
-    console.log('UploadedImageData: ', UploadedImageData);
+    console.log("UploadedImageData: ", UploadedImageData);
     return UploadedImageData;
   };
 
@@ -74,14 +87,14 @@ const CreateQuestion = () => {
 
   function autosuggestRenderInput({ addTag, ...props }) {
     const handleOnChange = (e, { newValue, method }) => {
-      if (method === 'enter') {
+      if (method === "enter") {
         e.preventDefault();
       } else {
         props.onChange(e);
       }
     };
 
-    const inputValue = (props.value && props.value.trim().toLowerCase()) || '';
+    const inputValue = (props.value && props.value.trim().toLowerCase()) || "";
     const inputLength = inputValue.length;
 
     let suggestion = suggestions.filter((state) => {
@@ -107,20 +120,20 @@ const CreateQuestion = () => {
 
   return (
     <div>
-      <div className='h-screen'>
+      <div className="h-screen">
         {/* <input
           className='w-full mb-2 rounded-md placeholder-greyST text-black bg-iconGrey outline-none pt-2 px-2'
           placeholder='Enter title...'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         /> */}
-        <div className='w-full mt-4 mb-4 m-auto '>
-          <div className='w-full h-64 overflow-y-auto'>
+        <div className="w-full mt-4 mb-4 m-auto ">
+          <div className="w-full h-64 overflow-y-auto">
             <MarkDown value={question} setValue={setQuestion} />
           </div>
         </div>
 
-        <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
+        <div className="w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md">
           {/* <textarea
             className='w-full h-16 rounded-md placeholder-greyST text-black bg-iconGrey outline-none pt-2 px-2'
             value={description}
@@ -134,15 +147,15 @@ const CreateQuestion = () => {
           />
         </div>
         <TagsInput
-          className='mt-10 rounded-md w-full bg-iconGrey'
+          className="mt-10 rounded-md w-full bg-iconGrey"
           renderInput={autosuggestRenderInput}
           value={tags}
           onChange={(e) => onChange(e)}
           maxTags={3}
           tagProps={{
             className:
-              'bg-activityBlue pl-2 text-black placeholder-black react-tagsinput-tag text-lg font-medium rounded-md ml-2',
-            classNameRemove: 'react-tagsinput-remove',
+              "bg-activityBlue pl-2 text-black placeholder-black react-tagsinput-tag text-lg font-medium rounded-md ml-2",
+            classNameRemove: "react-tagsinput-remove",
           }}
         />
         {/* <button
@@ -154,12 +167,12 @@ const CreateQuestion = () => {
         <button
           onClick={onSubmitClick}
           className={`mt-6 bg-submitButton border-none py-2 px-3 ${
-            submitting ? 'cursor-not-allowed' : 'cursor-pointer'
+            submitting ? "cursor-not-allowed" : "cursor-pointer"
           } rounded-md outline-none text-lg font-bold text-white`}
         >
           {submitting ? (
             <div>
-              <i className='fa fa-spinner fa-spin -ml-3 mr-2'></i>Creating ...
+              <i className="fa fa-spinner fa-spin -ml-3 mr-2"></i>Creating ...
             </div>
           ) : (
             <div>Create Question</div>
