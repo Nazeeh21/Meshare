@@ -2,7 +2,7 @@
 
 git add .
 
-echo Enter commit message:
+echo What should be the commit message?
 read MESSAGE
 
 git commit -m "$MESSAGE"
