@@ -1,11 +1,12 @@
 query Question($id: Int!) {
   question(id: $id) {
     id
-    title
-    description
+    html
+    text
     tags
     imageUrls
     githubId
+    bookmarkStatus
     voteStatus
     points
     answerId
@@ -13,6 +14,7 @@ query Question($id: Int!) {
     acceptedAnswer {
       id
       text
+      html
       isAccepted
       githubId
     }

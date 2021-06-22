@@ -83,7 +83,7 @@ const DetailedQuestion = () => {
       </div>
       <div className='w-full lg:w-11/12 xl:w-10/12 mt-4 mb-4 m-auto '>
         <div className='w-full h-64 overflow-y-auto'>
-        <MarkDown comment={comment} setComment={setComment} />
+        <MarkDown value={comment} setValue={setComment} />
         </div>
         <button
           onClick={addCommentHandler}

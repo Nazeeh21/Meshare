@@ -1,7 +1,11 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { useCreateBookmarkMutation, useVoteMutation } from "../generated/graphql";
-import { Tag } from "./Tags";
+import { useRouter } from 'next/router';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import {
+  useCreateBookmarkMutation,
+  useVoteMutation,
+} from '../generated/graphql';
+import { Tag } from './Tags';
 
 interface QuestionProps {
   question: any;
@@ -10,13 +14,13 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ question }) => {
   const router = useRouter();
   const [, vote] = useVoteMutation();
-  const [,createBookmark] = useCreateBookmarkMutation();
+  const [, createBookmark] = useCreateBookmarkMutation();
 
   const bookmarkClicked = async () => {
     await createBookmark({
-      questionId: question.id
-    })
-  }
+      questionId: question.id,
+    });
+  };
 
   const upVoteClicked = async () => {
     await vote({
@@ -33,18 +37,21 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
   };
 
   return (
-    <div className="flex">
+    <div className='flex h-auto'>
       <img
-        className="w-10 h-10 rounded-full mr-2 cursor-pointer"
+        className='w-10 h-10 rounded-full mr-2 cursor-pointer'
         onClick={() =>
           router.push(`https://github.com/${question.creator.name}`)
         }
         src={question.creator.avatarUrl}
         alt={question.creator.name}
       />
-      <div className="w-full rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
-        <div className="flex justify-space items-center mb-4">
-          {router.pathname !== "/questions/[id]" ? (
+      <div className='w-full h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3'>
+        <div className='flex justify-space items-center mb-4'>
+          <div className='w-11/12 overflow-x-auto'>
+            <ReactMarkdown>{question.text}</ReactMarkdown>
+          </div>
+          {/* {router.pathname !== "/questions/[id]" ? (
             <div
               className="cursor-pointer"
               onClick={() => router.push(`/questions/${question.id}`)}
@@ -54,43 +61,58 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
             </div>
           ) : (
             <div>{question.description}</div>
-          )}
-          <div className="absolute right-0 bottom-0 flex justify-center items-center p-2">
+          )} */}
+          <div className='absolute right-0 bottom-0 flex justify-center items-center p-2'>
             <img
-              className="mr-2 cursor-pointer"
+              className='mr-2 cursor-pointer'
               onClick={upVoteClicked}
               src={
                 question.voteStatus && question.voteStatus === 1
-                  ? "/upvote.svg"
-                  : "/upvoteEmpty.svg"
+                  ? '/upvote.svg'
+                  : '/upvoteEmpty.svg'
               }
-              alt="upvote"
+              alt='upvote'
             />
-            <div className="text-white text-lg mr-2">{question.points}</div>
+            <div className='text-white text-lg mr-2'>{question.points}</div>
             <img
-              className="mr-2 cursor-pointer"
+              className='mr-2 cursor-pointer'
               onClick={downVoteClicked}
               src={
                 question.voteStatus && question.voteStatus === -1
-                  ? "/downvote.svg"
-                  : "/downvoteEmpty.svg"
+                  ? '/downvote.svg'
+                  : '/downvoteEmpty.svg'
               }
-              alt="downvote"
+              alt='downvote'
             />
             {/* <img className="ml-2" src="downvoteEmpty.svg" alt="downvote" /> */}
           </div>
-          <div className="absolute right-0 top-0 p-3">
+          <div className='absolute right-0 top-0 p-3'>
             {/* <Icon icon={bookmarkIcon} height={25} /> */}
-            <img onClick={bookmarkClicked} className="h-6 cursor-pointer" src={question.bookmarkStatus ? '/bookmarkSelected.svg' :"/bookmark.svg"} alt="bookmark" />
+            <img
+              onClick={bookmarkClicked}
+              className='h-6 cursor-pointer'
+              src={
+                question.bookmarkStatus
+                  ? '/bookmarkSelected.svg'
+                  : '/bookmark.svg'
+              }
+              alt='bookmark'
+            />
+            {router.pathname !== "/questions/[id]" && <img
+              onClick={() => router.push(`/questions/${question.id}`)}
+              className='h-6 mt-3 mb-3 -ml-1 mr-2 cursor-pointer'
+              src='/share.png'
+              alt='share'
+            />}
           </div>
         </div>
         {question?.tags &&
           question?.tags.map((tag, index) => <Tag key={index} tag={tag} />)}
-        <div className="mt-2">
-          Posted by:{" "}
+        <div className='mt-2'>
+          Posted by:{' '}
           <a
             href={`https://github.com/${question.creator.name}`}
-            className="inline-block font-medium"
+            className='inline-block font-medium'
           >
             {question.creator.name}
           </a>

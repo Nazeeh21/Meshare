@@ -57,6 +57,11 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        pre {
+          background: #000 !important;
+        }
+      `}</style>
     </div>
   );
 };
