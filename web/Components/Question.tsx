@@ -39,7 +39,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
 
   return (
     <div className="flex h-auto">
-      <div className="w-12 mr-2">
+      <div className="w-12 mr-2 sm:mr-0">
         <img
           className="w-10 h-10 rounded-full mr-2 cursor-pointer"
           onClick={() =>
@@ -70,26 +70,32 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
             }
             alt="downvote"
           />
-          {/* <img className="ml-2" src="downvoteEmpty.svg" alt="downvote" /> */}
+          <img
+              onClick={bookmarkClicked}
+              className="h-6 cursor-pointer"
+              src={
+                question.bookmarkStatus
+                  ? "/bookmarkSelected.svg"
+                  : "/bookmark.svg"
+              }
+              alt="bookmark"
+            />
+            {router.pathname !== "/questions/[id]" && (
+              <img
+                onClick={() => router.push(`/questions/${question.id}`)}
+                className="h-6 mt-3 mb-3 -ml-1 mr-2 cursor-pointer"
+                src="/share.png"
+                alt="share"
+              />
+            )}
         </div>
       </div>
 
-      <div className="w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
+      <div className="w-10/12 sm:w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
         <div className="flex justify-space items-center mb-4">
-          <div className="w-11/12 overflow-x-auto">
+          <div className="w-11/12 md:w-10/12 overflow-x-auto">
             <ReactMarkdown>{question.text}</ReactMarkdown>
           </div>
-          {/* {router.pathname !== "/questions/[id]" ? (
-            <div
-              className="cursor-pointer"
-              onClick={() => router.push(`/questions/${question.id}`)}
-            >
-              {question.description.slice(0, 100)}{" "}
-              {question.description.length > 100 && <span>. . .</span>}
-            </div>
-          ) : (
-            <div>{question.description}</div>
-          )} */}
           <div className="sm:absolute hidden right-0 bottom-0 sm:flex justify-center items-center p-2">
             <img
               className="mr-2 cursor-pointer"
@@ -114,7 +120,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
             />
             {/* <img className="ml-2" src="downvoteEmpty.svg" alt="downvote" /> */}
           </div>
-          <div className="absolute right-0 top-0 p-3">
+          <div className="hidden sm:absolute sm:flex sm:flex-col right-0 top-0 p-3">
             {/* <Icon icon={bookmarkIcon} height={25} /> */}
             <img
               onClick={bookmarkClicked}
