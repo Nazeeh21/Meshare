@@ -22,7 +22,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
   return (
     <div className='mb-0'>
       <div className='mb-4 ml-2 '>
-        <label className='bg-submitButton px-2 rounded-md cursor-pointer mt-2 mb-2'>
+        <label className='bg-submitButton p-2 rounded-md cursor-pointer mt-2'>
           <input
             className='hidden'
             type='file'
@@ -46,7 +46,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
               });
             }}
           />
-          Upload Images
+          Add Images
         </label>
       </div>
       <div className='mt-2 flex items-center'>
