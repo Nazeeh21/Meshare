@@ -10,7 +10,6 @@ import { supabase } from "../utils/supabaseClient";
 import { useIsAuth } from "../utils/useIsAuth";
 import UploadComponent from "./UploadComponent";
 import MarkDown from "./MDEditor";
-import Compressor from "compressorjs";
 
 const CreateQuestion = () => {
   useIsAuth();
@@ -24,9 +23,6 @@ const CreateQuestion = () => {
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [compressedFile, setCompressedFile] = useState(null);
-  const [isCompressed, setIsCompressed] = useState(false);
-
   const [, createQuestion] = useCreateQuestionMutation();
 
   const onSubmitClick = async () => {
@@ -46,23 +42,20 @@ const CreateQuestion = () => {
     setSubmitting(false);
   };
 
+  useEffect(() => {
+    console.log('files from createQuestion: ', files)
+  }, [files])
+
   const uploadImages = async () => {
     if (files.length === 0) {
       return [];
     }
     const UploadedImageData = await Promise.all(
       files.map(async (file) => {
-        new Compressor(file, {
-          quality: 0.6,
-          success: (compressedResult) => {
-            setCompressedFile(compressedResult);
-            setIsCompressed(true);
-          },
-        });
-        if (isCompressed) {
+        
           const { data, error } = await supabase.storage
             .from(DEFAULT_AVATARS_BUCKET)
-            .upload(file.name, compressedFile);
+            .upload(file.name, file);
           if (error) {
             console.log("error in uploading image: ", error);
             throw error;
@@ -72,8 +65,6 @@ const CreateQuestion = () => {
             console.log("Logging image_path: ", data.Key.substring(8));
             return data.Key.substring(8);
           }
-          setIsCompressed(false);
-        }
       })
     );
 

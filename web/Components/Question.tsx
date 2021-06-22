@@ -93,7 +93,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
 
       <div className="w-10/12 sm:w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
         <div className="flex justify-space items-center mb-4">
-          <div className="w-11/12 md:w-10/12 overflow-x-auto">
+          <div style={{minHeight: '4rem'}} className="w-11/12 md:w-10/12 overflow-x-auto">
             <ReactMarkdown>{question.text}</ReactMarkdown>
           </div>
           <div className="sm:absolute hidden right-0 bottom-0 sm:flex justify-center items-center p-2">
