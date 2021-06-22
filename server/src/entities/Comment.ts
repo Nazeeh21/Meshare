@@ -24,6 +24,10 @@ export class Comment extends BaseEntity {
 
   @Field()
   @Column()
+  html!: string;
+
+  @Field()
+  @Column()
   githubId: string;
 
   @Field()

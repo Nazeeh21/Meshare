@@ -18,7 +18,7 @@ export const SearchBarHolder = ({ children }) => {
           size={"xs"}
         />
       </div>
-      <div className="h-full p-4 bg-white">{children}</div>
+      <div className="h-full p-4 bg-white overflow-y-auto">{children}</div>
     </div>
   );
 };

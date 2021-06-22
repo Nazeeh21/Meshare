@@ -9,15 +9,18 @@ import { createUrqlClient } from '../utils/createUrqlClient';
 import { supabase } from '../utils/supabaseClient';
 import { useIsAuth } from '../utils/useIsAuth';
 import UploadComponent from './UploadComponent';
+import MarkDown from './MDEditor';
 
 const CreateQuestion = () => {
-  useIsAuth()
+  useIsAuth();
   const router = useRouter();
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const suggestions = [{ name: 'react' }, { name: 'react-native' }];
-  const [title, setTitle] = useState<null | string>(null);
-  const [description, setDescription] = useState<null | string>(null);
+  const [question, setQuestion] = useState<{ text: string; html: string }>({
+    text: '',
+    html: '',
+  });
 
   const [submitting, setSubmitting] = useState<boolean>(false);
 
@@ -28,8 +31,7 @@ const CreateQuestion = () => {
 
     const uploadedImagePaths = await uploadImages();
     const { error } = await createQuestion({
-      title,
-      description,
+      ...question,
       imageUrls: uploadedImagePaths,
       tags,
     });
@@ -52,7 +54,8 @@ const CreateQuestion = () => {
           .upload(file.name, file);
         if (error) {
           console.log('error in uploading image: ', error);
-          throw error;}
+          throw error;
+        }
         if (data) {
           console.log('image uploaded successfully: ', data);
           console.log('Logging image_path: ', data.Key.substring(8));
@@ -105,20 +108,25 @@ const CreateQuestion = () => {
   return (
     <div>
       <div className='h-screen'>
-        <input
+        {/* <input
           className='w-full mb-2 rounded-md placeholder-greyST text-black bg-iconGrey outline-none pt-2 px-2'
           placeholder='Enter title...'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-        />
+        /> */}
+        <div className='w-full mt-4 mb-4 m-auto '>
+          <div className='w-full h-64 overflow-y-auto'>
+            <MarkDown value={question} setValue={setQuestion} />
+          </div>
+        </div>
 
         <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
-          <textarea
+          {/* <textarea
             className='w-full h-16 rounded-md placeholder-greyST text-black bg-iconGrey outline-none pt-2 px-2'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder='write your question here..'
-          />
+          /> */}
           <UploadComponent
             files={files}
             setFiles={setFiles}
@@ -137,19 +145,24 @@ const CreateQuestion = () => {
             classNameRemove: 'react-tagsinput-remove',
           }}
         />
-
+        {/* <button
+          onClick={() => {}}
+          className='border-none bg-iconBlue text-blue font-semibold text-lg mt-4 mb-12 sm:mb-12 rounded-md p-2 pl-3 pr-3'
+        >
+          Create Question
+        </button> */}
         <button
           onClick={onSubmitClick}
-          className={`mt-6 bg-submitButton py-2 px-3 ${
+          className={`mt-6 bg-submitButton border-none py-2 px-3 ${
             submitting ? 'cursor-not-allowed' : 'cursor-pointer'
           } rounded-md outline-none text-lg font-bold text-white`}
         >
           {submitting ? (
             <div>
-              <i className='fa fa-spinner fa-spin -ml-3 mr-2'></i>Submitting ...
+              <i className='fa fa-spinner fa-spin -ml-3 mr-2'></i>Creating ...
             </div>
           ) : (
-            <div>SUBMIT</div>
+            <div>Create Question</div>
           )}
         </button>
       </div>

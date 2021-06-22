@@ -23,10 +23,10 @@ import { Comment } from '../entities/Comment';
 @InputType()
 class QuestionInput {
   @Field()
-  title: string;
+  text: string;
 
   @Field()
-  description: string;
+  html: string;
 
   @Field(() => [String])
   tags: string[];

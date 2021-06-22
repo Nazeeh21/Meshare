@@ -31,6 +31,7 @@ export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
   text: Scalars['String'];
+  html: Scalars['String'];
   githubId: Scalars['String'];
   questionId: Scalars['Float'];
   isAccepted: Scalars['Boolean'];
@@ -41,6 +42,7 @@ export type Comment = {
 
 export type CommentInput = {
   text: Scalars['String'];
+  html: Scalars['String'];
 };
 
 export type Mutation = {
@@ -141,8 +143,8 @@ export type QueryBookmarksArgs = {
 export type Question = {
   __typename?: 'Question';
   id: Scalars['Float'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+  text: Scalars['String'];
+  html: Scalars['String'];
   tags: Array<Scalars['String']>;
   imageUrls: Array<Scalars['String']>;
   answerId?: Maybe<Scalars['Int']>;
@@ -157,8 +159,8 @@ export type Question = {
 };
 
 export type QuestionInput = {
-  title: Scalars['String'];
-  description: Scalars['String'];
+  text: Scalars['String'];
+  html: Scalars['String'];
   tags: Array<Scalars['String']>;
   imageUrls: Array<Scalars['String']>;
 };
@@ -194,6 +196,7 @@ export type CreateBookmarkMutation = (
 
 export type CreateCommentMutationVariables = Exact<{
   text: Scalars['String'];
+  html: Scalars['String'];
   questionId: Scalars['Int'];
 }>;
 
@@ -211,8 +214,8 @@ export type CreateCommentMutation = (
 );
 
 export type CreateQuestionMutationVariables = Exact<{
-  title: Scalars['String'];
-  description: Scalars['String'];
+  text: Scalars['String'];
+  html: Scalars['String'];
   tags: Array<Scalars['String']> | Scalars['String'];
   imageUrls: Array<Scalars['String']> | Scalars['String'];
 }>;
@@ -222,7 +225,7 @@ export type CreateQuestionMutation = (
   { __typename?: 'Mutation' }
   & { createQuestion: (
     { __typename?: 'Question' }
-    & Pick<Question, 'id' | 'title' | 'description' | 'tags' | 'imageUrls' | 'voteStatus'>
+    & Pick<Question, 'id' | 'html' | 'text' | 'tags' | 'imageUrls' | 'voteStatus'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'name'>
@@ -275,7 +278,7 @@ export type BookmarksQuery = (
       & Pick<Bookmark, 'githubId' | 'questionId' | 'createdAt'>
       & { question: (
         { __typename?: 'Question' }
-        & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
+        & Pick<Question, 'id' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
         & { creator: (
           { __typename?: 'User' }
           & Pick<User, 'avatarUrl' | 'name' | 'githubId'>
@@ -299,13 +302,13 @@ export type CommentsQuery = (
     & Pick<PaginatedComments, 'hasMore'>
     & { comments: Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
+      & Pick<Comment, 'id' | 'text' | 'html' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
       & { acceptedByQuestion?: Maybe<(
         { __typename?: 'Question' }
-        & Pick<Question, 'id' | 'title' | 'description'>
+        & Pick<Question, 'id' | 'text' | 'html'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -320,10 +323,10 @@ export type QuestionQuery = (
   { __typename?: 'Query' }
   & { question?: Maybe<(
     { __typename?: 'Question' }
-    & Pick<Question, 'id' | 'title' | 'description' | 'tags' | 'imageUrls' | 'githubId' | 'voteStatus' | 'points' | 'answerId' | 'createdAt'>
+    & Pick<Question, 'id' | 'html' | 'text' | 'tags' | 'imageUrls' | 'githubId' | 'bookmarkStatus' | 'voteStatus' | 'points' | 'answerId' | 'createdAt'>
     & { acceptedAnswer?: Maybe<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'text' | 'isAccepted' | 'githubId'>
+      & Pick<Comment, 'id' | 'text' | 'html' | 'isAccepted' | 'githubId'>
     )>, creator: (
       { __typename?: 'User' }
       & Pick<User, 'githubId' | 'name' | 'avatarUrl'>
@@ -344,7 +347,7 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'description' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
+      & Pick<Question, 'id' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
         & Pick<User, 'avatarUrl' | 'name'>
@@ -384,8 +387,8 @@ export function useCreateBookmarkMutation() {
   return Urql.useMutation<CreateBookmarkMutation, CreateBookmarkMutationVariables>(CreateBookmarkDocument);
 };
 export const CreateCommentDocument = gql`
-    mutation CreateComment($text: String!, $questionId: Int!) {
-  createComment(input: {text: $text}, questionId: $questionId) {
+    mutation CreateComment($text: String!, $html: String!, $questionId: Int!) {
+  createComment(input: {text: $text, html: $html}, questionId: $questionId) {
     id
     text
     githubId
@@ -403,13 +406,13 @@ export function useCreateCommentMutation() {
   return Urql.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument);
 };
 export const CreateQuestionDocument = gql`
-    mutation CreateQuestion($title: String!, $description: String!, $tags: [String!]!, $imageUrls: [String!]!) {
+    mutation CreateQuestion($text: String!, $html: String!, $tags: [String!]!, $imageUrls: [String!]!) {
   createQuestion(
-    input: {title: $title, description: $description, tags: $tags, imageUrls: $imageUrls}
+    input: {text: $text, html: $html, tags: $tags, imageUrls: $imageUrls}
   ) {
     id
-    title
-    description
+    html
+    text
     tags
     imageUrls
     voteStatus
@@ -459,8 +462,8 @@ export const BookmarksDocument = gql`
       questionId
       question {
         id
-        title
-        description
+        text
+        html
         imageUrls
         tags
         points
@@ -490,17 +493,17 @@ export const CommentsDocument = gql`
     comments {
       id
       text
+      html
       githubId
       questionId
       isAccepted
       acceptedByQuestion {
         id
-        title
-        description
+        text
+        html
       }
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }
@@ -516,11 +519,12 @@ export const QuestionDocument = gql`
     query Question($id: Int!) {
   question(id: $id) {
     id
-    title
-    description
+    html
+    text
     tags
     imageUrls
     githubId
+    bookmarkStatus
     voteStatus
     points
     answerId
@@ -528,6 +532,7 @@ export const QuestionDocument = gql`
     acceptedAnswer {
       id
       text
+      html
       isAccepted
       githubId
     }
@@ -549,8 +554,8 @@ export const QuestionsDocument = gql`
     hasMore
     questions {
       id
-      title
-      description
+      text
+      html
       imageUrls
       tags
       points

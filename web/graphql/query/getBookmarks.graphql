@@ -6,8 +6,8 @@ query Bookmarks($limit: Int!, $cursor: String) {
       questionId
       question {
         id
-        title
-        description
+        text
+        html
         imageUrls
         tags
         points
