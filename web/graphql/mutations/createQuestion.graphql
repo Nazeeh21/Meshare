@@ -1,20 +1,20 @@
 mutation CreateQuestion(
-  $title: String!
-  $description: String!
+  $text: String!
+  $html: String!
   $tags: [String!]!
   $imageUrls: [String!]!
 ) {
   createQuestion(
     input: {
-      title: $title
-      description: $description
+      text: $text
+      html: $html
       tags: $tags
       imageUrls: $imageUrls
     }
   ) {
     id
-    title
-    description
+    html
+    text
     tags
     imageUrls
     voteStatus

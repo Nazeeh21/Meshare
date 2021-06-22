@@ -8,18 +8,18 @@ const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 });
 
 interface MarkDown {
-  comment: {
+  value: {
     text: String;
     html: String;
   };
-  setComment: any;
+  setValue: any;
 }
 
-const Markdwon: React.FC<MarkDown> = ({ comment, setComment }) => {
+const Markdwon: React.FC<MarkDown> = ({ value, setValue }) => {
   return (
     <div className='w-full h-full'>
       <MdEditor
-        value={comment.text}
+        value={value.text}
         readOnly={false}
         config={{
           view: {
@@ -37,7 +37,7 @@ const Markdwon: React.FC<MarkDown> = ({ comment, setComment }) => {
           syncScrollMode: ['leftFollowRight', 'rightFollowLeft'],
         }}
         onChange={({ html, text }, event) => {
-          setComment({ html, text });
+          setValue({ html, text });
           // console.log('typeof html: ', typeof html);
           // console.log('typeof text: ', typeof text);
           // console.log('text: ', text);

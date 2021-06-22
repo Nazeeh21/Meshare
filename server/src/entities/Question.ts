@@ -24,11 +24,11 @@ export class Question extends BaseEntity {
 
   @Field()
   @Column()
-  title!: string;
+  text!: string;
 
   @Field()
   @Column()
-  description!: string;
+  html!: string;
 
   @Field(() => [String])
   @Column("text", {nullable: true, array: true})

@@ -10,8 +10,8 @@ query Comments($questionId: Int!, $limit: Int!, $cursor: String){
     isAccepted
     acceptedByQuestion {
       id
-      title
-      description
+      text
+      html
     }
     createdAt
     creator {
