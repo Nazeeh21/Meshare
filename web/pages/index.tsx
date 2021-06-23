@@ -20,7 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setAcceptedAnswer(null));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     console.log(data);
@@ -35,7 +35,13 @@ const Home = () => {
       </div>
     );
   }
-  
+
+  // useEffect(() => {
+  //   if(seacrhValue === '' || null) {
+  //     data.questions.questions.filter(question => question.text.includes(seacrh))
+  //   }
+  // }, [data.questions, searchV])
+
   return (
     <div>
       <Head>
@@ -54,9 +60,11 @@ const Home = () => {
       {/* {console.log(typeof data.questions.questions[0])} */}
       {data && (
         <div className='h-full w-full overflow-y-auto overflow-x-hidden'>
-          {data?.questions?.questions.map((question) => (
-            <Question key={question.id} question={question} />
-          ))}
+          {data?.questions?.questions
+            .filter((question) => question.text.includes(''))
+            .map((question) => (
+              <Question key={question.id} question={question} />
+            ))}
         </div>
       )}
 
