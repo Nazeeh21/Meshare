@@ -1,7 +1,7 @@
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Question from "../Components/Question";
 
 import { useQuestionsQuery } from "../generated/graphql";
@@ -10,6 +10,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const search = useSelector((state) => state.question.searchedValue);
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
@@ -54,9 +55,14 @@ const Home = () => {
       {/* {console.log(typeof data.questions.questions[0])} */}
       {data && (
         <div className="h-full w-full overflow-y-auto overflow-x-hidden pb-32">
-          {data?.questions?.questions.map((question) => (
+          {/* {data?.questions?.questions.map((question) => (
             <Question key={question.id} question={question} />
-          ))}
+          ))} */}
+          {data?.questions?.questions
+            .filter((question) => question.text.includes(search))
+            .map((question) => (
+              <Question key={question.id} question={question} />
+            ))}
         </div>
       )}
 

@@ -1,8 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { setSearchedValue } from "../redux/actions/questionAction";
+import { useDispatch } from "react-redux";
 
 export const SearchBarHolder = ({ children }) => {
+  const dispatch = useDispatch();
   return (
     <div className="h-full">
       <div className="flex">
@@ -10,6 +14,7 @@ export const SearchBarHolder = ({ children }) => {
           type="text"
           className="bg-greyS w-full h-16 rounded-tl-md outline-none text-lg font-sans px-2"
           placeholder="Search"
+          onChange={(e) => dispatch(setSearchedValue(e.target.value))}
         />
         {/* <FontAwesomeIcon
           onClick={() => {}}
