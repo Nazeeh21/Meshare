@@ -39,7 +39,7 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
         className="text-center mt-6 m-auto"
       >
         <a
-          href={`${process.env.NEXT_PUBLIC_API_URL}/auth/github/`}
+          href={`${process.env.NEXT_PUBLIC_API_URL}auth/github/`}
           style={{ textDecoration: "none" }}
           className="text-white"
         >
