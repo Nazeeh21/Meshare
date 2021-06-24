@@ -38,7 +38,7 @@ const main = async () => {
     password: process.env.DB_PASSWORD,
     // dropSchema: true,
     logging: true,
-    synchronize: true,
+    synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Question, User, Comment, Upvote, Bookmark],
   });
@@ -114,7 +114,8 @@ const main = async () => {
         clientID: process.env.GITHUB_CLIENT_ID,
         // @ts-ignore
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: "http://localhost:4000/auth/github/callback",
+        callbackURL: process.env.GITHUB_CALLBACK_URL
+        // callbackURL: "http://localhost:4000/auth/github/callback",
       },
       async (_: any, __: any, profile: any, cb: any) => {
         console.log(profile);
@@ -151,7 +152,8 @@ const main = async () => {
       // Successful authentication, redirect home.
       const accessToken = req.user.accessToken;
       req.session.githubId = accessToken;
-      res.redirect(`http://localhost:3000/`);
+      res.redirect(process.env.GITHUB_REDIRECT_URL!);
+      // res.redirect(`http://localhost:3000/`);
       // res.send('auth was successful')
       // res.send(req.user);
     }

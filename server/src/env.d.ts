@@ -9,5 +9,7 @@ declare namespace NodeJS {
     GITHUB_CLIENT_SECRET: string;
     GITHUB_CLIENT_ID: string;
     CORS_ORIGIN: string;
+    GITHUB_CALLBACK_URL: string;
+    GITHUB_REDIRECT_URL: string;
   }
 }
