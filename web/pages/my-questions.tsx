@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { withUrqlClient } from 'next-urql';
 import React, { useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Question from '../Components/Question';
 import { useQuestionsQuery } from '../generated/graphql';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
-const myQuestions = ({}) => {
+const myQuestions: React.FC<{}> = ({}) => {
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
@@ -80,4 +82,4 @@ const myQuestions = ({}) => {
   );
 };
 
-export default myQuestions;
+export default withUrqlClient(createUrqlClient, { ssr: true })(myQuestions);
