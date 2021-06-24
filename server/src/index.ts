@@ -47,16 +47,18 @@ const main = async () => {
 
   const app = express();
 
+  const RedisStore = connectRedis(session);
+  const redis = new Redis(process.env.REDIS_URL);
+
   app.set("trust proxy", 1);
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
+      // origin: '*',
+      // origin: "https://get-it-here.vercel.app",
       credentials: true,
     })
   );
-
-  const RedisStore = connectRedis(session);
-  const redis = new Redis(process.env.REDIS_URL);
 
   app.use(
     session({
@@ -67,7 +69,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__,
-        // domain: undefined,
+        domain: __prod__ ? '*' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -100,7 +102,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: false,
+    cors: false
   });
 
   passport.serializeUser((user: any, done) => {
@@ -154,6 +156,7 @@ const main = async () => {
       req.session.githubId = accessToken;
       res.redirect(process.env.GITHUB_REDIRECT_URL!);
       // res.redirect(`http://localhost:3000/`);
+      // res.redirect(`https://get-it-here.vercel.app/`);
       // res.send('auth was successful')
       // res.send(req.user);
     }
