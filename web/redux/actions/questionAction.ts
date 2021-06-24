@@ -1,11 +1,18 @@
-import { SET_ACCEPTED_ANSWER } from "../actionTypes/types";
+import { SET_ACCEPTED_ANSWER, SET_SEARCHED } from "../actionTypes/types";
 
 export const setAcceptedAnswer = (data) => {
-  console.log('data from the store action', data)
+  console.log("data from the store action", data);
   return async (dispatch) => {
     dispatch({
       type: SET_ACCEPTED_ANSWER,
-      data: data
-    })
-  }
-}
+      data: data,
+    });
+  };
+};
+
+export const setSearchedValue = (searchedValue) => {
+  return {
+    type: SET_SEARCHED,
+    data: searchedValue,
+  };
+};

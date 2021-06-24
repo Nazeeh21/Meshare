@@ -13,6 +13,7 @@ query Questions($limit: Int!, $cursor: String) {
       githubId
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }

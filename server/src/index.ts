@@ -79,7 +79,12 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [QuestionResolver, UserResolver, CommentResolver, BookmarkResolver],
+      resolvers: [
+        QuestionResolver,
+        UserResolver,
+        CommentResolver,
+        BookmarkResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
@@ -89,7 +94,7 @@ const main = async () => {
       upvoteLoader: createUpvoteLoader(),
       commentLoader: createCommentLoader(),
       questionLoader: createQuestionLoader(),
-      bookmarkLoader: createBookmarkLoader()
+      bookmarkLoader: createBookmarkLoader(),
     }),
   });
 

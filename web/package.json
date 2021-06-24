@@ -22,6 +22,7 @@
     "@urql/exchange-graphcache": "^4.0.0",
     "@yaireo/tagify": "^4.2.0",
     "axios": "^0.21.1",
+    "compressorjs": "^1.0.7",
     "formik": "^2.2.7",
     "framer-motion": "^4",
     "graphql": "^15.5.0",
@@ -43,6 +44,7 @@
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "rehype-highlight": "^4.1.0",
     "urql": "^2.0.1",
     "wonka": "^4.0.15"
   },
@@ -60,10 +62,10 @@
     "@types/react": "^17.0.8",
     "@types/react-tagsinput": "^3.19.7",
     "autoprefixer": "^10.2.6",
+    "eslint": "7.29.0",
+    "eslint-config-next": "11.0.0",
     "postcss": "^8.3.0",
     "tailwindcss": "^2.1.2",
-    "typescript": "^4.3.2",
-    "eslint": "7.29.0",
-    "eslint-config-next": "11.0.0"
+    "typescript": "^4.3.2"
   }
 }
