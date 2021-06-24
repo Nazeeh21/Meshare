@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { withUrqlClient } from 'next-urql';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import Question from '../Components/Question';
 import { useBookmarksQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
@@ -18,6 +20,7 @@ const bookmarkedQuestions: React.FC<{}> = ({}) => {
     pause: isServer(),
     variables,
   });
+
 
   useEffect(() => {
     console.log('data: ', data);

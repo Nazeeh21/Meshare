@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { RootStateOrAny, useSelector } from 'react-redux';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -19,7 +20,7 @@ const login = () => {
     if (!fetching && data?.getUser) {
       router.push('/');
     }
-  }, [data, fetching]);
+  }, [data, fetching, router]);
 
   if (userData && isLoggedIn) {
     router.push('/');

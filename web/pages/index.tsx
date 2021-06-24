@@ -1,15 +1,16 @@
-import { withUrqlClient } from 'next-urql';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Question from '../Components/Question';
+import { withUrqlClient } from "next-urql";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import Question from "../Components/Question";
 
-import { useQuestionsQuery } from '../generated/graphql';
-import { setAcceptedAnswer } from '../redux/actions/questionAction';
-import { createUrqlClient } from '../utils/createUrqlClient';
+import { useQuestionsQuery } from "../generated/graphql";
+import { setAcceptedAnswer } from "../redux/actions/questionAction";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const search = useSelector((state: RootStateOrAny) => state.question.searchedValue);
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
@@ -20,7 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setAcceptedAnswer(null));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     console.log(data);
@@ -35,28 +36,33 @@ const Home = () => {
       </div>
     );
   }
-  
+
   return (
     <div>
       <Head>
         <title>Getit Here</title>
         <link
-          rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
-        <link rel='icon' href='/favicon.ico' />
+        <link rel="icon" href="/favicon.ico" />
         <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1'
+          name="viewport"
+          content="width=device-width, initial-scale=1"
         ></meta>
       </Head>
 
       {/* {console.log(typeof data.questions.questions[0])} */}
       {data && (
-        <div className='h-full w-full overflow-y-auto overflow-x-hidden'>
-          {data?.questions?.questions.map((question) => (
+        <div className="h-full w-full overflow-y-auto overflow-x-hidden pb-32">
+          {/* {data?.questions?.questions.map((question) => (
             <Question key={question.id} question={question} />
-          ))}
+          ))} */}
+          {data?.questions?.questions
+            .filter((question) => question.text.includes(search))
+            .map((question) => (
+              <Question key={question.id} question={question} />
+            ))}
         </div>
       )}
 
@@ -70,7 +76,7 @@ const Home = () => {
                   .createdAt,
             });
           }}
-          className='bg-activityBlue mt-4 w-32 text-center rounded-md cursor-pointer text-white m-auto font-medium p-2'
+          className="bg-activityBlue mt-4 w-32 text-center rounded-md cursor-pointer text-white m-auto font-medium p-2"
         >
           Load more
         </div>
@@ -79,6 +85,7 @@ const Home = () => {
         ::-webkit-scrollbar {
           width: 0.6rem;
           height: 4rem;
+          display: none;
         }
 
         /* Track */

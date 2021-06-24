@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { LayoutProps } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import {
@@ -70,7 +71,8 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
           />
 
           <SidebarButton
-            click={() => setActive(1)}
+            click={() => {setActive(1)
+            router.push('/my-questions')}}
             isActive={active === 1}
             icon={faQuestionCircle}
             size={"2x"}
