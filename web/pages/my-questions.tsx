@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Question from '../Components/Question';
 import { useQuestionsQuery } from '../generated/graphql';
 
-const MyQuestions = ({}) => {
+const myQuestions = ({}) => {
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
@@ -79,4 +80,4 @@ const MyQuestions = ({}) => {
   );
 };
 
-export default MyQuestions;
+export default myQuestions;
