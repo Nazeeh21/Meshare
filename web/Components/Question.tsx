@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import {
   useCreateBookmarkMutation,
   useVoteMutation,
@@ -71,30 +72,33 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
             alt="downvote"
           />
           <img
-              onClick={bookmarkClicked}
-              className="h-6 cursor-pointer"
-              src={
-                question.bookmarkStatus
-                  ? "/bookmarkSelected.svg"
-                  : "/bookmark.svg"
-              }
-              alt="bookmark"
+            onClick={bookmarkClicked}
+            className="h-6 cursor-pointer"
+            src={
+              question.bookmarkStatus
+                ? "/bookmarkSelected.svg"
+                : "/bookmark.svg"
+            }
+            alt="bookmark"
+          />
+          {router.pathname !== "/questions/[id]" && (
+            <img
+              onClick={() => router.push(`/questions/${question.id}`)}
+              className="h-6 mt-3 mb-3 -ml-1 mr-2 cursor-pointer"
+              src="/share.png"
+              alt="share"
             />
-            {router.pathname !== "/questions/[id]" && (
-              <img
-                onClick={() => router.push(`/questions/${question.id}`)}
-                className="h-6 mt-3 mb-3 -ml-1 mr-2 cursor-pointer"
-                src="/share.png"
-                alt="share"
-              />
-            )}
+          )}
         </div>
       </div>
 
       <div className="w-10/12 sm:w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
         <div className="flex justify-space items-center mb-4">
-          <div style={{minHeight: '4rem'}} className="w-11/12 md:w-10/12 overflow-x-auto">
-            <ReactMarkdown>{question.text}</ReactMarkdown>
+          <div
+            style={{ minHeight: "4rem" }}
+            className="w-11/12 md:w-10/12 overflow-x-auto"
+          >
+            <ReactMarkdown components={{}}>{question.text}</ReactMarkdown>
           </div>
           <div className="sm:absolute hidden right-0 bottom-0 sm:flex justify-center items-center p-2">
             <img

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import React from "react";
 import ReactMarkdown from "react-markdown";
@@ -79,7 +80,7 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
           background: #fff;
           width: 0.8rem;
         }
-        pre {
+        ReactMarkdown pre {
           background: #000 !important;
         }
       `}</style>

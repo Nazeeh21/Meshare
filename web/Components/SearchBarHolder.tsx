@@ -23,7 +23,7 @@ export const SearchBarHolder = ({ children }) => {
           size={"xs"}
         /> */}
         <div className="flex justify-center items-center p-2 bg-greyS rounded-tr-md ">
-          <img src="fa-solid_search.svg" alt="search" />
+          <img src="/fa-solid_search.svg" alt="search" />
         </div>
       </div>
       <div className="h-full p-4 bg-white overflow-y-auto">{children}</div>
