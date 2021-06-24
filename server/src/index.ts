@@ -167,7 +167,7 @@ const main = async () => {
   );
 
   app.listen(+process.env.PORT, () => {
-    console.log("server started on port localhost:4000");
+    console.log("server started on port ", process.env.PORT);
   });
 };
 

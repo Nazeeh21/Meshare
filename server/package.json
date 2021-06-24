@@ -12,6 +12,10 @@
     "watch": "tsc -w",
     "dev2": "nodemon --exec ts-node src/index.ts"
   },
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.*"
+  },
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",
     "@types/node": "^15.6.1",
