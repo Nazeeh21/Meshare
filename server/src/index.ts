@@ -33,13 +33,13 @@ const main = async () => {
   const conn = await createConnection({
     type: "postgres",
     database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    // host: process.env.DB_HOST,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    url: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    },
+    // url: process.env.DATABASE_URL,
+    // ssl: {
+    //   rejectUnauthorized: false
+    // },
     // dropSchema: true,
     logging: true,
     synchronize: !__prod__,
@@ -81,7 +81,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__,
-        domain: __prod__ ? '*' : undefined,
+        domain: __prod__ ? '.vercel.com' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
