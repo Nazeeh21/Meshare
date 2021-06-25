@@ -106,7 +106,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: false
+    // cors: false
   });
 
   passport.serializeUser((user: any, done) => {
