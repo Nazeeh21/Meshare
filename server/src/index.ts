@@ -65,8 +65,8 @@ const main = async () => {
   // app.use(cors())
   app.use(
     cors({
-      // origin: process.env.CORS_ORIGIN,
-      origin: '*',
+      origin: process.env.CORS_ORIGIN,
+      // origin: '*',
       // origin: "https://get-it-here.vercel.app",
       credentials: true,
     })
@@ -81,7 +81,8 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__,
-        domain: __prod__ ? '.vercel.com' : undefined,
+        domain: undefined,
+        // domain: __prod__ ? '.vercel.com' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
