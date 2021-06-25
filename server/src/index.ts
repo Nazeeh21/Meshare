@@ -4,7 +4,7 @@ import { Question } from "./entities/Question";
 import express from "express";
 import session from "express-session";
 import path from "path";
-import cors from "cors";
+// import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { QuestionResolver } from "./resolvers/question";
@@ -55,7 +55,14 @@ const main = async () => {
   const redis = new Redis(process.env.REDIS_URL);
 
   app.set("trust proxy", 1);
-  app.use(cors())
+  app.use(function(_req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
+  // app.use(cors())
   // app.use(
   //   cors({
   //     // origin: process.env.CORS_ORIGIN,
