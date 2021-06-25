@@ -101,6 +101,7 @@ const main = async () => {
       ],
       validate: false,
     }),
+    playground: true,
     context: ({ req, res }): MyContext => ({
       req,
       res,
