@@ -81,8 +81,8 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__,
-        domain: undefined,
-        // domain: __prod__ ? '.vercel.com' : undefined,
+        // domain: undefined,
+        domain: __prod__ ? '.herokuapp.com' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
