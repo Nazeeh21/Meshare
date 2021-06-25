@@ -55,14 +55,15 @@ const main = async () => {
   const redis = new Redis(process.env.REDIS_URL);
 
   app.set("trust proxy", 1);
-  app.use(
-    cors({
-      // origin: process.env.CORS_ORIGIN,
-      origin: '*',
-      // origin: "https://get-it-here.vercel.app",
-      credentials: true,
-    })
-  );
+  app.use(cors())
+  // app.use(
+  //   cors({
+  //     // origin: process.env.CORS_ORIGIN,
+  //     origin: '*',
+  //     // origin: "https://get-it-here.vercel.app",
+  //     credentials: true,
+  //   })
+  // );
 
   app.use(
     session({
@@ -106,7 +107,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: true
+    cors: false
   });
 
   passport.serializeUser((user: any, done) => {
