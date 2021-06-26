@@ -40,7 +40,7 @@ const main = async () => {
     ssl: {
       rejectUnauthorized: false
     },
-    dropSchema: true,
+    // dropSchema: true,
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
@@ -161,6 +161,10 @@ const main = async () => {
   );
 
   app.get("/auth/github", passport.authenticate("github", { session: false }));
+
+  app.get('/.well-known/acme-challenge/:content', function(_req, res) {
+    res.send('xxxxxxxxxxxx-yyyy.zzzzzzzzzzzzzzzzzzz')
+  })
 
   app.get(
     "/auth/github/callback",
