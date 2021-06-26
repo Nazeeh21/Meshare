@@ -40,7 +40,7 @@ const main = async () => {
     ssl: {
       rejectUnauthorized: false
     },
-    // dropSchema: true,
+    dropSchema: true,
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
@@ -82,7 +82,7 @@ const main = async () => {
         sameSite: "lax", // csrf
         secure: __prod__,
         // domain: undefined,
-        domain: __prod__ ? '.herokuapp.com' : undefined,
+        domain: __prod__ ? '.meshare.me' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,

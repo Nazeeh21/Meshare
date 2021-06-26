@@ -71,8 +71,8 @@ const DetailedQuestion = () => {
       {data?.question && <Question question={data.question} />}
       {data?.question?.imageUrls?.length !== 0 && (
         <div className="ml-12 flex justify-around">
-          {data?.question?.imageUrls?.map((image) => (
-            <div className=" inline-block mr-4 border-activityBlue border-2">
+          {data?.question?.imageUrls?.map((image, index) => (
+            <div key={index} className=" inline-block mr-4 border-activityBlue border-2">
               <GetAvatar path={image} styles="w-auto h-48" />
             </div>
           ))}
