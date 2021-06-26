@@ -163,7 +163,7 @@ const main = async () => {
   app.get("/auth/github", passport.authenticate("github", { session: false }));
 
   app.get('/.well-known/acme-challenge/:content', function(_req, res) {
-    res.send('xxxxxxxxxxxx-yyyy.zzzzzzzzzzzzzzzzzzz')
+    res.send('nsi8ExmTEA87ILxggbVN53vHzPK7asXRbb98JSI0RyM.YzS-l2VlB-65IRXfHDDl92CZlSQPrkKGroZnljM2V-U')
   })
 
   app.get(
