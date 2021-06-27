@@ -146,10 +146,6 @@ const main = async () => {
 
   app.get("/auth/github", passport.authenticate("github", { session: false }));
 
-  app.get('/.well-known/acme-challenge/:content', function(_req, res) {
-    res.send('tWb4qnIHXD1Wecz1XwPKD1EoHt9iNhMIUpd-mo_uMTA.YzS-l2VlB-65IRXfHDDl92CZlSQPrkKGroZnljM2V-U')
-  })
-
   app.get(
     "/auth/github/callback",
     passport.authenticate("github", { session: true, failureRedirect: "/" }),
