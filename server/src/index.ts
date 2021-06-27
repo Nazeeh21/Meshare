@@ -32,17 +32,13 @@ const main = async () => {
 
   const conn = await createConnection({
     type: "postgres",
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
     url: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false
     },
     // dropSchema: true,
     logging: true,
-    synchronize: !__prod__,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Question, User, Comment, Upvote, Bookmark],
   });
@@ -55,19 +51,10 @@ const main = async () => {
   const redis = new Redis(process.env.REDIS_URL);
 
   app.set("trust proxy", 1);
-//   app.use(function(_req, res, next) {
-//     res.header("Access-Control-Allow-Origin", '*');
-//     res.header("Access-Control-Allow-Credentials", 'true');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-//     });
-  // app.use(cors())
+
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
-      // origin: '*',
-      // origin: "https://get-it-here.vercel.app",
       credentials: true,
     })
   );
@@ -81,7 +68,6 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__,
-        // domain: undefined,
         domain: __prod__ ? '.meshare.me' : undefined,
       },
       saveUninitialized: false,
@@ -102,8 +88,6 @@ const main = async () => {
       ],
       validate: false,
     }),
-    playground: true,
-    introspection: true,
     context: ({ req, res }): MyContext => ({
       req,
       res,
