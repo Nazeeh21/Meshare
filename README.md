@@ -1,4 +1,5 @@
-<h1 align="center">Meshare</h1>
+<h1 align="center">Meshare  <a href="https://github.com/Nazeeh21/Meshare" target="blank"><img align="center" src="https://raw.githubusercontent.com/Nazeeh21/Nazeeh21/main/public/Octocat.png" alt="Octocat" height="50" width="50" /></a>
+</p></h1>
 
 <h3 align="center">For the developers, of the developers and by the developers:wink:</h3>
 
