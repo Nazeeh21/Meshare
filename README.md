@@ -14,6 +14,8 @@ If the solution provided by any folk solves the question, then the question's au
 
 Easy to hop in any discussion going on any question (error):smile:.
 
+It can also display your [Github Activity](https://github.com) more conviniently:star_struck:.
+
 
 ## Usage
 For using Meshare, you need to log in or signup using [GitHub](https://github.com).
@@ -24,6 +26,34 @@ That's all, you are good to go:+1:.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Technology
+
+<details>
+<summary>"Frontend technologies"</summary>
+- Next.js
+- Typescript
+- Urql-Graphql
+- Tailwindcss
+- React-redux
+- Chakra-UI
+- Supabase
+
+</details>
+
+<details>
+<summary>"Backend technologies"</summary>
+- Nodejs
+- Typescript
+- Typeorm
+- Docker
+- Express
+- Graphql
+- Apollo Server
+- Redis
+- PostgreSQL
+
+</details>
 
 ---
 ## Note
