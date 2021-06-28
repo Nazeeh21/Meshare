@@ -30,7 +30,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## Technology
 
 <details>
-<summary>"Frontend technologies"</summary>
+<summary>Frontend technologies</summary>
 <ul>
 <li>Next.js</li>
 <li>Typescript</li>
@@ -43,7 +43,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 </details>
 
 <details>
-<summary>"Backend technologies"</summary>
+<summary>Backend technologies</summary>
 <ul>
 <li>Nodejs</li>
 <li>Typescript</li>
