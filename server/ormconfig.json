@@ -4,7 +4,7 @@
   "port": 5432,
   "username": "postgres",
   "password": "5616",
-  "database": "get-it-here",
+  "database": "meshare",
   "entities": ["dist/entities/*.js"],
   "migrations": ["dist/migrations/*.js"]
 }
