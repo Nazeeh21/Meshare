@@ -31,27 +31,30 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 <details>
 <summary>"Frontend technologies"</summary>
-- Next.js
-- Typescript
-- Urql-Graphql
-- Tailwindcss
-- React-redux
-- Chakra-UI
-- Supabase
-
+<ul>
+<li>Next.js</li>
+<li>Typescript</li>
+<li>Urql-Graphql</li>
+<li>Tailwindcss</li>
+<li>React-redux</li>
+<li>Supabase</li>
+<li>Chakra-UI</li>
+</ul>
 </details>
 
 <details>
 <summary>"Backend technologies"</summary>
-- Nodejs
-- Typescript
-- Typeorm
-- Docker
-- Express
-- Graphql
-- Apollo Server
-- Redis
-- PostgreSQL
+<ul>
+<li>Nodejs</li>
+<li>Typescript</li>
+<li>Typeorm</li>
+<li>Docker</li>
+<li>Express</li>
+<li>Graphql</li>
+<li>Apollo Server</li>
+<li>Redis</li>
+<li>PostgreSQL</li>
+</ul>
 
 </details>
 
