@@ -2,16 +2,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import ReactTimeAgo from "react-time-ago";
-
-interface HrefCompProps {
-  label: string;
-  hrefLink: string;
-  styles: string;
-}
-
-const HrefComp: React.FC<HrefCompProps> = ({label, hrefLink, styles}) => {
-  return (<a className={styles} href={hrefLink}>{label}</a>)
-}
+import { HrefComp } from "./HrefComp";
 
 export const GithubActivity = ({ activity }) => {
   const router = useRouter();
