@@ -24,6 +24,10 @@ export class Question extends BaseEntity {
 
   @Field()
   @Column()
+  title!: string;
+
+  @Field()
+  @Column()
   text!: string;
 
   @Field()

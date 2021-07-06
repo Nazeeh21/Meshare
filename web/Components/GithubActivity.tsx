@@ -1,6 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import React from "react";
 import ReactTimeAgo from "react-time-ago";
+
+interface hrefCompProps {
+  label: string;
+  hrefLink: string;
+  styles: string;
+}
+
+const hrefComp: React.FC<hrefCompProps> = ({label, hrefLink, styles}) => {
+  return <a className={styles} href={hrefLink}>{label}</a>
+}
 
 export const GithubActivity = ({ activity }) => {
   const router = useRouter();

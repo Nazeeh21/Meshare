@@ -3,6 +3,7 @@ query Questions($limit: Int!, $cursor: String) {
     hasMore
     questions {
       id
+      title
       text
       html
       imageUrls
