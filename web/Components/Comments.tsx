@@ -26,16 +26,11 @@ const Comments: React.FC = ({}) => {
       </div>
     );
   }
-  useEffect(() => {
-    if (data) {
-      console.log('comments: ', data.comments);
-    }
-  }, [data]);
 
   return (
     <div>
-      {data?.comments?.comments?.map((comment) => (
-        <CommentComp comment={comment} />
+      {data?.comments?.comments?.map((comment, index) => (
+        <CommentComp key={index} comment={comment} />
       ))}
     </div>
   );

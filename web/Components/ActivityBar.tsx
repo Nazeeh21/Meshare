@@ -66,7 +66,7 @@ export const ActivityBar: React.FC<LayoutProps> = ({}) => {
       ));
   }
   return (
-    <div className='h-sidebarH pb-8 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-hidden'>
+    <div className='h-sidebarH pb-16 w-3/12 lg:w-6/12 md:w-6/12 hidden md:block rounded-r-md bg-activityBlue overflow-y-hidden'>
       <div className='text-white font-semibold text-center mt-4 mb-2 text-xl'>
         GitHub Activity
       </div>
