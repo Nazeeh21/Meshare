@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import React from "react";
 import ReactTimeAgo from "react-time-ago";
 
-interface hrefCompProps {
+interface HrefCompProps {
   label: string;
   hrefLink: string;
   styles: string;
 }
 
-const hrefComp: React.FC<hrefCompProps> = ({label, hrefLink, styles}) => {
-  return <a className={styles} href={hrefLink}>{label}</a>
+const HrefComp: React.FC<HrefCompProps> = ({label, hrefLink, styles}) => {
+  return (<a className={styles} href={hrefLink}>{label}</a>)
 }
 
 export const GithubActivity = ({ activity }) => {
@@ -23,23 +23,26 @@ export const GithubActivity = ({ activity }) => {
           // starred
           body = (
             <div>
-              <div
+              {/* <div
                 className="cursor-pointer inline-block font-bold"
                 onClick={() => {
                   router.push(`https://github.com/${activity.actor.login}`);
                 }}
               >
                 {activity.actor.display_login}
-              </div>{" "}
+              </div> */}
+              <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+              {" "}
               starred{" "}
-              <span
+              {/* <span
                 className="cursor-pointer font-bold"
                 onClick={() => {
                   router.push(`https://github.com/${activity.repo.name}`);
                 }}
               >
                 {activity.repo.name}
-              </span>
+              </span> */}
+              <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
             </div>
           );
           break;
@@ -53,23 +56,26 @@ export const GithubActivity = ({ activity }) => {
         // user has pushed to a repository
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            {" "}
             created a repository{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
               {activity.repo.name}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -81,23 +87,26 @@ export const GithubActivity = ({ activity }) => {
         // user  has forked a repo
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            {" "}
             forked{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
               {activity.repo.name}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -111,7 +120,7 @@ export const GithubActivity = ({ activity }) => {
         // console.log("orgi:", orgi);
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(
@@ -120,16 +129,19 @@ export const GithubActivity = ({ activity }) => {
               }}
             >
               {activity.payload.member.login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
+            {" "}
             has been added to an organization{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.org.login}`);
               }}
             >
               {activity.org.login}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer font-bold' label={activity.org.login} hrefLink={`https://github.com/${activity.org.login}`} />
           </div>
         );
       } else if (
@@ -140,7 +152,7 @@ export const GithubActivity = ({ activity }) => {
       ) {
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(
@@ -149,16 +161,19 @@ export const GithubActivity = ({ activity }) => {
               }}
             >
               {activity.payload.member.login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
+            {" "}
             has been added to repository{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
               {activity.repo.name}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -175,23 +190,26 @@ export const GithubActivity = ({ activity }) => {
         // user has made public repo
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            {" "}
             made{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
               {activity.repo.name}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -206,23 +224,26 @@ export const GithubActivity = ({ activity }) => {
       ) {
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.login}`);
               }}
             >
               {activity.actor.login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            {" "}
             pushed to{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }}
             >
               {activity.repo.name}
-            </span>
+            </span> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -233,26 +254,31 @@ export const GithubActivity = ({ activity }) => {
       if(activity.payload.action === "published" && activity.payload.repo !== null && activity.payload.release !== null) {
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.display_login}`);
               }}
             >
               {activity.actor.display_login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
+            {" "}
             released {" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(activity.payload.release.html_url);
               }}
             >
               {activity.payload.release.tag_name}
-            </span> of
-            <span onClick={() => {
+            </span>  */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.release.tag_name} hrefLink={activity.payload.release.html_url} />
+            of
+            {/* <span onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
-              }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span>
+              }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span> */}
+              <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -262,26 +288,26 @@ export const GithubActivity = ({ activity }) => {
       if(activity.payload.comment.node_id && activity.repo.name !== null && activity.payload.comment.body !== null) {
         body = (
           <div>
-            <div
+            {/* <div
               className="cursor-pointer inline-block font-bold"
               onClick={() => {
                 router.push(`https://github.com/${activity.actor.display_login}`);
               }}
             >
               {activity.actor.login}
-            </div>{" "}
+            </div> */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
+            {" "}
             commented on{" "}
-            <span
+            {/* <span
               className="cursor-pointer font-bold"
               onClick={() => {
                 router.push(activity.payload.comment.html_url);
               }}
             >
               {activity.repo.name}
-            </span> 
-            {/* <span onClick={() => {
-                router.push(`https://github.com/${activity.repo.name}`);
-              }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span> */}
+            </span>  */}
+            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={activity.payload.comment.html_url} />
           </div>
         );
       }

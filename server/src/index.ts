@@ -38,7 +38,7 @@ const main = async () => {
     },
     // dropSchema: true,
     logging: true,
-    synchronize: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Question, User, Comment, Upvote, Bookmark],
   });
