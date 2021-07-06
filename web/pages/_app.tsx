@@ -6,6 +6,7 @@ import "tailwindcss/tailwind.css";
 import { wrapper } from "../redux/store";
 import AppLayout from "../Components/AppLayout";
 import TimeAgo from "javascript-time-ago";
+import '../styles/global.css'
 
 import en from "javascript-time-ago/locale/en";
 

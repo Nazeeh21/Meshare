@@ -1,0 +1,43 @@
+/* classes for MDEditor starts */
+
+.section-container {
+  background: #E0EAF1!important;
+}
+
+.sec-html {
+  border-color: #47597E;
+  border-left-width: 0.3rem;
+  /* border-width: 0; */
+}
+
+.rc-md-navigation {
+  background-color: #132b4f!important;
+}
+
+.button-wrap span {
+  color: #E0EAF1!important;
+}
+/* classes for MDEditor ends */
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 4rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #132b4f;
+  border: 1px solid #637b9f;
+  border-radius: 0.5rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+  width: 0.8rem;
+}

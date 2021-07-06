@@ -17,8 +17,8 @@ const CreateQuestion = () => {
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const suggestions = [{ name: 'react' }, { name: 'react-native' }];
-  const [question, setQuestion] = useState<{ text: string; html: string ; title: string;}>({
-    title: '',
+  const [title, setTitle] = useState<string>('');
+  const [question, setQuestion] = useState<{ text: string; html: string }>({
     text: '',
     html: '',
   });
@@ -32,6 +32,7 @@ const CreateQuestion = () => {
     const uploadedImagePaths = await uploadImages();
     const { error } = await createQuestion({
       ...question,
+      title,
       imageUrls: uploadedImagePaths,
       tags,
     });
@@ -110,19 +111,21 @@ const CreateQuestion = () => {
   }
 
   useEffect(() => {
-    console.log('question from createQuestion: ', question)
-  }, [question])
+    console.log('question from createQuestion: ', question);
+  }, [question]);
 
   return (
     <div>
       <div className='h-screen'>
         <div className='w-full'>
-          <input className='w-full bg-gray-400 rounded-md outline-none text-black p-2' value={question.title} onChange={(e) => {
-            const newQuestionValue = {...question}
-            newQuestionValue.title=e.target.value
-            setQuestion(newQuestionValue)
-
-          }} placeholder='Add title' />
+          <input
+            className='w-full bg-gray-400 rounded-md outline-none text-black p-2'
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            placeholder='Add title'
+          />
         </div>
 
         <div className='w-full mt-4 mb-4 m-auto '>
@@ -142,10 +145,10 @@ const CreateQuestion = () => {
             classNameRemove: 'react-tagsinput-remove',
           }}
         />
-        
+
         <button
           onClick={onSubmitClick}
-          className={`mt-6 bg-submitButton border-none py-2 px-3 ${
+          className={`mt-6 bg-submitButton border-none outline-none py-2 px-3 ${
             submitting ? 'cursor-not-allowed' : 'cursor-pointer'
           } rounded-md outline-none text-lg font-bold text-white`}
         >
