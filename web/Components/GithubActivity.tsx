@@ -22,7 +22,7 @@ export const GithubActivity = ({ activity }) => {
               >
                 {activity.actor.display_login}
               </div> */}
-              <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+              <HrefComp label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
               {" "}
               starred{" "}
               {/* <span
@@ -33,7 +33,7 @@ export const GithubActivity = ({ activity }) => {
               >
                 {activity.repo.name}
               </span> */}
-              <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+              <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
             </div>
           );
           break;
@@ -55,7 +55,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.display_login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            <HrefComp label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
             {" "}
             created a repository{" "}
             {/* <span
@@ -66,7 +66,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span> */}
-            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+            <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -86,7 +86,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.display_login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            <HrefComp label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
             {" "}
             forked{" "}
             {/* <span
@@ -97,7 +97,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span> */}
-            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+            <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -121,7 +121,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.payload.member.login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
+            <HrefComp label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
             {" "}
             has been added to an organization{" "}
             {/* <span
@@ -132,7 +132,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.org.login}
             </span> */}
-            <HrefComp styles='cursor-pointer font-bold' label={activity.org.login} hrefLink={`https://github.com/${activity.org.login}`} />
+            <HrefComp label={activity.org.login} hrefLink={`https://github.com/${activity.org.login}`} />
           </div>
         );
       } else if (
@@ -153,7 +153,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.payload.member.login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
+            <HrefComp label={activity.payload.member.login} hrefLink={`https://github.com/${activity.payload.member.login}`} />
             {" "}
             has been added to repository{" "}
             {/* <span
@@ -164,7 +164,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span> */}
-            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+            <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -189,7 +189,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.display_login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            <HrefComp label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.login}`} />
             {" "}
             made{" "}
             {/* <span
@@ -200,7 +200,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span> */}
-            <HrefComp styles='cursor-pointer font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+            <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -223,7 +223,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.login}`} />
+            <HrefComp label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.login}`} />
             {" "}
             pushed to{" "}
             {/* <span
@@ -234,7 +234,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+            <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -253,7 +253,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.display_login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
+            <HrefComp label={activity.actor.display_login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
             {" "}
             released {" "}
             {/* <span
@@ -264,12 +264,12 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.payload.release.tag_name}
             </span>  */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.payload.release.tag_name} hrefLink={activity.payload.release.html_url} />
+            <HrefComp label={activity.payload.release.tag_name} hrefLink={activity.payload.release.html_url} />
             of
             {/* <span onClick={() => {
                 router.push(`https://github.com/${activity.repo.name}`);
               }} className='cursor-pointer inline-block font-bold'>{activity.repo.name}</span> */}
-              <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
+              <HrefComp label={activity.repo.name} hrefLink={`https://github.com/${activity.repo.name}`} />
           </div>
         );
       }
@@ -287,7 +287,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.actor.login}
             </div> */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
+            <HrefComp label={activity.actor.login} hrefLink={`https://github.com/${activity.actor.display_login}`} />
             {" "}
             commented on{" "}
             {/* <span
@@ -298,7 +298,7 @@ export const GithubActivity = ({ activity }) => {
             >
               {activity.repo.name}
             </span>  */}
-            <HrefComp styles='cursor-pointer inline-block font-bold' label={activity.repo.name} hrefLink={activity.payload.comment.html_url} />
+            <HrefComp label={activity.repo.name} hrefLink={activity.payload.comment.html_url} />
           </div>
         );
       }

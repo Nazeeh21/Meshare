@@ -8,6 +8,7 @@ import {
   useVoteMutation,
 } from '../generated/graphql';
 import { Tag } from './Tags';
+import {HrefComp } from './HrefComp'
 
 interface QuestionProps {
   question: any;
@@ -156,12 +157,13 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           question?.tags.map((tag, index) => <Tag key={index} tag={tag} />)}
         <div className='mt-2'>
           Posted by:{' '}
-          <a
+          <HrefComp hrefLink={`https://github.com/${question.creator.name}`} label={question.creator.name} />
+          {/* <a
             href={`https://github.com/${question.creator.name}`}
             className='inline-block font-medium'
           >
             {question.creator.name}
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
