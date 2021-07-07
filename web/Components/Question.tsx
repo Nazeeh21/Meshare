@@ -101,7 +101,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           >
             <div
               className={`${
-                router.pathname !== '/questions/[id]' ? 'cursor-pointer' : 'mb-3'
+                router.pathname !== '/questions/[id]' ? 'cursor-pointer' : 'mb-3 text-lg'
               } font-semibold`}
               style={{ width: 'fit-content' }}
               onClick={() => {
@@ -155,7 +155,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
         </div>
         {question?.tags &&
           question?.tags.map((tag, index) => <Tag key={index} tag={tag} />)}
-        <div className='mt-2'>
+        <div className='mt-3'>
           Posted by:{' '}
           <HrefComp hrefLink={`https://github.com/${question.creator.name}`} label={question.creator.name} />
           {/* <a

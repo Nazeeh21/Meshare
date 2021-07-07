@@ -116,7 +116,7 @@ const CreateQuestion = () => {
 
   return (
     <div>
-      <div className='h-screen'>
+      <div className='h-screen overflow-y-auto overflow-x-hidden'>
         <div className='w-full'>
           <input
             className='w-full bg-gray-400 rounded-md outline-none text-black p-2'
@@ -132,6 +132,9 @@ const CreateQuestion = () => {
           <div className='w-full h-64 overflow-y-auto'>
             <MarkDown value={question} setValue={setQuestion} />
           </div>
+        </div>
+        <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
+          <UploadComponent files={files} setFiles={setFiles} />
         </div>
         <TagsInput
           className='mt-10 rounded-md w-full bg-iconGrey'

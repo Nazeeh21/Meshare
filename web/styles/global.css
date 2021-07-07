@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;400;500;700&family=Source+Code+Pro:wght@200;300;400&display=swap');
+
 /* classes for MDEditor starts */
 
 .section-container {
@@ -17,11 +19,15 @@
 .button-wrap span {
   color: #E0EAF1!important;
 }
+
+.button-type-header li {
+  color: #132b4f!important;
+}
 /* classes for MDEditor ends */
 
 ::-webkit-scrollbar {
   width: 0.6rem;
-  height: 4rem;
+  height: 0.6rem;
 }
 
 /* Track */
@@ -40,4 +46,10 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #fff;
   width: 0.8rem;
+}
+
+/* css for code formatting */
+
+code {
+  font-family: "Roboto Mono"!important;
 }

@@ -56,7 +56,7 @@ const Home = () => {
 
       {/* {console.log(typeof data.questions.questions[0])} */}
       {data && (
-        <div className='h-full w-full overflow-y-auto overflow-x-hidden pb-32'>
+        <div className='h-full w-full overflow-y-auto overflow-x-hidden pb-32 sm:pb-12'>
           {/* {data?.questions?.questions.map((question) => (
             <Question key={question.id} question={question} />
           ))} */}
