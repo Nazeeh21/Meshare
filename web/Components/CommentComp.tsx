@@ -20,7 +20,7 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
       className={`w-full mb-2 p-2`}
     >
       <div className={`flex w-full ${acceptedAnswer && acceptedAnswer?.id === comment.id ? 'justify-end' : 'justify-start'}`}>
-        {acceptedAnswer && acceptedAnswer?.id !== comment.id  && <img
+        {acceptedAnswer?.id !== comment.id  && <img
           className='w-10 h-10 rounded-full mr-2 cursor-pointer'
           onClick={() =>
             router.push(`https://github.com/${comment.creator.name}`)

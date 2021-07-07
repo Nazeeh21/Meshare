@@ -3,25 +3,25 @@
 /* classes for MDEditor starts */
 
 .section-container {
-  background: #E0EAF1!important;
+  background: #e0eaf1 !important;
 }
 
 .sec-html {
-  border-color: #47597E;
+  border-color: #47597e;
   border-left-width: 0.3rem;
   /* border-width: 0; */
 }
 
 .rc-md-navigation {
-  background-color: #132b4f!important;
+  background-color: #132b4f !important;
 }
 
 .button-wrap span {
-  color: #E0EAF1!important;
+  color: #e0eaf1 !important;
 }
 
 .button-type-header li {
-  color: #132b4f!important;
+  color: #132b4f !important;
 }
 /* classes for MDEditor ends */
 
@@ -37,8 +37,8 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #132b4f;
-  border: 1px solid #637b9f;
+  background: #132b4f !important;
+  border: 1.5px solid #637b9f !important;
   border-radius: 0.5rem;
 }
 
@@ -51,5 +51,37 @@
 /* css for code formatting */
 
 code {
-  font-family: "Roboto Mono"!important;
+  font-family: 'Roboto Mono' !important;
+}
+
+pre {
+  /* color: #fafafa !important; */
+  font-size: 0.8888889em !important;
+  line-height: 1.75 !important;
+  background-color: #1f2937 !important;
+  margin-top: 2em !important;
+  margin-bottom: 2em !important;
+  border-radius: 0.375rem !important;
+  padding-top: 1rem !important;
+  padding-right: 1.5rem !important;
+  padding-bottom: 1rem !important;
+  padding-left: 1.5rem !important;
+  width: fit-content !important;
+}
+
+pre code {
+  background-color: transparent !important;
+  color: #ddd !important;
+}
+
+
+p code {
+  font-family: 'Roboto Mono' !important;
+  --tw-bg-opacity: 1 !important;
+    background-color: #1f2937 !important;
+    --tw-text-opacity: 1 !important;
+    color: rgba(238,238,238,var(--tw-text-opacity)) !important;
+    border-radius: .25rem !important;
+    padding: .25rem !important;
+    font-weight: 400 !important;
 }
