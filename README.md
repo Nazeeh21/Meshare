@@ -62,7 +62,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ---
 ## Note
 
-This is the alpha release of the web app, so many features are under development and also many functions are liable to crash:disappointed_relieved:.
+This is the **alpha** release of the web app, so many features are under development and also many functions are liable to crash:disappointed_relieved:.
 
 Please do submit a crash report by creating an issue if you encounter any.
 
