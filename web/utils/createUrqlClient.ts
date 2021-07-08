@@ -185,6 +185,15 @@ const invalidateAllQuestions = (cache: Cache) => {
   });
 };
 
+const invalidateQuestion = (cache: Cache) => {
+  const allFields = cache.inspectFields('Query');
+  const fieldInfos = allFields.filter((info) => info.fieldName === 'question');
+
+  fieldInfos.forEach((fieldInfo) => {
+    cache.invalidate('Query', 'question', fieldInfo.arguments || {});
+  });
+};
+
 const invalidateAllComments = (cache: Cache) => {
   const allFields = cache.inspectFields('Query');
   const fieldInfos = allFields.filter((info) => info.fieldName === 'comments');
@@ -262,6 +271,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
               // }
               invalidateAllQuestions(cache);
               invalidateAllBookmarks(cache);
+              invalidateQuestion(cache)
             },
             vote: (_result, _args, cache, _info) => {
               const { questionId, value } = _args as VoteMutationVariables;

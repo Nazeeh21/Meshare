@@ -23,6 +23,9 @@ import { Comment } from '../entities/Comment';
 @InputType()
 class QuestionInput {
   @Field()
+  title: string;
+  
+  @Field()
   text: string;
 
   @Field()
@@ -249,14 +252,14 @@ export class QuestionResolver {
   @Query(() => Question, { nullable: true })
   question(
     @Arg('id', () => Int) id: number,
-    @Ctx() { req }: MyContext
+    // @Ctx() { req }: MyContext
   ): Promise<Question | undefined> {
     // console.log('session: ', req.session)
-    const githubId = req.session.githubId;
-    console.log('github Id: ', req.session);
-    if (!githubId) {
-      throw new Error('not authenticated');
-    }
+    // const githubId = req.session.githubId;
+    // console.log('github Id: ', req.session);
+    // if (!githubId) {
+    //   throw new Error('not authenticated');
+    // }
     return Question.findOne(id);
   }
 }

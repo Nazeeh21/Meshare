@@ -17,6 +17,7 @@ const CreateQuestion = () => {
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const suggestions = [{ name: 'react' }, { name: 'react-native' }];
+  const [title, setTitle] = useState<string>('');
   const [question, setQuestion] = useState<{ text: string; html: string }>({
     text: '',
     html: '',
@@ -31,6 +32,7 @@ const CreateQuestion = () => {
     const uploadedImagePaths = await uploadImages();
     const { error } = await createQuestion({
       ...question,
+      title,
       imageUrls: uploadedImagePaths,
       tags,
     });
@@ -108,24 +110,32 @@ const CreateQuestion = () => {
     );
   }
 
+  useEffect(() => {
+    console.log('question from createQuestion: ', question);
+  }, [question]);
+
   return (
     <div>
-      <div className='h-screen'>
-        {/* <input
-          className='w-full mb-2 rounded-md placeholder-greyST text-black bg-iconGrey outline-none pt-2 px-2'
-          placeholder='Enter title...'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        /> */}
+      <div className='h-screen overflow-y-auto overflow-x-hidden'>
+        <div className='w-full'>
+          <input
+            className='w-full bg-gray-400 rounded-md outline-none text-black p-2'
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            placeholder='Add title'
+          />
+        </div>
+
         <div className='w-full mt-4 mb-4 m-auto '>
           <div className='w-full h-64 overflow-y-auto'>
             <MarkDown value={question} setValue={setQuestion} />
           </div>
         </div>
-
-        {/* <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
+        <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
           <UploadComponent files={files} setFiles={setFiles} />
-        </div> */}
+        </div>
         <TagsInput
           className='mt-10 rounded-md w-full bg-iconGrey'
           renderInput={autosuggestRenderInput}
@@ -138,15 +148,10 @@ const CreateQuestion = () => {
             classNameRemove: 'react-tagsinput-remove',
           }}
         />
-        {/* <button
-          onClick={() => {}}
-          className='border-none bg-iconBlue text-blue font-semibold text-lg mt-4 mb-12 sm:mb-12 rounded-md p-2 pl-3 pr-3'
-        >
-          Create Question
-        </button> */}
+
         <button
           onClick={onSubmitClick}
-          className={`mt-6 bg-submitButton border-none py-2 px-3 ${
+          className={`mt-6 bg-submitButton border-none outline-none py-2 px-3 ${
             submitting ? 'cursor-not-allowed' : 'cursor-pointer'
           } rounded-md outline-none text-lg font-bold text-white`}
         >

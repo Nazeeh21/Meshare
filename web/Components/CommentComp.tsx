@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from "next/router";
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import { useSelector } from "react-redux";
+import { useRouter } from 'next/router';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import { useSelector } from 'react-redux';
 
 interface CommentCompProps {
   comment: any;
@@ -12,49 +12,51 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
   const acceptedAnswer = useSelector(
     (state: any) => state.question.acceptedAnswer
   );
-  console.log("comment: ", comment);
+  console.log('comment: ', comment);
   const router = useRouter();
 
   return (
     <div
-      className={`w-full mb-2 
-      ${
-        acceptedAnswer && acceptedAnswer?.id === comment.id
-          ? "float-left"
-          : "float-right"
-      }
-      `}
+      className={`w-full mb-2 p-2`}
     >
-      <div className="flex w-full">
-        <img
-          className="w-10 h-10 rounded-full mr-2 cursor-pointer"
+      <div className={`flex w-full ${acceptedAnswer && acceptedAnswer?.id === comment.id ? 'justify-end' : 'justify-start'}`}>
+        {acceptedAnswer?.id !== comment.id  && <img
+          className='w-10 h-10 rounded-full mr-2 cursor-pointer'
           onClick={() =>
             router.push(`https://github.com/${comment.creator.name}`)
           }
           src={comment.creator.avatarUrl}
           alt={comment.creator.name}
-        />
+        />}
         <div
           className={`rounded-md w-9/12 ${
             acceptedAnswer && acceptedAnswer?.id === comment.id
-              ? "bg-acceptedAnswer text-black mr-0"
-              : "text-white bg-iconBlue"
-          } rounded-tl-none p-2 mb-4 pl-3`}
+              ? 'bg-acceptedAnswer text-black mr-0 rounded-tr-none'
+              : 'text-white bg-iconBlue rounded-tl-none'
+          } p-2 mb-4 pl-3`}
         >
-          <div className="overflow-x-auto">
+          <div className='overflow-x-auto'>
             {/* {comment.text} */}
             <ReactMarkdown>{comment.text}</ReactMarkdown>
           </div>
-          <div className="mt-4">
-            Posted by:{" "}
+          <div className='mt-4'>
+            Posted by:{' '}
             <a
               href={`https://github.com/${comment.creator.name}`}
-              className="inline-block font-medium"
+              className='inline-block font-medium'
             >
               {comment.creator.name}
             </a>
           </div>
         </div>
+        {acceptedAnswer && acceptedAnswer?.id === comment.id  && <img
+          className='w-10 h-10 rounded-full ml-2 cursor-pointer'
+          onClick={() =>
+            router.push(`https://github.com/${comment.creator.name}`)
+          }
+          src={comment.creator.avatarUrl}
+          alt={comment.creator.name}
+        />}
       </div>
       <style jsx>{`
         ::-webkit-scrollbar {

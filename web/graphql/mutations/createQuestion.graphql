@@ -1,4 +1,5 @@
 mutation CreateQuestion(
+  $title: String!
   $text: String!
   $html: String!
   $tags: [String!]!
@@ -6,6 +7,7 @@ mutation CreateQuestion(
 ) {
   createQuestion(
     input: {
+      title: $title
       text: $text
       html: $html
       tags: $tags
@@ -13,6 +15,7 @@ mutation CreateQuestion(
     }
   ) {
     id
+    title
     html
     text
     tags

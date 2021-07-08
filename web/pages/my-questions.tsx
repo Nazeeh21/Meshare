@@ -1,20 +1,29 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { withUrqlClient } from 'next-urql';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Question from '../Components/Question';
 import { useQuestionsQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
+import { isServer } from '../utils/isServer';
+import { useIsAuth } from '../utils/useIsAuth';
 
 const myQuestions: React.FC<{}> = ({}) => {
+  const router = useRouter();
+  useIsAuth();
   const [variables, setVariables] = useState({
     limit: 10,
     cursor: null as null | string,
   });
-  
-  const search = useSelector((state: RootStateOrAny) => state.question.searchedValue);
+
+  const search = useSelector(
+    (state: RootStateOrAny) => state.question.searchedValue
+  );
   const [{ data, error, fetching }] = useQuestionsQuery({
     variables,
+    pause: isServer()
   });
 
   const userData = useSelector((state: RootStateOrAny) => state.main.userData);
@@ -30,9 +39,13 @@ const myQuestions: React.FC<{}> = ({}) => {
   return (
     <div>
       {data && (
-        <div className='h-full w-full overflow-y-auto overflow-x-hidden pb-32'>
+        <div className='h-full w-full overflow-y-auto overflow-x-hidden pb-32 sm:pb-12'>
           {data?.questions?.questions
-            .filter((question) => question.text.includes(search) && question.creator.githubId === userData.githubId)
+            .filter(
+              (question) =>
+                question.text.includes(search) &&
+                question.creator.githubId === userData?.githubId
+            )
             .map((question) => (
               <Question key={question.id} question={question} />
             ))}

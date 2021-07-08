@@ -2,6 +2,7 @@ query Question($id: Int!) {
   question(id: $id) {
     id
     html
+    title
     text
     tags
     imageUrls

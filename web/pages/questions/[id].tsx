@@ -67,7 +67,7 @@ const DetailedQuestion = () => {
   }
 
   return (
-    <div className="overflow-y-auto h-full">
+    <div className="overflow-y-auto h-full p-2">
       {data?.question && <Question question={data.question} />}
       {data?.question?.imageUrls?.length !== 0 && (
         <div className="ml-12 flex justify-around">
