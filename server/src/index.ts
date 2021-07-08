@@ -36,7 +36,7 @@ const main = async () => {
     ssl: {
       rejectUnauthorized: false
     },
-    // dropSchema: true,
+    dropSchema: true,
     logging: true,
     // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
