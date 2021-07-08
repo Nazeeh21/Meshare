@@ -61,6 +61,7 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       <div>
         <div className="my-24">
           <SidebarButton
+            title="Browse"
             click={() => {
               setActive(0);
               router.push("/");
@@ -71,14 +72,18 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
           />
 
           <SidebarButton
-            click={() => {setActive(1)
-            router.push('/my-questions')}}
+            title="My Question"
+            click={() => {
+              setActive(1);
+              router.push("/my-questions");
+            }}
             isActive={active === 1}
             icon={faQuestionCircle}
             size={"2x"}
           />
 
           <SidebarButton
+            title="Create Question"
             click={() => {
               setActive(2);
               router.push("/create-question");
@@ -88,6 +93,7 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
             size={"2x"}
           />
           <SidebarButton
+            title="Bookmarked Question"
             click={() => {
               setActive(3);
               router.push("/bookmarked-questions");
@@ -101,6 +107,7 @@ export const Sidebar: React.FC<Props> = ({ image }: Props) => {
       <div>
         {/* <Button> */}
         <SidebarButton
+          title="Sign Out"
           click={async () => {
             await logout();
             router.reload();
