@@ -304,6 +304,9 @@ export const GithubActivity = ({ activity }) => {
       }
       break;
     }
+
+    default:
+      return null;
   }
   return (
     <div className="mt-6 text-white mr-4 ml-4 flex items-center">
