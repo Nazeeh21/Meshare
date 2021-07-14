@@ -21,7 +21,6 @@ const bookmarkedQuestions: React.FC<{}> = ({}) => {
     variables,
   });
 
-
   useEffect(() => {
     console.log('data: ', data);
   }, [data, error, fetching]);
@@ -36,6 +35,8 @@ const bookmarkedQuestions: React.FC<{}> = ({}) => {
   }
   return (
     <div>
+      <div className='text-3xl font-bold mt-2 mb-4 ml-12'>Bookmarks</div>
+      {data?.bookmarks?.bookmarks?.length === 0 && <div className='text-center mt-4 font-semibold text-xl'>You got no bookmarks</div>}
       {data?.bookmarks.bookmarks.map((bookmark, index) => (
         <Question key={index} question={bookmark.question} />
       ))}

@@ -1,45 +1,45 @@
-import "dotenv-safe/config";
-import { createConnection } from "typeorm";
-import { Question } from "./entities/Question";
-import express from "express";
-import session from "express-session";
-import path from "path";
-import cors from "cors";
-import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { QuestionResolver } from "./resolvers/question";
-import { MyContext } from "./types";
-import passport from "passport";
-import { Strategy as GitHubStrategy } from "passport-github";
-import { User } from "./entities/User";
-import { COOKIE_NAME, __prod__ } from "./constants";
-import Redis from "ioredis";
-import connectRedis from "connect-redis";
-import { UserResolver } from "./resolvers/user";
-import { Comment } from "./entities/Comment";
-import { Upvote } from "./entities/Upvote";
-import { createUserLoader } from "./utils/createUserLoader";
-import { createUpvoteLoader } from "./utils/createUpvoteLoader";
-import { CommentResolver } from "./resolvers/comment";
-import { createCommentLoader } from "./utils/createCommentLoader";
-import { Bookmark } from "./entities/Bookmark";
-import { BookmarkResolver } from "./resolvers/bookmark";
-import { createQuestionLoader } from "./utils/createQuestionLoader";
-import { createBookmarkLoader } from "./utils/createBookmarkLoader";
+import 'dotenv-safe/config';
+import { createConnection } from 'typeorm';
+import { Question } from './entities/Question';
+import express from 'express';
+import session from 'express-session';
+import path from 'path';
+import cors from 'cors';
+import { ApolloServer } from 'apollo-server-express';
+import { buildSchema } from 'type-graphql';
+import { QuestionResolver } from './resolvers/question';
+import { MyContext } from './types';
+import passport from 'passport';
+import { Strategy as GitHubStrategy } from 'passport-github';
+import { User } from './entities/User';
+import { COOKIE_NAME, __prod__ } from './constants';
+import Redis from 'ioredis';
+import connectRedis from 'connect-redis';
+import { UserResolver } from './resolvers/user';
+import { Comment } from './entities/Comment';
+import { Upvote } from './entities/Upvote';
+import { createUserLoader } from './utils/createUserLoader';
+import { createUpvoteLoader } from './utils/createUpvoteLoader';
+import { CommentResolver } from './resolvers/comment';
+import { createCommentLoader } from './utils/createCommentLoader';
+import { Bookmark } from './entities/Bookmark';
+import { BookmarkResolver } from './resolvers/bookmark';
+import { createQuestionLoader } from './utils/createQuestionLoader';
+import { createBookmarkLoader } from './utils/createBookmarkLoader';
 
 const main = async () => {
   // command for generating tables: npx typeorm migration:generate -n Initial
-
+  // @ts-ignore
   const conn = await createConnection({
-    type: "postgres",
+    type: 'postgres',
     url: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
     },
     // dropSchema: true,
     logging: true,
     // synchronize: true,
-    migrations: [path.join(__dirname, "./migrations/*")],
+    migrations: [path.join(__dirname, './migrations/*')],
     entities: [Question, User, Comment, Upvote, Bookmark],
   });
 
@@ -50,7 +50,7 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
 
-  app.set("trust proxy", 1);
+  app.set('trust proxy', 1);
 
   app.use(
     cors({
@@ -66,7 +66,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365, //1 year
         httpOnly: true,
-        sameSite: "lax", // csrf
+        sameSite: 'lax', // csrf
         secure: __prod__,
         domain: __prod__ ? '.meshare.me' : undefined,
       },
@@ -101,7 +101,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: false
+    cors: false,
   });
 
   passport.serializeUser((user: any, done) => {
@@ -115,7 +115,7 @@ const main = async () => {
         clientID: process.env.GITHUB_CLIENT_ID,
         // @ts-ignore
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CALLBACK_URL
+        callbackURL: process.env.GITHUB_CALLBACK_URL,
         // callbackURL: "http://localhost:4000/auth/github/callback",
       },
       async (_: any, __: any, profile: any, cb: any) => {
@@ -144,11 +144,11 @@ const main = async () => {
     )
   );
 
-  app.get("/auth/github", passport.authenticate("github", { session: false }));
+  app.get('/auth/github', passport.authenticate('github', { session: false }));
 
   app.get(
-    "/auth/github/callback",
-    passport.authenticate("github", { session: true, failureRedirect: "/" }),
+    '/auth/github/callback',
+    passport.authenticate('github', { session: true, failureRedirect: '/' }),
     (req: any, res) => {
       // Successful authentication, redirect home.
       const accessToken = req.user.accessToken;
@@ -162,7 +162,7 @@ const main = async () => {
   );
 
   app.listen(+process.env.PORT, () => {
-    console.log("server started on port ", process.env.PORT);
+    console.log('server started on port ', process.env.PORT);
   });
 };
 
