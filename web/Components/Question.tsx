@@ -106,15 +106,6 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
               alt='bookmark'
             />
           </Tooltip>
-
-          {router.pathname !== '/questions/[id]' && (
-            <img
-              onClick={() => router.push(`/questions/${question.id}`)}
-              className='h-6 mt-3 mb-3 -ml-1 mr-2 cursor-pointer'
-              src='/share.png'
-              alt='share'
-            />
-          )}
         </div>
       </div>
 
