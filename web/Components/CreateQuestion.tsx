@@ -116,8 +116,12 @@ const CreateQuestion = () => {
 
   return (
     <div>
-      <div className="h-screen overflow-y-auto overflow-x-hidden">
+      <div className="h-full overflow-y-auto overflow-x-hidden">
+        <div className='text-3xl font-bold mt-2 mb-4'>
+          Create Question
+        </div>
         <div className="w-full">
+          <label className="mt-2 mb-2 font-semibold text-xl">Enter Title</label>
           <input
             className="w-full bg-gray-400 rounded-md outline-none placeholder-gray-600 p-2"
             value={title}
@@ -129,6 +133,7 @@ const CreateQuestion = () => {
         </div>
 
         <div className="w-full mt-4 mb-4 m-auto ">
+          <label className="mt-2 mb-2 font-semibold text-xl">Enter Question</label>
           <div className="w-full h-64 overflow-y-auto">
             <MarkDown value={question} setValue={setQuestion} />
           </div>
@@ -136,8 +141,10 @@ const CreateQuestion = () => {
         <div className="w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md">
           <UploadComponent files={files} setFiles={setFiles} />
         </div>
+        <div className='mt-8'>
+          <label className="mt-2 mb-2 font-semibold text-xl">Add Tags</label>
         <TagsInput
-          className="mt-10 rounded-md w-full bg-iconGrey"
+          className="rounded-md w-full bg-iconGrey"
           renderInput={autosuggestRenderInput}
           value={tags}
           onChange={(e) => onChange(e)}
@@ -148,6 +155,8 @@ const CreateQuestion = () => {
             classNameRemove: "react-tagsinput-remove",
           }}
         />
+        </div>
+        
 
         <button
           onClick={onSubmitClick}

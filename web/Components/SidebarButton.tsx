@@ -1,7 +1,7 @@
 import { LayoutProps } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip, Zoom } from "@material-ui/core";
 interface Props {
   click?: any;
   icon: any;
@@ -20,7 +20,7 @@ export const SidebarButton: React.FC<Props> = ({
   title,
 }) => {
   return (
-    <Tooltip title={title}>
+    <Tooltip title={title} TransitionComponent={Zoom}>
       <div
         onClick={click}
         className={` mt-4 ${

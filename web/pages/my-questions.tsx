@@ -40,6 +40,7 @@ const myQuestions: React.FC<{}> = ({}) => {
     <div>
       {data && (
         <div className='h-full w-full overflow-y-auto overflow-x-hidden pb-32 sm:pb-12'>
+          <div className='text-3xl font-bold mt-2 mb-4 ml-12'>My Questions</div>
           {data?.questions?.questions
             .filter(
               (question) =>

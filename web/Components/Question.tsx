@@ -8,7 +8,8 @@ import {
   useVoteMutation,
 } from '../generated/graphql';
 import { Tag } from './Tags';
-import {HrefComp } from './HrefComp'
+import { HrefComp } from './HrefComp';
+import { Tooltip } from '@material-ui/core';
 
 interface QuestionProps {
   question: any;
@@ -51,37 +52,61 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           alt={question.creator.name}
         />
         <div className='sm:hidden right-0 bottom-0 bg-black justify-center items-center p-2'>
-          <img
-            className='mr-2 cursor-pointer'
-            onClick={upVoteClicked}
-            src={
+          <Tooltip
+            title={
               question.voteStatus && question.voteStatus === 1
-                ? '/upvote.svg'
-                : '/upvoteEmpty.svg'
+                ? 'Remove Upvote'
+                : 'Upvote'
             }
-            alt='upvote'
-          />
+          >
+            <img
+              className='mr-2 cursor-pointer'
+              onClick={upVoteClicked}
+              src={
+                question.voteStatus && question.voteStatus === 1
+                  ? '/upvote.svg'
+                  : '/upvoteEmpty.svg'
+              }
+              alt='upvote'
+            />
+          </Tooltip>
+
           <div className='text-white text-lg mr-2'>{question.points}</div>
-          <img
-            className='mr-2 cursor-pointer'
-            onClick={downVoteClicked}
-            src={
+
+          <Tooltip
+            title={
               question.voteStatus && question.voteStatus === -1
-                ? '/downvote.svg'
-                : '/downvoteEmpty.svg'
+                ? 'Remove Downvote'
+                : 'Downvote'
             }
-            alt='downvote'
-          />
-          <img
-            onClick={bookmarkClicked}
-            className='h-6 cursor-pointer'
-            src={
-              question.bookmarkStatus
-                ? '/bookmarkSelected.svg'
-                : '/bookmark.svg'
-            }
-            alt='bookmark'
-          />
+          >
+            <img
+              className='mr-2 cursor-pointer'
+              onClick={downVoteClicked}
+              src={
+                question.voteStatus && question.voteStatus === -1
+                  ? '/downvote.svg'
+                  : '/downvoteEmpty.svg'
+              }
+              alt='downvote'
+            />
+          </Tooltip>
+
+          <Tooltip
+            title={question.bookmarkStatus ? 'Remove Bookmark' : 'Bookmark'}
+          >
+            <img
+              onClick={bookmarkClicked}
+              className='h-6 cursor-pointer'
+              src={
+                question.bookmarkStatus
+                  ? '/bookmarkSelected.svg'
+                  : '/bookmark.svg'
+              }
+              alt='bookmark'
+            />
+          </Tooltip>
+
           {router.pathname !== '/questions/[id]' && (
             <img
               onClick={() => router.push(`/questions/${question.id}`)}
@@ -101,7 +126,9 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
           >
             <div
               className={`${
-                router.pathname !== '/questions/[id]' ? 'cursor-pointer' : 'mb-3 text-lg'
+                router.pathname !== '/questions/[id]'
+                  ? 'cursor-pointer'
+                  : 'mb-3 text-lg'
               } font-semibold`}
               style={{ width: 'fit-content' }}
               onClick={() => {
@@ -111,59 +138,79 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
                 router.push(`/questions/${question.id}`);
               }}
             >
-              {router.pathname === '/questions/[id]' ? question.title : question.title.substring(0, 100)}
+              {router.pathname === '/questions/[id]'
+                ? question.title
+                : question.title.substring(0, 100)}
             </div>
             {router.pathname === '/questions/[id]' && (
               <ReactMarkdown components={{}}>{question.text}</ReactMarkdown>
             )}
           </div>
           <div className='sm:absolute hidden right-0 bottom-0 sm:flex justify-center items-center p-2'>
-            <img
-              className='mr-2 cursor-pointer'
-              onClick={upVoteClicked}
-              src={
+            <Tooltip
+              title={
                 question.voteStatus && question.voteStatus === 1
-                  ? '/upvote.svg'
-                  : '/upvoteEmpty.svg'
+                  ? 'Remove Upvote'
+                  : 'Upvote'
               }
-              alt='upvote'
-            />
+            >
+              <img
+                className='mr-2 cursor-pointer'
+                onClick={upVoteClicked}
+                src={
+                  question.voteStatus && question.voteStatus === 1
+                    ? '/upvote.svg'
+                    : '/upvoteEmpty.svg'
+                }
+                alt='upvote'
+              />
+            </Tooltip>
+
             <div className='text-white text-lg mr-2'>{question.points}</div>
-            <img
-              className='mr-2 cursor-pointer'
-              onClick={downVoteClicked}
-              src={
+            <Tooltip
+              title={
                 question.voteStatus && question.voteStatus === -1
-                  ? '/downvote.svg'
-                  : '/downvoteEmpty.svg'
+                  ? 'Remove Downvote'
+                  : 'Downvote'
               }
-              alt='downvote'
-            />
+            >
+              <img
+                className='mr-2 cursor-pointer'
+                onClick={downVoteClicked}
+                src={
+                  question.voteStatus && question.voteStatus === -1
+                    ? '/downvote.svg'
+                    : '/downvoteEmpty.svg'
+                }
+                alt='downvote'
+              />
+            </Tooltip>
           </div>
           <div className='hidden sm:absolute sm:flex sm:flex-col right-0 top-0 p-3'>
-            <img
-              onClick={bookmarkClicked}
-              className='h-6 cursor-pointer'
-              src={
-                question.bookmarkStatus
-                  ? '/bookmarkSelected.svg'
-                  : '/bookmark.svg'
-              }
-              alt='bookmark'
-            />
+            <Tooltip
+              title={question.bookmarkStatus ? 'Remove Bookmark' : 'Bookmark'}
+            >
+              <img
+                onClick={bookmarkClicked}
+                className='h-6 cursor-pointer'
+                src={
+                  question.bookmarkStatus
+                    ? '/bookmarkSelected.svg'
+                    : '/bookmark.svg'
+                }
+                alt='bookmark'
+              />
+            </Tooltip>
           </div>
         </div>
         {question?.tags &&
           question?.tags.map((tag, index) => <Tag key={index} tag={tag} />)}
         <div className='mt-3'>
           Posted by:{' '}
-          <HrefComp hrefLink={`https://github.com/${question.creator.name}`} label={question.creator.name} />
-          {/* <a
-            href={`https://github.com/${question.creator.name}`}
-            className='inline-block font-medium'
-          >
-            {question.creator.name}
-          </a> */}
+          <HrefComp
+            hrefLink={`https://github.com/${question.creator.name}`}
+            label={question.creator.name}
+          />
         </div>
       </div>
     </div>
