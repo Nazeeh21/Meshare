@@ -33,17 +33,17 @@ const main = async () => {
   const conn = await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    // ssl: {
-    //   rejectUnauthorized: false,
-    // },
+    ssl: {
+      rejectUnauthorized: false,
+    },
     // dropSchema: true,
-    // logging: true,
-    synchronize: true,
+    logging: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Question, User, Comment, Upvote, Bookmark],
   });
 
-  // await conn.runMigrations();
+  await conn.runMigrations();
 
   const app = express();
 
