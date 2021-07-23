@@ -34,6 +34,10 @@ export class Comment extends BaseEntity {
   @Column()
   questionId: number;
 
+  @Field(() => String, {nullable: true})
+  @Column({ type: "text", default: null})
+  address!: string | null;
+
   @Field()
   @Column({ type: "boolean", default: false })
   isAccepted: boolean;
