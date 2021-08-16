@@ -18,6 +18,7 @@ query Questions($limit: Int!, $cursor: String) {
       bountyAmount
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }
