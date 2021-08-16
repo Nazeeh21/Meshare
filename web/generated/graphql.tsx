@@ -355,10 +355,13 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'bountyAmount' | 'githubId' | 'createdAt'>
-      & { creator: (
+      & Pick<Question, 'id' | 'title' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'bountyAmount' | 'createdAt'>
+      & { acceptedAnswer?: Maybe<(
+        { __typename?: 'Comment' }
+        & Pick<Comment, 'id'>
+      )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -572,15 +575,17 @@ export const QuestionsDocument = gql`
       text
       html
       imageUrls
+      acceptedAnswer {
+        id
+      }
       tags
       points
       bookmarkStatus
       voteStatus
-      bountyAmount
       githubId
+      bountyAmount
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }
