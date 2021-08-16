@@ -10,6 +10,7 @@ import { supabase } from "../utils/supabaseClient";
 import { useIsAuth } from "../utils/useIsAuth";
 import UploadComponent from "./UploadComponent";
 import MarkDown from "./MDEditor";
+import { Bounty } from "./Bounty";
 
 const CreateQuestion = () => {
   useIsAuth();
@@ -17,6 +18,7 @@ const CreateQuestion = () => {
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const suggestions = [{ name: "react" }, { name: "react-native" }];
+  const [bountyValue, setBountyValues] = useState<null | number>(null)
   const [title, setTitle] = useState<string>("");
   const [question, setQuestion] = useState<{ text: string; html: string }>({
     text: "",
@@ -156,8 +158,8 @@ const CreateQuestion = () => {
           }}
         />
         </div>
-        
-
+        {/* Bounty */}
+          <Bounty value={bountyValue} onChange={setBountyValues} />
         <button
           onClick={onSubmitClick}
           className={`mt-6 bg-submitButton border-none outline-none py-2 px-3 ${
