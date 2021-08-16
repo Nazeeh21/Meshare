@@ -11,6 +11,7 @@ query Questions($limit: Int!, $cursor: String) {
       points
       bookmarkStatus
       voteStatus
+      bountyAmount
       githubId
       createdAt
       creator {

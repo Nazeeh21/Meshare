@@ -41,7 +41,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
   };
 
   return (
-    <div className="flex h-auto">
+    <div className={`flex h-auto`}>
       <div className="w-12 mr-2 sm:mr-0">
         <img
           className="w-10 h-10 rounded-full mr-2 cursor-pointer"
@@ -120,7 +120,7 @@ const Question: React.FC<QuestionProps> = ({ question }) => {
         </div>
       </div>
 
-      <div className="w-10/12 sm:w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3">
+      <div className={`${question.bountyAmount !== null && 'border-2 border-acceptedAnswer'} w-10/12 sm:w-11/12 h-auto rounded-md bg-activityBlue relative text-white rounded-tl-none p-2 mb-4 pl-3`}>
         <div className="flex justify-space items-center mb-4">
           <div
             style={{ minHeight: "3rem" }}

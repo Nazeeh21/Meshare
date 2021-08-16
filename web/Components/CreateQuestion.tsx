@@ -37,6 +37,7 @@ const CreateQuestion = () => {
       title,
       imageUrls: uploadedImagePaths,
       tags,
+      bountyAmount: bountyValue,
     });
 
     if (!error) {

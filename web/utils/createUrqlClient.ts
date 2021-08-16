@@ -240,6 +240,9 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
             createComment: (_result, _args, cache, _info) => {
               invalidateAllComments(cache);
             },
+            acceptAnswer: (_result, _args, cache, _info) => {
+              invalidateAllComments(cache);
+            },
             createQuestion: (_result, _args, cache, _info) => {
               invalidateAllQuestions(cache);
             },

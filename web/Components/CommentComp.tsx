@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useSelector } from 'react-redux';
+import { useAcceptAnswerMutation } from '../generated/graphql';
 
 interface CommentCompProps {
   comment: any;
@@ -14,6 +15,21 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
   );
   console.log('comment: ', comment);
   const router = useRouter();
+  const questionId = router.query.id;
+
+  const [, acceptAnswer] = useAcceptAnswerMutation()
+
+  const acceptAnswerHandler = async () => {
+    const {error} = await acceptAnswer({
+      answerId: comment.id,
+      questionId: +questionId
+    })
+    if (error) {
+      throw error;
+    } else {
+      console.log('answer accepted successfully');
+    }
+  }
 
   return (
     <div
@@ -49,6 +65,14 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
             </a>
           </div>
         </div>
+        {!acceptedAnswer && <div className='ml-3'>
+          <button
+          onClick={acceptAnswerHandler}
+          className="border-none bg-iconBlue text-blue font-semibold text-sm mt-4 mb-32 sm:mb-12 rounded-md p-2 pl-3 pr-3"
+        >
+          Accept Answer 
+        </button>
+          </div>}
         {acceptedAnswer && acceptedAnswer?.id === comment.id  && <img
           className='w-10 h-10 rounded-full ml-2 cursor-pointer'
           onClick={() =>
