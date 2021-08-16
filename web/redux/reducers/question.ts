@@ -1,8 +1,9 @@
-import { SET_ACCEPTED_ANSWER, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
+import { SET_ACCEPTED_ANSWER, SET_BOUNTY_AMOUNT, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
 
 const initialState: object = {
   acceptedAnswer: null,
   currentQuestionCreatorId: null,
+  bountyAmount: null,
   searchedValue: "",
 };
 
@@ -15,7 +16,9 @@ const questionResolver = (state = initialState, action) => {
       return { ...state, searchedValue: action.data };
     case SET_QUESTION_CREATOR_ID:
       return { ...state, currentQuestionCreatorId: action.data };
-    default:
+    case SET_BOUNTY_AMOUNT:
+      return { ...state, bountyAmount: action.data }; 
+      default:
       return {
         ...state,
       };

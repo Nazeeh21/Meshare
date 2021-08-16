@@ -50,3 +50,5 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
     </div>
   );
 };
+
+address: 0xc7115A5b6ca5F5a5968B95F49F47b61E8ad899d6

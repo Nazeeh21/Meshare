@@ -8,6 +8,7 @@ import Question from '../../Components/Question';
 import { useCreateCommentMutation } from '../../generated/graphql';
 import {
   setAcceptedAnswer,
+  setBountyAmount,
   setCurrentQuestionCreatorId,
 } from '../../redux/actions/questionAction';
 import { createUrqlClient } from '../../utils/createUrqlClient';
@@ -31,23 +32,23 @@ const DetailedQuestion = () => {
   const [, createComment] = useCreateCommentMutation();
 
   const addCommentHandler = async () => {
-    
     if (data.question.bountyAmount && (address === '' || address === null)) {
       alert('Address cannot be null');
       return;
     }
-    
+
     if (comment.text === '' || comment.html === '') {
       alert('Comment cannot be null');
       return;
     }
-    
+
     console.log('creating comment');
     const { error } = await createComment({ ...comment, questionId, address });
 
     if (!error) {
       console.log('comment created successfully');
       setComment({ html: '', text: '' });
+      setAddress(null);
     } else {
       console.log('error while creating comment: ', error);
     }
@@ -79,6 +80,7 @@ const DetailedQuestion = () => {
 
   if (data && !error) {
     dispatch(setAcceptedAnswer(data.question.acceptedAnswer));
+    dispatch(setBountyAmount(data.question.bountyAmount));
     dispatch(setCurrentQuestionCreatorId(data.question.creator.githubId));
   }
 
