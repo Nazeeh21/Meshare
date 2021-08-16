@@ -36,6 +36,9 @@ class QuestionInput {
 
   @Field(() => [String])
   imageUrls: string[];
+
+  @Field({ nullable: true})
+  bountyAmount!: number;
 }
 
 @ObjectType()

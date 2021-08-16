@@ -9,6 +9,7 @@ query Question($id: Int!) {
     githubId
     bookmarkStatus
     voteStatus
+    bountyAmount
     points
     answerId
     createdAt

@@ -1,7 +1,8 @@
-import { SET_ACCEPTED_ANSWER, SET_SEARCHED } from "../actionTypes/types";
+import { SET_ACCEPTED_ANSWER, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
 
 const initialState: object = {
   acceptedAnswer: null,
+  currentQuestionCreatorId: null,
   searchedValue: "",
 };
 
@@ -12,6 +13,8 @@ const questionResolver = (state = initialState, action) => {
       return { ...state, acceptedAnswer: action.data };
     case SET_SEARCHED:
       return { ...state, searchedValue: action.data };
+    case SET_QUESTION_CREATOR_ID:
+      return { ...state, currentQuestionCreatorId: action.data };
     default:
       return {
         ...state,

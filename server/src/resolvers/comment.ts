@@ -26,6 +26,9 @@ class CommentInput {
 
   @Field()
   html: string;
+
+  @Field({ nullable: true })
+  address!: string;
 }
 
 @ObjectType()
@@ -69,13 +72,14 @@ export class CommentResolver {
       "questionId" = ${questionId}
       order by c."createdAt" ASC
       limit $1
-      `, replacements
-    )
+      `,
+      replacements
+    );
 
     return {
       comments: comments.slice(0, realLimit),
-      hasMore: comments.length === realLimitPlusOne
-    }
+      hasMore: comments.length === realLimitPlusOne,
+    };
   }
 
   @Mutation(() => Comment)
@@ -83,12 +87,14 @@ export class CommentResolver {
   async createComment(
     @Arg('input') input: CommentInput,
     @Arg('questionId', () => Int) questionId: number,
-    @Ctx() {req} : MyContext
+    @Ctx() { req }: MyContext
   ): Promise<Comment | null> {
-    const question = await Question.find({ where: {id: questionId}})
+    const question = await Question.find({ where: { id: questionId } });
 
-    if(question.length === 0) {
-      console.log('--------------question does not exist of might got deleted-------------------');  
+    if (question.length === 0) {
+      console.log(
+        '--------------question does not exist of might got deleted-------------------'
+      );
       return null;
     }
 

@@ -2,32 +2,61 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
+import { useAcceptAnswerMutation } from '../generated/graphql';
 
 interface CommentCompProps {
   comment: any;
 }
 
 export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
+  const userData = useSelector((state: RootStateOrAny) => state.main.userData);
+
   const acceptedAnswer = useSelector(
-    (state: any) => state.question.acceptedAnswer
+    (state: RootStateOrAny) => state.question.acceptedAnswer
   );
+  const currentQuestionCreatorId = useSelector(
+    (state: RootStateOrAny) => state.question.currentQuestionCreatorId
+  );
+
   console.log('comment: ', comment);
   const router = useRouter();
+  const questionId = router.query.id;
+
+  const [, acceptAnswer] = useAcceptAnswerMutation();
+
+  const acceptAnswerHandler = async () => {
+    const { error } = await acceptAnswer({
+      answerId: comment.id,
+      questionId: +questionId,
+    });
+    if (error) {
+      throw error;
+    } else {
+      console.log('answer accepted successfully');
+      router.reload();
+    }
+  };
 
   return (
-    <div
-      className={`w-full mb-2 p-2`}
-    >
-      <div className={`flex w-full ${acceptedAnswer && acceptedAnswer?.id === comment.id ? 'justify-end' : 'justify-start'}`}>
-        {acceptedAnswer?.id !== comment.id  && <img
-          className='w-10 h-10 rounded-full mr-2 cursor-pointer'
-          onClick={() =>
-            router.push(`https://github.com/${comment.creator.name}`)
-          }
-          src={comment.creator.avatarUrl}
-          alt={comment.creator.name}
-        />}
+    <div className={`w-full mb-2 p-2`}>
+      <div
+        className={`flex w-full ${
+          acceptedAnswer && acceptedAnswer?.id === comment.id
+            ? 'justify-end'
+            : 'justify-start'
+        }`}
+      >
+        {acceptedAnswer?.id !== comment.id && (
+          <img
+            className='w-10 h-10 rounded-full mr-2 cursor-pointer'
+            onClick={() =>
+              router.push(`https://github.com/${comment.creator.name}`)
+            }
+            src={comment.creator.avatarUrl}
+            alt={comment.creator.name}
+          />
+        )}
         <div
           className={`rounded-md w-9/12 ${
             acceptedAnswer && acceptedAnswer?.id === comment.id
@@ -49,14 +78,26 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
             </a>
           </div>
         </div>
-        {acceptedAnswer && acceptedAnswer?.id === comment.id  && <img
-          className='w-10 h-10 rounded-full ml-2 cursor-pointer'
-          onClick={() =>
-            router.push(`https://github.com/${comment.creator.name}`)
-          }
-          src={comment.creator.avatarUrl}
-          alt={comment.creator.name}
-        />}
+        {!acceptedAnswer && userData && currentQuestionCreatorId === userData.githubId && (
+          <div className='ml-3'>
+            <button
+              onClick={acceptAnswerHandler}
+              className='border-none bg-iconBlue text-blue font-semibold text-sm mt-4 mb-32 sm:mb-12 rounded-md p-2 pl-3 pr-3'
+            >
+              Accept Answer
+            </button>
+          </div>
+        )}
+        {acceptedAnswer && acceptedAnswer?.id === comment.id && (
+          <img
+            className='w-10 h-10 rounded-full ml-2 cursor-pointer'
+            onClick={() =>
+              router.push(`https://github.com/${comment.creator.name}`)
+            }
+            src={comment.creator.avatarUrl}
+            alt={comment.creator.name}
+          />
+        )}
       </div>
       <style jsx>{`
         ::-webkit-scrollbar {

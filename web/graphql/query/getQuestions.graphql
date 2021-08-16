@@ -7,11 +7,15 @@ query Questions($limit: Int!, $cursor: String) {
       text
       html
       imageUrls
+      acceptedAnswer {
+        id
+      }
       tags
       points
       bookmarkStatus
       voteStatus
       githubId
+      bountyAmount
       createdAt
       creator {
         githubId

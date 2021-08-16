@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, Float, Int, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -41,6 +41,10 @@ export class Question extends BaseEntity {
   @Field(() => [String])
   @Column("text", {nullable: true, array: true})
   imageUrls: string[] | null;
+
+  @Field(() => Float, {nullable: true})
+  @Column({ type: "float", default: null})
+  bountyAmount!: number | null;
 
   @Field(() => Int, {nullable: true})
   @Column({ type: 'int', default: null})

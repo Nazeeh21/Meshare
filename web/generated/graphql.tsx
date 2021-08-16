@@ -34,6 +34,7 @@ export type Comment = {
   html: Scalars['String'];
   githubId: Scalars['String'];
   questionId: Scalars['Float'];
+  address?: Maybe<Scalars['String']>;
   isAccepted: Scalars['Boolean'];
   acceptedByQuestion?: Maybe<Question>;
   creator: User;
@@ -43,6 +44,7 @@ export type Comment = {
 export type CommentInput = {
   text: Scalars['String'];
   html: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -148,6 +150,7 @@ export type Question = {
   html: Scalars['String'];
   tags: Array<Scalars['String']>;
   imageUrls: Array<Scalars['String']>;
+  bountyAmount?: Maybe<Scalars['Float']>;
   answerId?: Maybe<Scalars['Int']>;
   acceptedAnswer?: Maybe<Comment>;
   points: Scalars['Float'];
@@ -165,6 +168,7 @@ export type QuestionInput = {
   html: Scalars['String'];
   tags: Array<Scalars['String']>;
   imageUrls: Array<Scalars['String']>;
+  bountyAmount?: Maybe<Scalars['Float']>;
 };
 
 export type User = {
@@ -221,6 +225,7 @@ export type CreateQuestionMutationVariables = Exact<{
   html: Scalars['String'];
   tags: Array<Scalars['String']> | Scalars['String'];
   imageUrls: Array<Scalars['String']> | Scalars['String'];
+  bountyAmount?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -228,7 +233,7 @@ export type CreateQuestionMutation = (
   { __typename?: 'Mutation' }
   & { createQuestion: (
     { __typename?: 'Question' }
-    & Pick<Question, 'id' | 'title' | 'html' | 'text' | 'tags' | 'imageUrls' | 'voteStatus'>
+    & Pick<Question, 'id' | 'title' | 'html' | 'text' | 'tags' | 'bountyAmount' | 'imageUrls' | 'voteStatus'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'name'>
@@ -305,13 +310,13 @@ export type CommentsQuery = (
     & Pick<PaginatedComments, 'hasMore'>
     & { comments: Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'text' | 'html' | 'githubId' | 'questionId' | 'isAccepted' | 'createdAt'>
+      & Pick<Comment, 'id' | 'text' | 'html' | 'githubId' | 'address' | 'questionId' | 'isAccepted' | 'createdAt'>
       & { acceptedByQuestion?: Maybe<(
         { __typename?: 'Question' }
         & Pick<Question, 'id' | 'text' | 'html'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
+        & Pick<User, 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -326,7 +331,7 @@ export type QuestionQuery = (
   { __typename?: 'Query' }
   & { question?: Maybe<(
     { __typename?: 'Question' }
-    & Pick<Question, 'id' | 'html' | 'title' | 'text' | 'tags' | 'imageUrls' | 'githubId' | 'bookmarkStatus' | 'voteStatus' | 'points' | 'answerId' | 'createdAt'>
+    & Pick<Question, 'id' | 'html' | 'title' | 'text' | 'tags' | 'imageUrls' | 'githubId' | 'bookmarkStatus' | 'voteStatus' | 'bountyAmount' | 'points' | 'answerId' | 'createdAt'>
     & { acceptedAnswer?: Maybe<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'id' | 'text' | 'html' | 'isAccepted' | 'githubId'>
@@ -350,8 +355,11 @@ export type QuestionsQuery = (
     & Pick<PaginatedQuestions, 'hasMore'>
     & { questions: Array<(
       { __typename?: 'Question' }
-      & Pick<Question, 'id' | 'title' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'createdAt'>
-      & { creator: (
+      & Pick<Question, 'id' | 'title' | 'text' | 'html' | 'imageUrls' | 'tags' | 'points' | 'bookmarkStatus' | 'voteStatus' | 'githubId' | 'bountyAmount' | 'createdAt'>
+      & { acceptedAnswer?: Maybe<(
+        { __typename?: 'Comment' }
+        & Pick<Comment, 'id'>
+      )>, creator: (
         { __typename?: 'User' }
         & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
       ) }
@@ -409,15 +417,16 @@ export function useCreateCommentMutation() {
   return Urql.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument);
 };
 export const CreateQuestionDocument = gql`
-    mutation CreateQuestion($title: String!, $text: String!, $html: String!, $tags: [String!]!, $imageUrls: [String!]!) {
+    mutation CreateQuestion($title: String!, $text: String!, $html: String!, $tags: [String!]!, $imageUrls: [String!]!, $bountyAmount: Float) {
   createQuestion(
-    input: {title: $title, text: $text, html: $html, tags: $tags, imageUrls: $imageUrls}
+    input: {title: $title, text: $text, html: $html, tags: $tags, imageUrls: $imageUrls, bountyAmount: $bountyAmount}
   ) {
     id
     title
     html
     text
     tags
+    bountyAmount
     imageUrls
     voteStatus
     creator {
@@ -500,6 +509,7 @@ export const CommentsDocument = gql`
       text
       html
       githubId
+      address
       questionId
       isAccepted
       acceptedByQuestion {
@@ -509,7 +519,6 @@ export const CommentsDocument = gql`
       }
       createdAt
       creator {
-        githubId
         avatarUrl
         name
       }
@@ -533,6 +542,7 @@ export const QuestionDocument = gql`
     githubId
     bookmarkStatus
     voteStatus
+    bountyAmount
     points
     answerId
     createdAt
@@ -565,11 +575,15 @@ export const QuestionsDocument = gql`
       text
       html
       imageUrls
+      acceptedAnswer {
+        id
+      }
       tags
       points
       bookmarkStatus
       voteStatus
       githubId
+      bountyAmount
       createdAt
       creator {
         githubId

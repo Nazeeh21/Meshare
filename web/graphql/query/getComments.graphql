@@ -6,6 +6,7 @@ query Comments($questionId: Int!, $limit: Int!, $cursor: String){
     text
     html
     githubId
+    address
     questionId
     isAccepted
     acceptedByQuestion {
@@ -15,7 +16,6 @@ query Comments($questionId: Int!, $limit: Int!, $cursor: String){
     }
     createdAt
     creator {
-      githubId
       avatarUrl
       name
     }

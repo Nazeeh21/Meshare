@@ -4,6 +4,7 @@ mutation CreateQuestion(
   $html: String!
   $tags: [String!]!
   $imageUrls: [String!]!
+  $bountyAmount: Float
 ) {
   createQuestion(
     input: {
@@ -12,6 +13,7 @@ mutation CreateQuestion(
       html: $html
       tags: $tags
       imageUrls: $imageUrls
+      bountyAmount: $bountyAmount
     }
   ) {
     id
@@ -19,6 +21,7 @@ mutation CreateQuestion(
     html
     text
     tags
+    bountyAmount
     imageUrls
     voteStatus
     creator {

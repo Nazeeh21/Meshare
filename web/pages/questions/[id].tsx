@@ -6,7 +6,7 @@ import Comments from "../../Components/Comments";
 import MarkDown from "../../Components/MDEditor";
 import Question from "../../Components/Question";
 import { useCreateCommentMutation } from "../../generated/graphql";
-import { setAcceptedAnswer } from "../../redux/actions/questionAction";
+import { setAcceptedAnswer, setCurrentQuestionCreatorId } from "../../redux/actions/questionAction";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { GetAvatar } from "../../utils/getAvatar";
 import { useGetIntId } from "../../utils/useGetIntId";
@@ -64,6 +64,7 @@ const DetailedQuestion = () => {
 
   if (data && !error) {
     dispatch(setAcceptedAnswer(data.question.acceptedAnswer));
+    dispatch(setCurrentQuestionCreatorId(data.question.creator.githubId));
   }
 
   return (

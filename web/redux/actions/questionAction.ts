@@ -1,4 +1,4 @@
-import { SET_ACCEPTED_ANSWER, SET_SEARCHED } from "../actionTypes/types";
+import { SET_ACCEPTED_ANSWER, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
 
 export const setAcceptedAnswer = (data) => {
   console.log("data from the store action", data);
@@ -9,6 +9,15 @@ export const setAcceptedAnswer = (data) => {
     });
   };
 };
+
+export const setCurrentQuestionCreatorId = (data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: SET_QUESTION_CREATOR_ID,
+      data: data,
+    });
+  };
+}
 
 export const setSearchedValue = (searchedValue) => {
   return {
