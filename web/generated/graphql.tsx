@@ -361,7 +361,7 @@ export type QuestionsQuery = (
         & Pick<Comment, 'id'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'avatarUrl' | 'name'>
+        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -586,6 +586,7 @@ export const QuestionsDocument = gql`
       bountyAmount
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }
