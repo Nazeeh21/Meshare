@@ -1,12 +1,23 @@
-mutation CreateComment($text: String!, $html: String!, $questionId: Int!) {
-  createComment(input: { text: $text, html: $html }, questionId: $questionId) {
+mutation CreateComment(
+  $text: String!
+  $html: String!
+  $questionId: Int!
+  $address: String
+) {
+  createComment(
+    input: { text: $text, html: $html, address: $address }
+    questionId: $questionId
+  ) {
     id
     text
+    html
     githubId
     questionId
     createdAt
+    address
     isAccepted
     creator {
+      githubId
       name
     }
   }

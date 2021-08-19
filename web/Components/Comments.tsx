@@ -14,6 +14,9 @@ const Comments: React.FC = ({}) => {
     questionId: intId,
   });
 
+  const [acceptAnswerLoading, setAcceptAnswerLoading] =
+    useState<boolean>(false);
+
   const [{ data, error, fetching }] = useCommentsQuery({
     variables,
   });
@@ -30,7 +33,12 @@ const Comments: React.FC = ({}) => {
   return (
     <div>
       {data?.comments?.comments?.map((comment, index) => (
-        <CommentComp key={index} comment={comment} />
+        <CommentComp
+          setAcceptAnswerLoading={setAcceptAnswerLoading}
+          acceptAnswerLoading={acceptAnswerLoading}
+          key={index}
+          comment={comment}
+        />
       ))}
     </div>
   );

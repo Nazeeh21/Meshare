@@ -3,14 +3,25 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import Meshare from '../ethereum/Meshare';
+import web3 from '../ethereum/web3';
 import { useAcceptAnswerMutation } from '../generated/graphql';
 
 interface CommentCompProps {
   comment: any;
+  acceptAnswerLoading: boolean;
+  setAcceptAnswerLoading: (loading: boolean) => void;
 }
 
-export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
+export const CommentComp: React.FC<CommentCompProps> = ({
+  comment,
+  acceptAnswerLoading,
+  setAcceptAnswerLoading,
+}) => {
   const userData = useSelector((state: RootStateOrAny) => state.main.userData);
+  const bountyAmount = useSelector(
+    (state: RootStateOrAny) => state.question.bountyAmount
+  );
 
   const acceptedAnswer = useSelector(
     (state: RootStateOrAny) => state.question.acceptedAnswer
@@ -26,6 +37,10 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
   const [, acceptAnswer] = useAcceptAnswerMutation();
 
   const acceptAnswerHandler = async () => {
+    if (acceptAnswerLoading) {
+      return;
+    }
+    setAcceptAnswerLoading(true);
     const { error } = await acceptAnswer({
       answerId: comment.id,
       questionId: +questionId,
@@ -33,7 +48,14 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
     if (error) {
       throw error;
     } else {
+      if (bountyAmount) {
+        const accounts = await web3.eth.getAccounts();
+        await Meshare.methods.acceptAnswer(comment.address, +questionId).send({
+          from: accounts[0],
+        });
+      }
       console.log('answer accepted successfully');
+      setAcceptAnswerLoading(false);
       router.reload();
     }
   };
@@ -78,16 +100,19 @@ export const CommentComp: React.FC<CommentCompProps> = ({ comment }) => {
             </a>
           </div>
         </div>
-        {!acceptedAnswer && userData && currentQuestionCreatorId === userData.githubId && (
-          <div className='ml-3'>
-            <button
-              onClick={acceptAnswerHandler}
-              className='border-none bg-iconBlue text-blue font-semibold text-sm mt-4 mb-32 sm:mb-12 rounded-md p-2 pl-3 pr-3'
-            >
-              Accept Answer
-            </button>
-          </div>
-        )}
+        {!acceptedAnswer &&
+          userData &&
+          currentQuestionCreatorId === userData.githubId && (
+            <div className='ml-3'>
+              <button
+                disabled={acceptAnswerLoading}
+                onClick={acceptAnswerHandler}
+                className={`border-none ${acceptAnswerLoading && 'cursor-not-allowed'} bg-iconBlue text-blue font-semibold text-sm mt-4 mb-32 sm:mb-12 rounded-md p-2 pl-3 pr-3`}
+              >
+                {acceptAnswerLoading ? 'Loading' : 'Accept Answer'}
+              </button>
+            </div>
+          )}
         {acceptedAnswer && acceptedAnswer?.id === comment.id && (
           <img
             className='w-10 h-10 rounded-full ml-2 cursor-pointer'

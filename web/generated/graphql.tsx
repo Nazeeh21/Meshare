@@ -204,6 +204,7 @@ export type CreateCommentMutationVariables = Exact<{
   text: Scalars['String'];
   html: Scalars['String'];
   questionId: Scalars['Int'];
+  address?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -211,10 +212,10 @@ export type CreateCommentMutation = (
   { __typename?: 'Mutation' }
   & { createComment: (
     { __typename?: 'Comment' }
-    & Pick<Comment, 'id' | 'text' | 'githubId' | 'questionId' | 'createdAt' | 'isAccepted'>
+    & Pick<Comment, 'id' | 'text' | 'html' | 'githubId' | 'questionId' | 'createdAt' | 'address' | 'isAccepted'>
     & { creator: (
       { __typename?: 'User' }
-      & Pick<User, 'name'>
+      & Pick<User, 'githubId' | 'name'>
     ) }
   ) }
 );
@@ -316,7 +317,7 @@ export type CommentsQuery = (
         & Pick<Question, 'id' | 'text' | 'html'>
       )>, creator: (
         { __typename?: 'User' }
-        & Pick<User, 'avatarUrl' | 'name'>
+        & Pick<User, 'githubId' | 'avatarUrl' | 'name'>
       ) }
     )> }
   ) }
@@ -398,15 +399,21 @@ export function useCreateBookmarkMutation() {
   return Urql.useMutation<CreateBookmarkMutation, CreateBookmarkMutationVariables>(CreateBookmarkDocument);
 };
 export const CreateCommentDocument = gql`
-    mutation CreateComment($text: String!, $html: String!, $questionId: Int!) {
-  createComment(input: {text: $text, html: $html}, questionId: $questionId) {
+    mutation CreateComment($text: String!, $html: String!, $questionId: Int!, $address: String) {
+  createComment(
+    input: {text: $text, html: $html, address: $address}
+    questionId: $questionId
+  ) {
     id
     text
+    html
     githubId
     questionId
     createdAt
+    address
     isAccepted
     creator {
+      githubId
       name
     }
   }
@@ -519,6 +526,7 @@ export const CommentsDocument = gql`
       }
       createdAt
       creator {
+        githubId
         avatarUrl
         name
       }

@@ -1,4 +1,4 @@
-import { SET_ACCEPTED_ANSWER, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
+import { SET_ACCEPTED_ANSWER, SET_BOUNTY_AMOUNT, SET_QUESTION_CREATOR_ID, SET_SEARCHED } from "../actionTypes/types";
 
 export const setAcceptedAnswer = (data) => {
   console.log("data from the store action", data);
@@ -18,6 +18,15 @@ export const setCurrentQuestionCreatorId = (data) => {
     });
   };
 }
+
+export const setBountyAmount = (bountyAmount) => {
+  return async (dispatch) => {
+    dispatch({
+      type: SET_BOUNTY_AMOUNT,
+      data: bountyAmount,
+    });
+  };
+};
 
 export const setSearchedValue = (searchedValue) => {
   return {

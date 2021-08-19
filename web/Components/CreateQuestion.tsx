@@ -11,6 +11,8 @@ import { useIsAuth } from "../utils/useIsAuth";
 import UploadComponent from "./UploadComponent";
 import MarkDown from "./MDEditor";
 import { Bounty } from "./Bounty";
+import web3 from "../ethereum/web3";
+import Meshare from "../ethereum/Meshare";
 
 const CreateQuestion = () => {
   useIsAuth();
@@ -32,7 +34,7 @@ const CreateQuestion = () => {
     setSubmitting(true);
 
     const uploadedImagePaths = await uploadImages();
-    const { error } = await createQuestion({
+    const { data, error } = await createQuestion({
       ...question,
       title,
       imageUrls: uploadedImagePaths,
@@ -41,6 +43,13 @@ const CreateQuestion = () => {
     });
 
     if (!error) {
+      if(bountyValue && bountyValue >= 1) {
+        const accounts = await web3.eth.getAccounts();
+        await Meshare.methods.createQuestion(data.createQuestion.id).send({
+          from: accounts[0],
+          value: web3.utils.toWei(bountyValue.toString(), "ether"),
+        })
+      }
       setSubmitting(false);
       router.push("/");
     }
