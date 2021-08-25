@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect } from "react";
-import Compressor from "compressorjs";
+import React, { useEffect } from 'react';
+import Compressor from 'compressorjs';
 
 interface UploadComponentProps {
   files: any[];
@@ -15,30 +15,30 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
     if (files) {
       files.map((file) => {
         console.log(file);
-        console.log("relative url: ", URL.createObjectURL(file));
+        console.log('relative url: ', URL.createObjectURL(file));
       });
     }
   }, [files]);
 
   return (
     <div className="mb-0">
-      <div className="mb-4 ml-2 ">
+      <div className="mb-4 ml-2 h-min flex justify-center items-center ">
         <label className="bg-submitButton p-2 rounded-md cursor-pointer mt-2 font-bold text-white">
           <input
             className="hidden"
             type="file"
             onChange={(e) => {
               const newFiles = [...files];
-              console.log("before compressing: ", e.target.files[0]);
+              console.log('before compressing: ', e.target.files[0]);
               new Compressor(e.target.files[0], {
                 quality: 0.6,
                 success: (compressedResult) => {
-                  console.log("compressedResult: ", compressedResult);
+                  console.log('compressedResult: ', compressedResult);
                   newFiles.push(compressedResult);
                   // setCompressedFile(compressedResult);
                   // setIsCompressed(true);
                   if (newFiles.length > 2) {
-                    alert("You can upload maximum 2 images");
+                    alert('You can upload maximum 2 images');
                     return;
                   } else {
                     setFiles(newFiles);
@@ -57,10 +57,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({
               <div
                 style={{
                   backgroundImage: `url(${URL.createObjectURL(file)})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  width: "8rem",
-                  height: "8rem",
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  width: '8rem',
+                  height: '8rem',
                 }}
                 className="w-auto h-auto rounded-md mr-6"
               >
