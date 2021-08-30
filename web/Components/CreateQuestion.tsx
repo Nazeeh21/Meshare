@@ -34,6 +34,12 @@ const CreateQuestion = () => {
   const [, createQuestion] = useCreateQuestionMutation();
   const [, deleteQuestion] = useDeleteQuestionMutation();
 
+  useEffect(() => {
+    alert(
+      'To add bounty to the question you need to connect an ethereum wallet.'
+    );
+  }, []);
+
   const onSubmitClick = async () => {
     setSubmitting(true);
 
