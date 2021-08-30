@@ -112,6 +112,20 @@ export class QuestionResolver {
   }
 
   @Mutation(() => Boolean)
+  async deleteQuestion(
+    @Arg('id', () => Int) id: number
+  ): Promise<boolean> {
+    await Question.delete({ id });
+    const comments = await Comment.find({ where: { questionId: id } });
+
+    if(comments) {
+      await Comment.delete({ questionId: id });
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async acceptAnswer(
     @Arg('questionId', () => Int) questionId: number,

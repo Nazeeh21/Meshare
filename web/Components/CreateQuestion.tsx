@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
 import Autosuggest from 'react-autosuggest';
 import TagsInput from 'react-tagsinput';
-import { useCreateQuestionMutation } from '../generated/graphql';
+import {
+  useCreateQuestionMutation,
+  useDeleteQuestionMutation,
+} from '../generated/graphql';
 import { DEFAULT_AVATARS_BUCKET } from '../lib/constants';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { supabase } from '../utils/supabaseClient';
@@ -29,12 +32,13 @@ const CreateQuestion = () => {
 
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [, createQuestion] = useCreateQuestionMutation();
+  const [, deleteQuestion] = useDeleteQuestionMutation();
 
   const onSubmitClick = async () => {
     setSubmitting(true);
 
     const uploadedImagePaths = await uploadImages();
-    const { data, error } = await createQuestion({
+    const { data } = await createQuestion({
       ...question,
       title,
       imageUrls: uploadedImagePaths,
@@ -42,18 +46,6 @@ const CreateQuestion = () => {
       bountyAmount: bountyValue,
     });
 
-    // if (!error) {
-    //   if(bountyValue && bountyValue >= 1) {
-    //     const accounts = await web3.eth.getAccounts();
-    //     await Meshare.methods.createQuestion(data.createQuestion.id).send({
-    //       from: accounts[0],
-    //       value: web3.utils.toWei(bountyValue.toString(), "ether"),
-    //     })
-    //   }
-    //   setSubmitting(false);
-    //   router.push("/");
-    // }
-    // setSubmitting(false);
     try {
       if (bountyValue && bountyValue >= 1) {
         const accounts = await web3.eth.getAccounts();
@@ -65,6 +57,13 @@ const CreateQuestion = () => {
       setSubmitting(false);
       router.push('/');
     } catch (err) {
+      const { error } = await deleteQuestion({ id: data.createQuestion.id });
+
+      if (!error) {
+        alert(
+          'An error occured while creating the question. Please try again.'
+        );
+      }
       setSubmitting(false);
     }
   };
@@ -141,12 +140,12 @@ const CreateQuestion = () => {
 
   return (
     <div>
-      <div className="h-full overflow-y-auto overflow-x-hidden">
-        <div className="text-3xl font-bold mt-2 mb-4">Create Question</div>
-        <div className="w-full">
-          <label className="mt-2 mb-2 font-semibold text-xl">Enter Title</label>
+      <div className='h-full overflow-y-auto overflow-x-hidden'>
+        <div className='text-3xl font-bold mt-2 mb-4'>Create Question</div>
+        <div className='w-full'>
+          <label className='mt-2 mb-2 font-semibold text-xl'>Enter Title</label>
           <input
-            className="w-full bg-gray-400 rounded-md outline-none placeholder-gray-600 p-2"
+            className='w-full bg-gray-400 rounded-md outline-none placeholder-gray-600 p-2'
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
@@ -155,21 +154,21 @@ const CreateQuestion = () => {
           />
         </div>
 
-        <div className="w-full mt-4 mb-4 m-auto ">
-          <label className="mt-2 mb-2 font-semibold text-xl">
+        <div className='w-full mt-4 mb-4 m-auto '>
+          <label className='mt-2 mb-2 font-semibold text-xl'>
             Enter Question
           </label>
-          <div className="w-full h-64 overflow-y-auto">
+          <div className='w-full h-64 overflow-y-auto'>
             <MarkDown value={question} setValue={setQuestion} />
           </div>
         </div>
-        <div className="w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md">
+        <div className='w-full min-h-24 h-auto mb-5 pb-1 bg-iconGrey rounded-md'>
           <UploadComponent files={files} setFiles={setFiles} />
         </div>
-        <div className="mt-8">
-          <label className="mt-2 mb-2 font-semibold text-xl">Add Tags</label>
+        <div className='mt-8'>
+          <label className='mt-2 mb-2 font-semibold text-xl'>Add Tags</label>
           <TagsInput
-            className="rounded-md w-full bg-iconGrey"
+            className='rounded-md w-full bg-iconGrey'
             renderInput={autosuggestRenderInput}
             value={tags}
             onChange={(e) => onChange(e)}
@@ -191,7 +190,7 @@ const CreateQuestion = () => {
         >
           {submitting ? (
             <div>
-              <i className="fa fa-spinner fa-spin -ml-3 mr-2"></i>Creating ...
+              <i className='fa fa-spinner fa-spin -ml-3 mr-2'></i>Creating ...
             </div>
           ) : (
             <div>Create Question</div>
