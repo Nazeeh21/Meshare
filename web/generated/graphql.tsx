@@ -50,6 +50,7 @@ export type CommentInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createQuestion: Question;
+  deleteQuestion: Scalars['Boolean'];
   acceptAnswer: Scalars['Boolean'];
   vote: Scalars['Boolean'];
   logout: Scalars['Boolean'];
@@ -61,6 +62,11 @@ export type Mutation = {
 
 export type MutationCreateQuestionArgs = {
   input: QuestionInput;
+};
+
+
+export type MutationDeleteQuestionArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -250,6 +256,16 @@ export type DeleteCommentMutationVariables = Exact<{
 export type DeleteCommentMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteComment'>
+);
+
+export type DeleteQuestionMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteQuestionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteQuestion'>
 );
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
@@ -454,6 +470,15 @@ export const DeleteCommentDocument = gql`
 
 export function useDeleteCommentMutation() {
   return Urql.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument);
+};
+export const DeleteQuestionDocument = gql`
+    mutation DeleteQuestion($id: Int!) {
+  deleteQuestion(id: $id)
+}
+    `;
+
+export function useDeleteQuestionMutation() {
+  return Urql.useMutation<DeleteQuestionMutation, DeleteQuestionMutationVariables>(DeleteQuestionDocument);
 };
 export const LogoutDocument = gql`
     mutation Logout {
