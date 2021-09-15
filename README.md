@@ -3,7 +3,7 @@
 
 <h3 align="center">For the developers, of the developers and by the developers:wink:</h3>
 
-<h4 align="center">Everything you can explore on **meshare.me** :see_no_evil:</h4>
+<h4 align="center">Everything you can explore on <a href="https://meshare.me" target="blank">meshare.me</a> :see_no_evil:</h4>
 
 ## About
 
@@ -26,7 +26,7 @@ To tip, any folk, need to have a [Metamask](https://metamask.io/) account.
 That's all, you are good to go:+1:.
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+If you find any bug or want to propose a feature, follow our [Contribution guidelines](./Contribution.md) and feel free to submit a PR.
 
 ## Technology
 
