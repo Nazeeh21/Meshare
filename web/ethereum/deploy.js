@@ -7,8 +7,6 @@ const { interface, bytecode } = require('./compile');
 const provider = new HDWalletProvider(
   // `$YOUR_METAMASK_RECOVERY_CODE`,
   // `$RINKEBY_INFURA_API`
-  'health ready dilemma clown spot bright smoke gaze organ advance leisure when',
-  'https://rinkeby.infura.io/v3/99cadf7c5b144101b79a4ceb8c8fb2dd'
 );
 
 const web3 = new Web3(provider);
