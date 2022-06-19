@@ -30,8 +30,7 @@ If you find any bug or want to propose a feature, follow our [Contribution guide
 
 ## Technology
 
-<details>
-<summary>Frontend technologies</summary>
+Frontend technologies
 <ul>
 <li>Next.js</li>
 <li>Typescript</li>
@@ -41,10 +40,8 @@ If you find any bug or want to propose a feature, follow our [Contribution guide
 <li>Supabase</li>
 <li>Chakra-UI</li>
 </ul>
-</details>
 
-<details>
-<summary>Backend technologies</summary>
+Backend technologies
 <ul>
 <li>Nodejs</li>
 <li>Typescript</li>
@@ -56,8 +53,6 @@ If you find any bug or want to propose a feature, follow our [Contribution guide
 <li>Redis</li>
 <li>PostgreSQL</li>
 </ul>
-
-</details>
 
 ---
 ## Note
